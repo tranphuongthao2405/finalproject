@@ -22,6 +22,8 @@ const AdminBoard = () => {
     );
   }, []);
 
+  // admin can add test template ???
+
   return (
     <div className="container">
       <header className="jumbotron">

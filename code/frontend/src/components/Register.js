@@ -188,7 +188,6 @@ const Register = () => {
                   onChange={onChangeRole}
                   validations={[required, handleRole]}
                 >
-                  <option value="">Chọn vị trí làm việc</option>
                   <option value="Doctor">Bác sĩ</option>
                   <option value="Laboratory staff">
                     Nhân viên xét nghiệm/chẩn đoán

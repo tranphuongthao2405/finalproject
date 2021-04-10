@@ -1,3 +1,7 @@
+body {
+  font-family: "Times New Roman", Times, serif;
+}
+
 label {
   display: block;
   margin-top: 10px;

@@ -18,7 +18,7 @@ const required = (value) => {
   }
 };
 
-function FungusAndParasite() {
+function Result() {
   const form = useRef();
   const checkButton = useRef();
   const date = new Date().toLocaleString("en-GB");
@@ -151,20 +151,12 @@ function FungusAndParasite() {
                 <img src={Logo} alt="logo" width="100%" height="90%" />
               </div>
               <div className="form-group col-md-8">
-                <p>
-                  <b>
-                    Bệnh viện Da liễu Trung ương
-                    <br />
-                    15A Phương Mai - Đống Đa - Hà Nội
-                    <br />
-                    Website:{" "}
-                    <a href="http://dalieu.vn" style={{ color: "black" }}>
-                      http://dalieu.vn
-                    </a>
-                  </b>
-                </p>
+                <div className="col-md-5" style={{fontWeight: "bold", textAlign: "center"}}>
+                    <p>BỘ Y TẾ</p>
+                    <p>BỆNH VIỆN DA LIỄU TRUNG ƯƠNG</p>
+                </div>
                 <p style={{ textAlign: "center", fontSize: "24px" }}>
-                  <b>PHIẾU NẤM - KÍ SINH TRÙNG</b>
+                  <b>PHIẾU KẾT QUẢ XÉT NGHIỆM</b>
                 </p>
 
                 <div style={{ textAlign: "center" }}>
@@ -501,4 +493,4 @@ function FungusAndParasite() {
   );
 }
 
-export default FungusAndParasite;
+export default Result;

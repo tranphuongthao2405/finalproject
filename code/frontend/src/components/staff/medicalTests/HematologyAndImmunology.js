@@ -18,7 +18,7 @@ const required = (value) => {
   }
 };
 
-function FungusAndParasite() {
+function HematologyAndImmunology() {
   const form = useRef();
   const checkButton = useRef();
   const date = new Date().toLocaleString("en-GB");
@@ -37,6 +37,7 @@ function FungusAndParasite() {
 
   const [id, setId] = useState("");
   const [caseType, setCaseType] = useState("");
+  const [initialSample, setInitialSample] = useState("");
 
   // state for form field
   const [number, setNumber] = useState("");
@@ -124,6 +125,10 @@ function FungusAndParasite() {
     setCaseType(e.target.value);
   };
 
+  const onChangeInitialSample = (e) => {
+    setInitialSample(e.target.value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setSuccessful(false);
@@ -164,7 +169,7 @@ function FungusAndParasite() {
                   </b>
                 </p>
                 <p style={{ textAlign: "center", fontSize: "24px" }}>
-                  <b>PHIẾU NẤM - KÍ SINH TRÙNG</b>
+                  <b>PHIẾU HUYẾT HỌC - MIỄN DỊCH</b>
                 </p>
 
                 <div style={{ textAlign: "center" }}>
@@ -201,7 +206,7 @@ function FungusAndParasite() {
                 <label htmlFor="username">Mã BN:</label>
                 <Input
                   type="text"
-                  className="form-control control-label"
+                  className="form-control"
                   name="id"
                   value={id}
                   onChange={onChangeId}
@@ -210,13 +215,30 @@ function FungusAndParasite() {
               </div>
             </div>
 
+            <div style={{ textAlign: "center", fontWeight: "bold" }}>
+              <div className="form-group row justify-content-center">
+                <label htmlFor="initialSample" className="col-md-2">
+                  Mẫu ban đầu:
+                </label>
+                <Input
+                  type="text"
+                  className="form-control col-md-6"
+                  name="initialSample"
+                  value={initialSample}
+                  onChange={onChangeInitialSample}
+                  validations={[required]}
+                />
+              </div>
+              <p>THỰC HIỆN XÉT NGHIỆM TẠI KHU LẤY BỆNH PHẨM</p>
+            </div>
+
             {/* form fields */}
-            <div className="form-row col-md-24">
+            <div className="form-row">
               <div className="form-group col-md-4">
                 <label htmlFor="username">Họ tên người bệnh:</label>
                 <Input
                   type="text"
-                  className="form-control control-label"
+                  className="form-control"
                   name="name"
                   value={name}
                   onChange={onChangeName}
@@ -227,7 +249,7 @@ function FungusAndParasite() {
               <div className="form-group col-md-4">
                 <label htmlFor="datebirth">Năm sinh:</label>
                 <DatePicker
-                  className="form-control control-label"
+                  className="form-control"
                   selected={birthDate}
                   onChange={onChangeDate}
                 />
@@ -237,7 +259,7 @@ function FungusAndParasite() {
                 <label htmlFor="gender">Giới tính:</label>
                 <Select
                   name="gender"
-                  className="form-control control-label"
+                  className="form-control"
                   value={gender}
                   onChange={onChangeGender}
                   validations={[required]}
@@ -252,7 +274,7 @@ function FungusAndParasite() {
               <label htmlFor="address">Địa chỉ:</label>
               <Input
                 type="text"
-                className="form-control control-label"
+                className="form-control"
                 name="address"
                 value={address}
                 onChange={onChangeAddress}
@@ -265,7 +287,7 @@ function FungusAndParasite() {
                 <label htmlFor="patientType">Đối tượng:</label>
                 <Select
                   name="patientType"
-                  className="form-control control-label"
+                  className="form-control"
                   value={patientType}
                   onChange={onChangePatientType}
                   validations={[required]}
@@ -279,7 +301,7 @@ function FungusAndParasite() {
                 <label htmlFor="department">Khoa phòng:</label>
                 <Input
                   type="text"
-                  className="form-control control-label"
+                  className="form-control"
                   name="department"
                   value={department}
                   onChange={onChangeDepartment}
@@ -292,7 +314,7 @@ function FungusAndParasite() {
               <label htmlFor="diagnosis">Chẩn đoán:</label>
               <Input
                 type="text"
-                className="form-control control-label"
+                className="form-control"
                 name="diagnosis"
                 value={diagnosis}
                 onChange={onChangeDiagnosis}
@@ -344,7 +366,7 @@ function FungusAndParasite() {
                   <td>
                     <Input
                       type="text"
-                      className="form-control control-label col"
+                      className="form-control col"
                       name="number"
                       value={number}
                       onChange={onChangeNumber}
@@ -354,7 +376,7 @@ function FungusAndParasite() {
                   <td>
                     <Input
                       type="text"
-                      className="form-control control-label col"
+                      className="form-control col"
                       name="testName"
                       value={testName}
                       onChange={onChangeTestName}
@@ -364,7 +386,7 @@ function FungusAndParasite() {
                   <td>
                     <Input
                       type="text"
-                      className="form-control control-label col"
+                      className="form-control col"
                       name="quantity"
                       value={quantity}
                       onChange={onChangeQuantity}
@@ -374,7 +396,7 @@ function FungusAndParasite() {
                   <td>
                     <Input
                       type="text"
-                      className="form-control control-label col"
+                      className="form-control col"
                       name="price"
                       value={price}
                       onChange={onChangePrice}
@@ -384,7 +406,7 @@ function FungusAndParasite() {
                   <td>
                     <Input
                       type="text"
-                      className="form-control control-label col"
+                      className="form-control col"
                       name="amount"
                       value={amount}
                       onChange={onChangeAmount}
@@ -394,7 +416,7 @@ function FungusAndParasite() {
                   <td>
                     <Input
                       type="text"
-                      className="form-control control-label col"
+                      className="form-control col"
                       name="insurance"
                       value={insurance}
                       onChange={onChangeInsurance}
@@ -404,7 +426,7 @@ function FungusAndParasite() {
                   <td>
                     <Input
                       type="text"
-                      className="form-control control-label col"
+                      className="form-control col"
                       name="payment"
                       value={payment}
                       onChange={onChangePayment}
@@ -414,7 +436,7 @@ function FungusAndParasite() {
                   <td>
                     <Input
                       type="text"
-                      className="form-control control-label col"
+                      className="form-control col"
                       name="diff"
                       value={diff}
                       onChange={onChangeDiff}
@@ -424,7 +446,7 @@ function FungusAndParasite() {
                   <td>
                     <Input
                       type="text"
-                      className="form-control control-label col"
+                      className="form-control col"
                       name="total"
                       value={total}
                       onChange={onChangeTotal}
@@ -432,13 +454,9 @@ function FungusAndParasite() {
                     />
                   </td>
                 </tr>
-
                 {/* TODO: complete function to count total amount */}
                 <tr>
-                  <td
-                    colSpan="4"
-                    style={{ fontWeight: "bold", textAlign: "center" }}
-                  >
+                  <td colSpan="4" style={{ fontWeight: "bold", textAlign: "center" }}>
                     Tổng
                   </td>
                   <td></td>
@@ -501,4 +519,4 @@ function FungusAndParasite() {
   );
 }
 
-export default FungusAndParasite;
+export default HematologyAndImmunology;

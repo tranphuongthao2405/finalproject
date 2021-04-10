@@ -16,7 +16,10 @@ import Navbar from "./components/Navbar";
 import { clearMessage } from "./actions/message";
 import { history } from "./helpers/history";
 import LaboratoryTest from "./components/staff/LaboratoryTest";
-import TestHeader from "./components/staff/medicalTests/TestHeader";
+import FungusAndParasite from "./components/staff/medicalTests/FungusAndParasite";
+import Biochemical from "./components/staff/medicalTests/Biochemical";
+import HematologyAndImmunology from "./components/staff/medicalTests/HematologyAndImmunology";
+import Result from "./components/staff/medicalTests/Result";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -42,7 +45,10 @@ const App = () => {
 
             <Route path="/laboratoryStaff" component={LaboratoryStaff} />
             <Route path="/laboratoryTests" component={LaboratoryTest}/>
-            <Route path="/testHeader" component={TestHeader} />
+            <Route path="/fungusAndParasite" component={FungusAndParasite} />
+            <Route path="/biochemical" component={Biochemical} />
+            <Route path="/hematologyAndImmunology" component={HematologyAndImmunology} />
+            <Route path="/result" component={Result} />
           </Switch>
         </div>
       </div>
