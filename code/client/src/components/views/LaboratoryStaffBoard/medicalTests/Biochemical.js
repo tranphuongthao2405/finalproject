@@ -1,11 +1,13 @@
+/* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import Select from 'react-validation/build/select';
 import CheckButton from 'react-validation/build/button';
 import 'react-datepicker/dist/react-datepicker.css';
+import axios from 'axios';
 import Logo from './images/logo.jpg';
 
 // eslint-disable-next-line consistent-return
@@ -24,32 +26,38 @@ function Biochemical() {
   const checkButton = useRef();
   const date = new Date().toLocaleString('en-GB');
 
-  const [name, setName] = useState('');
+  const [name, setName] = useState();
   const [birthDate, setBirthDate] = useState(new Date());
   const [gender, setGender] = useState();
-  const [address, setAddress] = useState('');
-  const [patientType, setPatientType] = useState('');
+  const [address, setAddress] = useState();
+  const [patientType, setPatientType] = useState();
   // get doctor request from department room
   // TODO: using redux
   const [department, setDepartment] = useState();
-  const [doctor, setDoctor] = useState('');
-  const [diagnosis, setDiagnosis] = useState('');
+  const [doctor, setDoctor] = useState();
+  const [diagnosis, setDiagnosis] = useState();
   const [successful, setSuccessful] = useState(false);
 
-  const [id, setId] = useState('');
-  const [caseType, setCaseType] = useState('');
-  const [initialSample, setInitialSample] = useState('');
+  const [patientId, setPatientId] = useState();
+  const [caseType, setCaseType] = useState();
+  const [initialSample, setInitialSample] = useState();
 
   // state for form field
-  const [number, setNumber] = useState('');
-  const [testName, setTestName] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [price, setPrice] = useState('');
-  const [amount, setAmount] = useState('');
-  const [insurance, setInsurance] = useState('');
-  const [payment, setPayment] = useState('');
-  const [diff, setDiff] = useState('');
-  const [total, setTotal] = useState('');
+  const [number, setNumber] = useState();
+  const [testName, setTestName] = useState();
+  const [quantity, setQuantity] = useState();
+  const [price, setPrice] = useState();
+  const [amount, setAmount] = useState();
+  const [insurance, setInsurance] = useState();
+  const [payment, setPayment] = useState();
+  const [diff, setDiff] = useState();
+  const [total, setTotal] = useState();
+
+  // useEffect(() => {
+  //   if (patientId !== undefined) {
+
+  //   }
+  // }, [patientId]);
 
   const onChangeName = (e) => {
     setName(e.target.value);
@@ -116,7 +124,7 @@ function Biochemical() {
   };
 
   const onChangeId = (e) => {
-    setId(e.target.value);
+    setPatientId(e.target.value);
   };
 
   const onChangeCaseType = (e) => {
@@ -202,12 +210,12 @@ function Biochemical() {
                 </div>
               </div>
               <div className="form-group col-md-2">
-                <label htmlFor="username">Mã BN:</label>
+                <label htmlFor="patientId">Mã BN:</label>
                 <Input
                   type="text"
                   className="form-control"
-                  name="id"
-                  value={id}
+                  name="patientId"
+                  value={patientId}
                   onChange={onChangeId}
                   validations={[required]}
                 />
@@ -521,7 +529,7 @@ function Biochemical() {
             </div>
 
             <div className="form-group">
-              <button type="button" className="btn btn-primary btn-block">
+              <button className="btn btn-primary btn-block">
                 In phiếu xét nghiệm
               </button>
             </div>

@@ -26,7 +26,6 @@ code {
 }
 
 .main .middle {
-  overflow: auto;
   width: 80%;
   margin-top: 2%;
   justify-content: center;
@@ -51,7 +50,6 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 input.error {
@@ -75,11 +73,6 @@ th {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
-}
-
-label {
-  display: block;
-  margin-top: 10px;
 }
 
 .card-container.card {

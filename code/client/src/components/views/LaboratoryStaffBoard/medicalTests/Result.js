@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useRef } from 'react';
 import DatePicker from 'react-datepicker';
@@ -188,7 +189,7 @@ function Result() {
                 </div>
               </div>
               <div className="form-group col-md-2">
-                <label htmlFor="username">Mã BN:</label>
+                <label htmlFor="patientId">Mã BN:</label>
                 <Input
                   type="text"
                   className="form-control control-label"
@@ -494,7 +495,7 @@ function Result() {
             </div>
 
             <div className="form-group">
-              <button type="button" className="btn btn-primary btn-block">
+              <button className="btn btn-primary btn-block">
                 In phiếu xét nghiệm
               </button>
             </div>

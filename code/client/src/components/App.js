@@ -13,6 +13,7 @@ import FungusAndParasite from './views/LaboratoryStaffBoard/medicalTests/FungusA
 import HematologyAndImmunology from './views/LaboratoryStaffBoard/medicalTests/HematologyAndImmunology';
 import Result from './views/LaboratoryStaffBoard/medicalTests/Result';
 import ImagingStaffBoard from './views/ImagingStaffBoard/ImagingStaffBoard';
+import AdminBoard from './views/AdminBoard/AdminBoard';
 
 function App() {
   return (
@@ -27,10 +28,11 @@ function App() {
             <Route exact path="/user/:userId" component={Auth(UserInfo, true)} />
             <Route exact path="/laboratoryStaffBoard" component={Auth(LaboratoryStaffBoard, true)} />
             <Route exact path="/imagingStaffBoard" component={Auth(ImagingStaffBoard, true)} />
-            <Route exact path="/laboratoryStaffBoard/biochemical" component={Auth(Biochemical, true)} />
-            <Route exact path="/laboratoryStaffBoard/fungusAndParasite" component={Auth(FungusAndParasite, true)} />
-            <Route exact path="/laboratoryStaffBoard/hematologyAndImmunology" component={Auth(HematologyAndImmunology, true)} />
-            <Route exact path="/laboratoryStaffBoard/result" component={Auth(Result, true)} />
+            <Route exact path="/adminBoard" component={Auth(AdminBoard, true)} />
+            <Route exact path="/laboratoryStaffBoard/biochemical/:patientId" component={Auth(Biochemical, true)} />
+            <Route exact path="/laboratoryStaffBoard/fungusAndParasite/:patientId" component={Auth(FungusAndParasite, true)} />
+            <Route exact path="/laboratoryStaffBoard/hematologyAndImmunology/:patientId" component={Auth(HematologyAndImmunology, true)} />
+            <Route exact path="/laboratoryStaffBoard/result/:patientId" component={Auth(Result, true)} />
           </Switch>
         </div>
         <Footer />

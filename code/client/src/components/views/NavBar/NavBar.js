@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Drawer, Button, Icon } from 'antd';
 import { useSelector } from 'react-redux';
-import { USER_SERVER } from '../../Config';
 import LeftMenu from './Sections/LeftMenu';
 import RightMenu from './Sections/RightMenu';
 import './Navbar.css';
@@ -22,7 +21,7 @@ function NavBar() {
   return (
     <nav
       className="menu"
-      style={{ position: 'fixed', zIndex: 9999, width: '100%' }}
+      style={{ position: 'fixed', zIndex: 999, width: '100%' }}
     >
       <div className="menu__logo">
         <a
