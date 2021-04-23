@@ -1,12 +1,13 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useRef } from 'react';
-import DatePicker from 'react-datepicker';
+import React, { useState, useRef, useEffect } from 'react';
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import Select from 'react-validation/build/select';
 import CheckButton from 'react-validation/build/button';
 import 'react-datepicker/dist/react-datepicker.css';
+import axios from 'axios';
 import Logo from './images/logo.jpg';
 
 // eslint-disable-next-line consistent-return
@@ -20,60 +21,59 @@ const required = (value) => {
   }
 };
 
-function Result() {
+function Result(props) {
+  // eslint-disable-next-line react/destructuring-assignment
+  const patientId = props.match.params.patientId;
   const form = useRef();
   const checkButton = useRef();
   const date = new Date().toLocaleString('en-GB');
 
-  const [name, setName] = useState('');
-  const [birthDate, setBirthDate] = useState(new Date());
+  const [name, setName] = useState();
+  const [birthDate, setBirthDate] = useState();
   const [gender, setGender] = useState();
-  const [address, setAddress] = useState('');
-  const [patientType, setPatientType] = useState('');
+  const [address, setAddress] = useState();
+  const [patientType, setPatientType] = useState();
   // get doctor request from department room
   // TODO: using redux
   const [department, setDepartment] = useState();
-  const [doctor, setDoctor] = useState('');
-  const [diagnosis, setDiagnosis] = useState('');
+  const [doctor, setDoctor] = useState();
+  const [diagnosis, setDiagnosis] = useState();
   const [successful, setSuccessful] = useState(false);
 
-  const [id, setId] = useState('');
-  const [caseType, setCaseType] = useState('');
+  const [caseType, setCaseType] = useState();
+  const [initialSample, setInitialSample] = useState();
 
   // state for form field
-  const [number, setNumber] = useState('');
-  const [testName, setTestName] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [price, setPrice] = useState('');
-  const [amount, setAmount] = useState('');
-  const [insurance, setInsurance] = useState('');
-  const [payment, setPayment] = useState('');
-  const [diff, setDiff] = useState('');
-  const [total, setTotal] = useState('');
+  const [number, setNumber] = useState();
+  const [testName, setTestName] = useState();
+  const [quantity, setQuantity] = useState();
+  const [price, setPrice] = useState();
+  const [amount, setAmount] = useState();
+  const [insurance, setInsurance] = useState();
+  const [payment, setPayment] = useState();
+  const [diff, setDiff] = useState();
+  const [total, setTotal] = useState();
 
-  const onChangeName = (e) => {
-    setName(e.target.value);
-  };
-
-  const onChangeDate = (value) => {
-    setBirthDate(value);
-  };
-
-  const onChangeAddress = (e) => {
-    setAddress(e.target.value);
-  };
-
-  const onChangeGender = (e) => {
-    setGender(e.target.value);
-  };
-
-  const onChangePatientType = (e) => {
-    setPatientType(e.target.value);
-  };
-
-  const onChangeDepartment = (e) => {
-    setDepartment(e.target.value);
-  };
+  useEffect(() => {
+    axios.get(`/api/patients/getPatientById?id=${patientId}`)
+      .then((response) => {
+        if (response.data.success) {
+          const fulltime = response.data.patient[0].birthDate;
+          const day = fulltime.substring(8, 10);
+          const month = fulltime.substring(5, 7);
+          const year = fulltime.substring(0, 4);
+          const time = `${day}/${month}/${year}`;
+          setName(response.data.patient[0].name);
+          setAddress(response.data.patient[0].address);
+          setGender(response.data.patient[0].gender);
+          setBirthDate(time);
+          setDepartment(response.data.patient[0].department);
+          setPatientType(response.data.patient[0].patientType);
+        } else {
+          alert(response.data.err);
+        }
+      });
+  }, []);
 
   const onChangeDiagnosis = (e) => {
     setDiagnosis(e.target.value);
@@ -115,12 +115,12 @@ function Result() {
     setTotal(e.target.value);
   };
 
-  const onChangeId = (e) => {
-    setId(e.target.value);
-  };
-
   const onChangeCaseType = (e) => {
     setCaseType(e.target.value);
+  };
+
+  const onChangeInitialSample = (e) => {
+    setInitialSample(e.target.value);
   };
 
   const handleSubmit = (e) => {
@@ -188,40 +188,40 @@ function Result() {
                   </div>
                 </div>
               </div>
+
               <div className="form-group col-md-2">
                 <label htmlFor="patientId">Mã BN:</label>
                 <Input
                   type="text"
-                  className="form-control control-label"
-                  name="id"
-                  value={id}
-                  onChange={onChangeId}
+                  className="form-control"
+                  name="patientId"
+                  value={patientId}
                   validations={[required]}
                 />
               </div>
             </div>
 
             {/* form fields */}
-            <div className="form-row col-md-24">
+            <div className="form-row">
               <div className="form-group col-md-4">
                 <label htmlFor="username">Họ tên người bệnh:</label>
                 <Input
                   type="text"
-                  className="form-control control-label"
+                  className="form-control"
                   name="name"
                   value={name}
-                  onChange={onChangeName}
                   validations={[required]}
                 />
               </div>
 
               <div className="form-group col-md-4">
-                <label htmlFor="datebirth">Năm sinh:</label>
-                <br />
-                <DatePicker
-                  className="form-control control-label"
-                  selected={birthDate}
-                  onChange={onChangeDate}
+                <label htmlFor="birthDate">Năm sinh:</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="birthDate"
+                  value={birthDate}
+                  validations={[required]}
                 />
               </div>
 
@@ -229,13 +229,12 @@ function Result() {
                 <label htmlFor="gender">Giới tính:</label>
                 <Select
                   name="gender"
-                  className="form-control control-label"
+                  className="form-control"
                   value={gender}
-                  onChange={onChangeGender}
                   validations={[required]}
                 >
-                  <option value="Male">Nam</option>
-                  <option value="Female">Nữ</option>
+                  <option value="Nam">Nam</option>
+                  <option value="Nữ">Nữ</option>
                 </Select>
               </div>
             </div>
@@ -244,10 +243,9 @@ function Result() {
               <label htmlFor="address">Địa chỉ:</label>
               <Input
                 type="text"
-                className="form-control control-label"
+                className="form-control"
                 name="address"
                 value={address}
-                onChange={onChangeAddress}
                 validations={[required]}
               />
             </div>
@@ -257,13 +255,12 @@ function Result() {
                 <label htmlFor="patientType">Đối tượng:</label>
                 <Select
                   name="patientType"
-                  className="form-control control-label"
+                  className="form-control"
                   value={patientType}
-                  onChange={onChangePatientType}
                   validations={[required]}
                 >
-                  <option value="Office hours">Khám trong giờ</option>
-                  <option value="Outside office hours">Khám ngoài giờ</option>
+                  <option value="Khám trong giờ">Khám trong giờ</option>
+                  <option value="Khám ngoài giờ">Khám ngoài giờ</option>
                 </Select>
               </div>
 
@@ -271,10 +268,9 @@ function Result() {
                 <label htmlFor="department">Khoa phòng:</label>
                 <Input
                   type="text"
-                  className="form-control control-label"
+                  className="form-control"
                   name="department"
                   value={department}
-                  onChange={onChangeDepartment}
                   validations={[required]}
                 />
               </div>

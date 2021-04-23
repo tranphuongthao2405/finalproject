@@ -1,5 +1,7 @@
+/* eslint-disable no-lonely-if */
+/* eslint-disable no-console */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Form, Input, Button, Typography,
 } from 'antd';
@@ -11,6 +13,7 @@ const { Title } = Typography;
 function ImagingStaffBoard() {
   const [patientId, setPatientId] = useState();
   const [images, setImages] = useState([]);
+  const [id, setId] = useState();
 
   const updateImages = (newImage) => {
     setImages(newImage);
@@ -24,23 +27,36 @@ function ImagingStaffBoard() {
     evt.preventDefault();
 
     if (
-      patientId
+      !patientId
       || !images
     ) {
-      alert('Please fill out all the field');
+      alert('Please fill out all the fields');
     } else {
-      const values = {
-        patientId,
-        images,
-      };
+      if (patientId !== undefined) {
+        const values1 = { patientId };
+        axios.post('/api/patients/getPatientById', values1)
+          .then((response) => {
+            if (response.data.success) {
+              console.log(response.data.patient[0]);
+              setId(response.data.patient[0]._id);
 
-    //   axios.post('/api/patient/uploadImagingDiagnosis', values).then((response) => {
-    //     if (response.data.success) {
-    //       alert('Upload tour successfully');
-    //     } else {
-    //       alert('Failed to upload tour');
-    //     }
-    //   });
+              const values2 = {
+                id,
+                images,
+              };
+
+              axios.post('/api/diagnosis/updateImage', values2).then((res) => {
+                if (res.data.success) {
+                  alert('Update information successfully');
+                } else {
+                  alert('Failed to update information');
+                }
+              });
+            } else {
+              alert(response.data.err);
+            }
+          });
+      }
     }
   };
 
@@ -52,7 +68,7 @@ function ImagingStaffBoard() {
 
       <Form onSubmit={onSubmit}>
         <div className="form-group row justify-content-center">
-          <label className="col-md-1">Mã BN:</label>
+          <label style={{ display: 'block', marginTop: 10 }} className="col-md-1">Mã BN:</label>
           <Input className="form-group col-md-2" style={{ marginTop: '5px' }} onChange={onChangePatientId} value={patientId} />
         </div>
         <br />

@@ -12,8 +12,7 @@ function FileUpload(props) {
       header: { 'content-type': 'multipart/form-data' },
     };
     formData.append('file', files[0]);
-    // save the Image we chose inside the Node Server
-    Axios.post('/api/patient/uploadImage', formData, config).then(
+    Axios.post('/api/patients/uploadImage', formData, config).then(
       (response) => {
         if (response.data.success) {
           setImages([...images, response.data.image]);
@@ -67,7 +66,7 @@ function FileUpload(props) {
         }}
       >
         {images.map((image, index) => (
-          <div onClick={() => onDelete(image)}>
+          <div key={`diagnosis-${image}}`} onClick={() => onDelete(image)}>
             <img
               style={{ minWidth: '400px', width: '400px', height: '400px' }}
               src={`http://localhost:5000/${image}`}

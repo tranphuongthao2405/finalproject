@@ -1,7 +1,7 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useRef, useEffect } from 'react';
-import DatePicker from 'react-datepicker';
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import Select from 'react-validation/build/select';
@@ -21,13 +21,15 @@ const required = (value) => {
   }
 };
 
-function Biochemical() {
+function Biochemical(props) {
+  // eslint-disable-next-line react/destructuring-assignment
+  const patientId = props.match.params.patientId;
   const form = useRef();
   const checkButton = useRef();
   const date = new Date().toLocaleString('en-GB');
 
   const [name, setName] = useState();
-  const [birthDate, setBirthDate] = useState(new Date());
+  const [birthDate, setBirthDate] = useState();
   const [gender, setGender] = useState();
   const [address, setAddress] = useState();
   const [patientType, setPatientType] = useState();
@@ -38,7 +40,6 @@ function Biochemical() {
   const [diagnosis, setDiagnosis] = useState();
   const [successful, setSuccessful] = useState(false);
 
-  const [patientId, setPatientId] = useState();
   const [caseType, setCaseType] = useState();
   const [initialSample, setInitialSample] = useState();
 
@@ -53,35 +54,26 @@ function Biochemical() {
   const [diff, setDiff] = useState();
   const [total, setTotal] = useState();
 
-  // useEffect(() => {
-  //   if (patientId !== undefined) {
-
-  //   }
-  // }, [patientId]);
-
-  const onChangeName = (e) => {
-    setName(e.target.value);
-  };
-
-  const onChangeDate = (value) => {
-    setBirthDate(value);
-  };
-
-  const onChangeAddress = (e) => {
-    setAddress(e.target.value);
-  };
-
-  const onChangeGender = (e) => {
-    setGender(e.target.value);
-  };
-
-  const onChangePatientType = (e) => {
-    setPatientType(e.target.value);
-  };
-
-  const onChangeDepartment = (e) => {
-    setDepartment(e.target.value);
-  };
+  useEffect(() => {
+    axios.get(`/api/patients/getPatientById?id=${patientId}`)
+      .then((response) => {
+        if (response.data.success) {
+          const fulltime = response.data.patient[0].birthDate;
+          const day = fulltime.substring(8, 10);
+          const month = fulltime.substring(5, 7);
+          const year = fulltime.substring(0, 4);
+          const time = `${day}/${month}/${year}`;
+          setName(response.data.patient[0].name);
+          setAddress(response.data.patient[0].address);
+          setGender(response.data.patient[0].gender);
+          setBirthDate(time);
+          setDepartment(response.data.patient[0].department);
+          setPatientType(response.data.patient[0].patientType);
+        } else {
+          alert(response.data.err);
+        }
+      });
+  }, []);
 
   const onChangeDiagnosis = (e) => {
     setDiagnosis(e.target.value);
@@ -121,10 +113,6 @@ function Biochemical() {
 
   const onChangeTotal = (e) => {
     setTotal(e.target.value);
-  };
-
-  const onChangeId = (e) => {
-    setPatientId(e.target.value);
   };
 
   const onChangeCaseType = (e) => {
@@ -209,6 +197,7 @@ function Biochemical() {
                   </div>
                 </div>
               </div>
+
               <div className="form-group col-md-2">
                 <label htmlFor="patientId">Mã BN:</label>
                 <Input
@@ -216,7 +205,6 @@ function Biochemical() {
                   className="form-control"
                   name="patientId"
                   value={patientId}
-                  onChange={onChangeId}
                   validations={[required]}
                 />
               </div>
@@ -248,18 +236,18 @@ function Biochemical() {
                   className="form-control"
                   name="name"
                   value={name}
-                  onChange={onChangeName}
                   validations={[required]}
                 />
               </div>
 
               <div className="form-group col-md-4">
-                <label htmlFor="datebirth">Năm sinh:</label>
-                <br />
-                <DatePicker
+                <label htmlFor="birthDate">Năm sinh:</label>
+                <Input
+                  type="text"
                   className="form-control"
-                  selected={birthDate}
-                  onChange={onChangeDate}
+                  name="birthDate"
+                  value={birthDate}
+                  validations={[required]}
                 />
               </div>
 
@@ -269,11 +257,10 @@ function Biochemical() {
                   name="gender"
                   className="form-control"
                   value={gender}
-                  onChange={onChangeGender}
                   validations={[required]}
                 >
-                  <option value="Male">Nam</option>
-                  <option value="Female">Nữ</option>
+                  <option value="Nam">Nam</option>
+                  <option value="Nữ">Nữ</option>
                 </Select>
               </div>
             </div>
@@ -285,7 +272,6 @@ function Biochemical() {
                 className="form-control"
                 name="address"
                 value={address}
-                onChange={onChangeAddress}
                 validations={[required]}
               />
             </div>
@@ -297,11 +283,10 @@ function Biochemical() {
                   name="patientType"
                   className="form-control"
                   value={patientType}
-                  onChange={onChangePatientType}
                   validations={[required]}
                 >
-                  <option value="Office hours">Khám trong giờ</option>
-                  <option value="Outside office hours">Khám ngoài giờ</option>
+                  <option value="Khám trong giờ">Khám trong giờ</option>
+                  <option value="Khám ngoài giờ">Khám ngoài giờ</option>
                 </Select>
               </div>
 
@@ -312,7 +297,6 @@ function Biochemical() {
                   className="form-control"
                   name="department"
                   value={department}
-                  onChange={onChangeDepartment}
                   validations={[required]}
                 />
               </div>
