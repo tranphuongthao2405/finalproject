@@ -47,7 +47,6 @@ function AdminBoard(props) {
   };
 
   const onChangeDate = (value) => {
-    console.log(value);
     setBirthDate(value);
   };
 

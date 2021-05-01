@@ -33,10 +33,10 @@ function RightMenu(props) {
     return (
       <Menu mode={props.mode}>
         <Menu.Item key="signin">
-          <a href="/login">Sign In</a>
+          <a href="/login" style={{ textDecoration: 'none' }}>Sign In</a>
         </Menu.Item>
         <Menu.Item key="signup">
-          <a href="/register">Sign Up</a>
+          <a href="/register" style={{ textDecoration: 'none' }}>Sign Up</a>
         </Menu.Item>
       </Menu>
     );

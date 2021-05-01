@@ -4,49 +4,28 @@ const { Diagnosis } = require("../models/Diagnosis");
 const { auth } = require("../middleware/auth");
 
 router.post("/updateImage", auth, (req, res) => {
-  let patientId = req.body.patientId;
+  let patientId = req.body.patient;
 
-  Diagnosis.find(
+  Diagnosis.findOneAndUpdate(
     {
-      patient: { $in: patientId },
+      patient: patientId,
     },
-    (err, diagnosis) => {
+    { $set: { images: req.body.images } },
+    { new: true },
+    (err, doc) => {
       if (err) {
-        const diagnosis = new Diagnosis({
-          patient: patientId,
-          biochemical: "",
-          fungusAndParasite: "",
-          hematologyAndImmunology: "",
-          result: "",
-          images: req.body.images,
-          doctorDiagnosis: "",
-        });
+        return res.status(400).json({ success: false, err });
+      }
+      
+      const diagnosis = new Diagnosis(req.body);
 
-        console.log(diagnosis);
+      if (!doc) {
         diagnosis.save((err, doc) => {
           if (err) return res.json({ success: false, err });
-          return res.status(200).json({
-            success: true,
-            doc,
-          });
         });
       }
 
-      // update
-      Diagnosis.findOneAndUpdate(
-        {
-          patient: { $in: patientId },
-        },
-        { $set: { images: req.body.images } },
-        { new: true },
-        (err, doc) => {
-          if (err) return res.status(500).json({ success: false, err });
-          return res.status(200).json({
-            success: true,
-            doc,
-          });
-        }
-      );
+      return res.status(200).json({ success: true, doc });
     }
   );
 });
