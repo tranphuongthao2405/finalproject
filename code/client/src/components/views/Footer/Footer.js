@@ -12,9 +12,7 @@ function Footer() {
         justifyContent: 'center',
         fontSize: '0.8rem',
       }}
-    >
-      Final Project
-    </div>
+    />
   );
 }
 

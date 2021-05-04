@@ -25,6 +25,9 @@ const patientSchema = mongoose.Schema(
     patientType: {
       type: String,
     },
+    doctor: {
+      type: String
+    },
     department: {
       type: String,
     },

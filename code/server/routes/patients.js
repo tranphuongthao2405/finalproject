@@ -74,4 +74,33 @@ router.post("/getPatientById", auth, (req, res) => {
     });
 });
 
+router.get("/getAllPatients", auth, (req, res) => {
+  Patient.find({})
+    .populate("writer")
+    .exec((err, patients) => {
+      if (err) {
+        return res.status(400).json({ success: false, err });
+      }
+
+      return res.status(200).json({ success: true, patients });
+    });
+});
+
+router.post("/updateInfo", auth, (req, res) => {
+  let patientId = req.body.patientId;
+  Patient.findOneAndUpdate(
+    { patientId: { $in: patientId } },
+    { $set: { images: req.body.images } },
+    { new: true }
+  )
+    .populate("writer")
+    .exec((err, patient) => {
+      if (err) {
+        return res.status(400).json({ success: false, err });
+      }
+
+      return res.status(200).json({ success: true, patient });
+    });
+});
+
 module.exports = router;

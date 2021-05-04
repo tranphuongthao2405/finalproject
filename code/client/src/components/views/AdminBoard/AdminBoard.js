@@ -1,6 +1,7 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Typography } from 'antd';
 import DatePicker from 'react-datepicker';
 import Form from 'react-validation/build/form';
@@ -26,6 +27,7 @@ const required = (value) => {
 function AdminBoard(props) {
   const form = useRef();
   const checkButton = useRef();
+  const history = useHistory();
 
   const [patientId, setPatientId] = useState('');
   const [name, setName] = useState('');
@@ -33,9 +35,6 @@ function AdminBoard(props) {
   const [gender, setGender] = useState();
   const [address, setAddress] = useState('');
   const [patientType, setPatientType] = useState('');
-  // get doctor request from department room
-  // TODO: using redux
-  const [department, setDepartment] = useState();
   const [successful, setSuccessful] = useState(false);
 
   const onChangePatientId = (e) => {
@@ -62,10 +61,6 @@ function AdminBoard(props) {
     setPatientType(e.target.value);
   };
 
-  const onChangeDepartment = (e) => {
-    setDepartment(e.target.value);
-  };
-
   const handleSubmit = (evt) => {
     evt.preventDefault();
     setSuccessful(false);
@@ -80,12 +75,13 @@ function AdminBoard(props) {
         gender,
         address,
         patientType,
-        department,
+        doctor: '',
+        department: '',
       };
       axios.post('/api/patients/uploadInfo', values).then((response) => {
         if (response.data.success) {
           setSuccessful(true);
-          alert('Upload information successfully');
+          history.push('/patientsList');
         } else {
           setSuccessful(false);
           alert('Failed to upload information');
@@ -157,8 +153,8 @@ function AdminBoard(props) {
                   onChange={onChangeGender}
                   validations={[required]}
                 >
-                  <option value="Male">Nam</option>
-                  <option value="Female">Nữ</option>
+                  <option value="Nam">Nam</option>
+                  <option value="Nữ">Nữ</option>
                 </Select>
               </div>
             </div>
@@ -187,23 +183,9 @@ function AdminBoard(props) {
                   onChange={onChangePatientType}
                   validations={[required]}
                 >
-                  <option value="Office hours">Khám trong giờ</option>
-                  <option value="Outside office hours">Khám ngoài giờ</option>
+                  <option value="Khám trong giờ">Khám trong giờ</option>
+                  <option value="Khám ngoài giờ">Khám ngoài giờ</option>
                 </Select>
-              </div>
-            </div>
-
-            <div className="form-row justify-content-center">
-              <div className="form-group col-md-6">
-                <label htmlFor="department">Khoa phòng:</label>
-                <Input
-                  type="text"
-                  className="form-control"
-                  name="department"
-                  value={department}
-                  onChange={onChangeDepartment}
-                  validations={[required]}
-                />
               </div>
             </div>
 

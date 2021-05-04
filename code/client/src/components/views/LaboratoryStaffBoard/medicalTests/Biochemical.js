@@ -33,7 +33,7 @@ function Biochemical(props) {
   const [gender, setGender] = useState();
   const [address, setAddress] = useState();
   const [patientType, setPatientType] = useState();
-  // get doctor request from department room
+  // get doctor request from department room of doctor
   // TODO: using redux
   const [department, setDepartment] = useState();
   const [doctor, setDoctor] = useState();

@@ -45,7 +45,7 @@ function LeftMenu(props) {
 
       {doctorBoard && (
       <Menu.Item key="doctorBoard">
-        <a href="/" style={{ textDecoration: 'none' }}>Doctor Board</a>
+        <a href="/doctorBoard" style={{ textDecoration: 'none' }}>Doctor Board</a>
       </Menu.Item>
       )}
 

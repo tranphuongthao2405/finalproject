@@ -3,12 +3,13 @@
 /* eslint-disable no-lonely-if */
 /* eslint-disable no-console */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Typography } from 'antd';
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import CheckButton from 'react-validation/build/button';
 import axios from 'axios';
+import ImageGallery from 'react-image-gallery';
 import FileUpload from '../../utils/FileUpload';
 
 const { Title } = Typography;
@@ -30,8 +31,26 @@ function ImagingStaffBoard() {
 
   const [patientId, setPatientId] = useState();
   const [images, setImages] = useState([]);
+  const [imagesArray, setImagesArray] = useState([]);
   const [id, setId] = useState();
   const [successful, setSuccessful] = useState(false);
+
+  useEffect(() => {
+    if (images && images.length > 0) {
+      const imagesArr = [];
+
+      // eslint-disable-next-line no-unused-expressions
+      images
+        // eslint-disable-next-line array-callback-return
+        && images.map((item) => {
+          imagesArr.push({
+            original: `http://localhost:5000/${item}`,
+            thumbnail: `http://localhost:5000/${item}`,
+          });
+        });
+      setImagesArray(imagesArr);
+    }
+  }, [images]);
 
   const updateImages = (newImage) => {
     setImages(newImage);
@@ -106,6 +125,13 @@ function ImagingStaffBoard() {
         <br />
         <br />
         <FileUpload refreshFunction={updateImages} />
+        <br />
+        <br />
+        {imagesArray && imagesArray.length > 0 && (
+          <div className="form-row justify-content-center">
+            <ImageGallery items={imagesArray} />
+          </div>
+        )}
         <br />
         <br />
         <div className="form-row justify-content-center">
