@@ -89,18 +89,19 @@ router.get("/getAllPatients", auth, (req, res) => {
 router.post("/updateInfo", auth, (req, res) => {
   let patientId = req.body.patientId;
   Patient.findOneAndUpdate(
-    { patientId: { $in: patientId } },
-    { $set: { images: req.body.images } },
-    { new: true }
-  )
-    .populate("writer")
-    .exec((err, patient) => {
+    {
+      patientId: patientId,
+    },
+    { $set: { doctor: req.body.doctor, department: req.body.department } },
+    { new: true },
+    (err, patient) => {
       if (err) {
         return res.status(400).json({ success: false, err });
       }
 
       return res.status(200).json({ success: true, patient });
-    });
+    }
+  );
 });
 
 module.exports = router;

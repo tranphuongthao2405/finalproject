@@ -3,9 +3,8 @@ const Schema = mongoose.Schema;
 
 const diagnosisSchema = mongoose.Schema(
   {
-    patient: {
-      type: Schema.Types.ObjectId,
-      ref: "Patient",
+    patientId: {
+      type: String,
     },
     biochemical: {
       type: String,
@@ -17,6 +16,9 @@ const diagnosisSchema = mongoose.Schema(
       type: String,
     },
     result: {
+      type: String,
+    },
+    imaging: {
       type: String,
     },
     images: {

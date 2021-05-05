@@ -4,6 +4,7 @@
 /* eslint-disable no-console */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useRef, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Typography } from 'antd';
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
@@ -29,10 +30,11 @@ function ImagingStaffBoard() {
   const form = useRef();
   const checkButton = useRef();
 
+  const history = useHistory();
+
   const [patientId, setPatientId] = useState();
   const [images, setImages] = useState([]);
   const [imagesArray, setImagesArray] = useState([]);
-  const [id, setId] = useState();
   const [successful, setSuccessful] = useState(false);
 
   useEffect(() => {
@@ -66,41 +68,38 @@ function ImagingStaffBoard() {
     form.current.validateAll();
 
     if (checkButton.current.context._errors.length === 0) {
-      if (patientId !== undefined) {
-        const values = { patientId };
-        axios.post('/api/patients/getPatientById', values).then((response) => {
-          if (response.data.success) {
-            setId(response.data.patient[0]._id);
+      if (patientId !== undefined && images !== []) {
+        const dataToSubmit = {
+          patientId,
+          imaging: 'done',
+          images,
+        };
 
-            if (id && images !== []) {
-              const dataToSubmit = {
-                patient: id,
-                biochemical: '',
-                fungusAndParasite: '',
-                hematologyAndImmunology: '',
-                result: '',
-                images,
-                doctorDiagnosis: '',
-              };
-
-              axios.post('/api/diagnosis/updateImage', dataToSubmit).then((res) => {
-                if (res.data.success) {
-                  alert('Update information successfully');
-                } else {
-                  alert('Failed to update information');
-                }
-              });
-            }
+        axios.post('/api/diagnosis/updateImage', dataToSubmit).then((res) => {
+          if (res.data.success) {
+            alert('Update information successfully');
           } else {
-            alert(response.data.err);
+            alert('Failed to update information');
           }
         });
       }
+
+      history.push('/imagingPatientList');
     }
   };
 
   return (
     <div style={{ maxWidth: '90%', margin: '2rem auto' }}>
+      <div>
+        <h3 className="mb-3">HƯỚNG DẪN:</h3>
+        <p>
+          1. Xem danh sách tiếp nhận bệnh nhân để xem thông tin các bệnh nhân cần chụp chẩn đoán
+          <br />
+          2. Thực hiện chụp chẩn đoán cho bệnh nhân
+          <br />
+          3.  Nhập mã bệnh nhân và upload các ảnh liên quan của bệnh nhân
+        </p>
+      </div>
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
         <Title level={2}>Tải ảnh chụp chẩn đoán của bệnh nhân</Title>
       </div>

@@ -38,27 +38,47 @@ function LeftMenu(props) {
   return (
     <Menu mode={props.mode}>
       {adminBoard && (
-        <Menu.Item key="adminBoard">
-          <a href="/adminBoard" style={{ textDecoration: 'none' }}>Admin Board</a>
-        </Menu.Item>
+        <Menu>
+          <Menu.Item key="adminBoard">
+            <a href="/adminBoard" style={{ textDecoration: 'none' }}>Admin Board</a>
+          </Menu.Item>
+          <Menu.Item key="patientList">
+            <a href="/patientsList" style={{ textDecoration: 'none' }}>Danh sách bệnh nhân</a>
+          </Menu.Item>
+        </Menu>
       )}
 
       {doctorBoard && (
-      <Menu.Item key="doctorBoard">
-        <a href="/doctorBoard" style={{ textDecoration: 'none' }}>Doctor Board</a>
-      </Menu.Item>
+        <Menu>
+          <Menu.Item key="doctorBoard">
+            <a href="/doctorBoard" style={{ textDecoration: 'none' }}>Doctor Board</a>
+          </Menu.Item>
+          <Menu.Item key="patientsReceived">
+            <a href="/patientStateReceived" style={{ textDecoration: 'none' }}>Danh sách bệnh nhân tiếp nhận</a>
+          </Menu.Item>
+        </Menu>
       )}
 
       {laboratoryStaffBoard && (
-      <Menu.Item key="laboratoryStaffBoard">
-        <a href="/laboratoryStaffBoard" style={{ textDecoration: 'none' }}>Laboratory Staff Board</a>
-      </Menu.Item>
+        <Menu>
+          <Menu.Item key="laboratoryStaffBoard">
+            <a href="/laboratoryStaffBoard" style={{ textDecoration: 'none' }}>Laboratory Staff Board</a>
+          </Menu.Item>
+          <Menu.Item key="patientsReceived">
+            <a href="/laboratoryPatientList" style={{ textDecoration: 'none' }}>Danh sách bệnh nhân tiếp nhận</a>
+          </Menu.Item>
+        </Menu>
       )}
 
       {imagingStaffBoard && (
-      <Menu.Item key="imagingStaffBoard">
-        <a href="/imagingStaffBoard" style={{ textDecoration: 'none' }}>Imaging Staff Board</a>
-      </Menu.Item>
+      <Menu>
+        <Menu.Item key="imagingStaffBoard">
+          <a href="/imagingStaffBoard" style={{ textDecoration: 'none' }}>Imaging Staff Board</a>
+        </Menu.Item>
+        <Menu.Item key="patientsReceived">
+          <a href="/imagingPatientList" style={{ textDecoration: 'none' }}>Danh sách bệnh nhân tiếp nhận</a>
+        </Menu.Item>
+      </Menu>
       )}
 
     </Menu>

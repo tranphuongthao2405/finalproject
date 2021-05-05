@@ -1,6 +1,7 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import Input from 'react-validation/build/input';
 import Textarea from 'react-validation/build/textarea';
 import Form from 'react-validation/build/form';
@@ -25,6 +26,8 @@ function DoctorBoard() {
   const checkButton = useRef();
   const form2 = useRef();
   const checkButton2 = useRef();
+
+  const history = useHistory();
 
   const [patientId, setPatientId] = useState();
   const [name, setName] = useState();
@@ -60,16 +63,22 @@ function DoctorBoard() {
 
   const onChangeNecessaryWork = (e) => {
     setNecessaryWork([...necessaryWork, e.target.value]);
+  };
+
+  useEffect(() => {
     if (necessaryWork.includes('Chụp chẩn đoán hình ảnh')) {
       setImagingCheck(true);
-    } else if (necessaryWork.includes('Xét nghiệm sinh hóa máu')) {
+    }
+    if (necessaryWork.includes('Xét nghiệm sinh hóa máu')) {
       setBioChemicalCheck(true);
-    } else if (necessaryWork.includes('Xét nghiệm nấm - kí sinh trùng')) {
+    }
+    if (necessaryWork.includes('Xét nghiệm nấm - kí sinh trùng')) {
       setFungusAndParasiteCheck(true);
-    } else if (necessaryWork.includes('Xét nghiệm huyết học - miễn dịch')) {
+    }
+    if (necessaryWork.includes('Xét nghiệm huyết học - miễn dịch')) {
       setHematologyAndImmunologyCheck(true);
     }
-  };
+  }, [necessaryWork]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -140,9 +149,30 @@ function DoctorBoard() {
           // do something
         }
       });
+
+      // update doctor diagnosis
+      const value1 = imagingCheck ? 'pending' : '';
+      const value2 = biochemicalCheck ? 'pending' : '';
+      const value3 = fungusAndParasiteCheck ? 'pending' : '';
+      const value4 = hematologyAndImmunologyCheck ? 'pending' : '';
+      const dataToUpdate3 = {
+        patientId,
+        value1,
+        value2,
+        value3,
+        value4,
+      };
+      axios.post('/api/diagnosis/updateDiagnosis', dataToUpdate3).then((response) => {
+        if (response.data.success) {
+          // do something
+        } else {
+          // do something
+        }
+      });
+
+      history.push('/patientStateReceived');
     }
   };
-
   return (
     <div>
       <div>
@@ -253,7 +283,7 @@ function DoctorBoard() {
                 }
               </Select>
             </div>
-
+            {/* still some bugs when select first doctor */}
             <div className="form-group col-md-6">
               <h6 className="mb-3">Bác sĩ điều trị:</h6>
               <Select
@@ -268,10 +298,9 @@ function DoctorBoard() {
                     doctors = item.doctor;
                   }
                 })}
-
                 {
-                  doctors && doctors.map((dr) => (
-                    <option value={dr.name}>
+                  doctors !== [] && doctors.map((dr) => (
+                    <option key={`${dr.name}${dr.level}`} value={dr.name}>
                       {dr.level}
                       .
                       {' '}
@@ -363,7 +392,6 @@ function DoctorBoard() {
         </Form>
       </div>
       )}
-      {/* table to see state */}
     </div>
   );
 }

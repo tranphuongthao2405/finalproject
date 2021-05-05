@@ -16,6 +16,9 @@ import ImagingStaffBoard from './views/ImagingStaffBoard/ImagingStaffBoard';
 import AdminBoard from './views/AdminBoard/AdminBoard';
 import DoctorBoard from './views/DoctorBoard/DoctorBoard';
 import PatientList from './views/AdminBoard/PatientList';
+import patientStateReceived from './views/DoctorBoard/PatientList';
+import imagingPatientList from './views/ImagingStaffBoard/PatientList';
+import laboratoryPatientList from './views/LaboratoryStaffBoard/PatientList';
 
 function App() {
   return (
@@ -37,6 +40,9 @@ function App() {
             <Route exact path="/laboratoryStaffBoard/hematologyAndImmunology/:patientId" component={Auth(HematologyAndImmunology, true)} />
             <Route exact path="/laboratoryStaffBoard/result/:patientId" component={Auth(Result, true)} />
             <Route exact path="/patientsList" component={Auth(PatientList, true)} />
+            <Route exact path="/patientStateReceived" component={Auth(patientStateReceived, true)} />
+            <Route exact path="/imagingPatientList" component={Auth(imagingPatientList, true)} />
+            <Route exact path="/laboratoryPatientList" component={Auth(laboratoryPatientList, true)} />
           </Switch>
         </div>
         <Footer />
