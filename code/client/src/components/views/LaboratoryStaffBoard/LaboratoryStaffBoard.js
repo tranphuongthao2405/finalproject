@@ -53,8 +53,7 @@ function LaboratoryStaffBoard() {
           <div className="card-body">
             <h5 className="card-title">PHIẾU NẤM - KÍ SINH TRÙNG</h5>
             <p className="card-text">
-              With supporting text below as a natural lead-in to additional
-              content.
+              Mẫu phiếu xét nghiệm nấm - ký sinh trùng
             </p>
             <Button type="primary" onClick={showModal}>
               Điền phiếu
@@ -87,8 +86,7 @@ function LaboratoryStaffBoard() {
           <div className="card-body">
             <h5 className="card-title">PHIẾU SINH HÓA MÁU</h5>
             <p className="card-text">
-              With supporting text below as a natural lead-in to additional
-              content.
+              Mẫu phiếu xét nghiệm sinh hóa máu
             </p>
             <Button type="primary" onClick={showModal}>
               Điền phiếu
@@ -121,8 +119,7 @@ function LaboratoryStaffBoard() {
           <div className="card-body">
             <h5 className="card-title">PHIẾU HUYẾT HỌC - MIỄN DỊCH</h5>
             <p className="card-text">
-              With supporting text below as a natural lead-in to additional
-              content.
+              Mẫu phiếu xét nghiệm huyết học - miễn dịch
             </p>
             <Button type="primary" onClick={showModal}>
               Điền phiếu
@@ -155,8 +152,7 @@ function LaboratoryStaffBoard() {
           <div className="card-body">
             <h5 className="card-title">PHIẾU KẾT QUẢ XÉT NGHIỆM</h5>
             <p className="card-text">
-              With supporting text below as a natural lead-in to additional
-              content.
+              Mẫu phiếu kết quả xét nghiệm
             </p>
             <Button type="primary" onClick={showModal}>
               Điền phiếu

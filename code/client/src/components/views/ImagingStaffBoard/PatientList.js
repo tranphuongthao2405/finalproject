@@ -5,10 +5,8 @@ import axios from 'axios';
 function PatientList() {
   const [patients, setPatients] = useState();
   const [showTable, setShowTable] = useState(false);
-  // state to check process
-  const [imagingCheck, setImagingCheck] = useState([]);
   const [imagingState, setImagingState] = useState([]);
-
+  const [doctorDiagnosis, setDoctorDiagnosis] = useState([]);
   let count = 0;
 
   useEffect(() => {
@@ -20,7 +18,7 @@ function PatientList() {
         setShowTable(false);
       }
     });
-  }, []);
+  }, [patients]);
 
   return (
     <div>
@@ -47,51 +45,54 @@ function PatientList() {
                 Giới tính
               </th>
               <th scope="col" style={{ width: '10%' }}>
+                Chẩn đoán của bác sĩ
+              </th>
+              <th scope="col" style={{ width: '10%' }}>
                 Cần chụp chẩn đoán hình ảnh
               </th>
             </tr>
           </thead>
           <tbody>
             {
-                patients.map((patient) => {
-                  const fulltime = patient.birthDate;
-                  const day = fulltime.substring(8, 10);
-                  const month = fulltime.substring(5, 7);
-                  const year = fulltime.substring(0, 4);
-                  const time = `${day}/${month}/${year}`;
-                  count += 1;
+                 patients.map((patient) => {
+                   const fulltime = patient.birthDate;
+                   const day = fulltime.substring(8, 10);
+                   const month = fulltime.substring(5, 7);
+                   const year = fulltime.substring(0, 4);
+                   const time = `${day}/${month}/${year}`;
+                   count += 1;
+                   const pCount = count - 1;
 
-                  const values = {
-                    patientId: patient.patientId,
-                  };
+                   const values = {
+                     patientId: patient.patientId,
+                   };
 
-                  axios.post('/api/diagnosis/getDiagnosisById', values).then((response) => {
-                    if (response.data.success) {
-                      if (response.data.doc[0].imaging === 'pending') {
-                        setImagingCheck([...imagingCheck, 'Có']);
-                      } else if (response.data.doc[0].imaging === 'done') {
-                        setImagingState([...imagingState, 'Đã xong']);
-                      } else {
-                        setImagingCheck([...imagingCheck, 'Không']);
-                      }
-                    } else {
-                      // do something
-                    }
-                  });
-
-                  // TODO: only show patient need to do imaging diagnosis
-                  // check: row not showing true
-                  return ((
-                    <tr>
-                      <td className="text-center">{count}</td>
-                      <td className="text-center">{patient.name}</td>
-                      <td className="text-center">{patient.patientId}</td>
-                      <td className="text-center">{time}</td>
-                      <td className="text-center">{patient.gender}</td>
-                      <td className="text-center">{imagingCheck[count - 1]}</td>
-                    </tr>
-                  ));
-                })
+                   axios.post('/api/diagnosis/getDiagnosisById', values).then((response) => {
+                     if (response.data.success) {
+                       if (response.data.doc[0].imaging === 'done') {
+                         imagingState[pCount] = 'Đã xong';
+                       } else if (response.data.doc[0].imaging === 'pending') {
+                         imagingState[pCount] = 'Có';
+                       } else if (response.data.doc[0].imaging === '') {
+                         imagingState[pCount] = 'Không';
+                       }
+                       doctorDiagnosis[pCount] = response.data.doc[0].doctorDiagnosis;
+                     } else {
+                       // do something
+                     }
+                   });
+                   return ((
+                     <tr>
+                       <td className="text-center">{count}</td>
+                       <td className="text-center">{patient.name}</td>
+                       <td className="text-center">{patient.patientId}</td>
+                       <td className="text-center">{time}</td>
+                       <td className="text-center">{patient.gender}</td>
+                       <td className="text-center">{imagingState[pCount]}</td>
+                       <td className="text-center">{doctorDiagnosis[pCount]}</td>
+                     </tr>
+                   ));
+                 })
             }
           </tbody>
         </table>

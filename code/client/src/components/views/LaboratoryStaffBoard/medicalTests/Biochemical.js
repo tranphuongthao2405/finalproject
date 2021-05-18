@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -5,7 +6,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import Select from 'react-validation/build/select';
-import CheckButton from 'react-validation/build/button';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import Logo from './images/logo.jpg';
@@ -25,8 +25,8 @@ function Biochemical(props) {
   // eslint-disable-next-line react/destructuring-assignment
   const patientId = props.match.params.patientId;
   const form = useRef();
-  const checkButton = useRef();
   const date = new Date().toLocaleString('en-GB');
+  let count = 1;
 
   const [name, setName] = useState();
   const [birthDate, setBirthDate] = useState();
@@ -36,7 +36,7 @@ function Biochemical(props) {
   // get doctor request from department room of doctor
   // TODO: using redux
   const [department, setDepartment] = useState();
-  const [doctor, setDoctor] = useState();
+  // const [doctor, setDoctor] = useState();
   const [diagnosis, setDiagnosis] = useState();
   const [successful, setSuccessful] = useState(false);
 
@@ -44,7 +44,6 @@ function Biochemical(props) {
   const [initialSample, setInitialSample] = useState();
 
   // state for form field
-  const [number, setNumber] = useState();
   const [testName, setTestName] = useState();
   const [quantity, setQuantity] = useState();
   const [price, setPrice] = useState();
@@ -53,6 +52,8 @@ function Biochemical(props) {
   const [payment, setPayment] = useState();
   const [diff, setDiff] = useState();
   const [total, setTotal] = useState();
+
+  const [submit, setSubmit] = useState(false);
 
   useEffect(() => {
     axios.get(`/api/patients/getPatientById?id=${patientId}`)
@@ -77,10 +78,6 @@ function Biochemical(props) {
 
   const onChangeDiagnosis = (e) => {
     setDiagnosis(e.target.value);
-  };
-
-  const onChangeNumber = (e) => {
-    setNumber(e.target.value);
   };
 
   const onChangeTestName = (e) => {
@@ -123,20 +120,143 @@ function Biochemical(props) {
     setInitialSample(e.target.value);
   };
 
+  const onSubmitClick = () => {
+    setSubmit(true);
+  };
+
+  const addRow = () => (
+    <tr style={{ textAlign: 'center' }}>
+      <td className="text-center">
+        {count}
+      </td>
+      <td>
+        <Input
+          type="text"
+          className="form-control col"
+          name="testName"
+          value={testName}
+          onChange={onChangeTestName}
+          validations={[required]}
+        />
+      </td>
+      <td>
+        <Input
+          type="text"
+          className="form-control col"
+          name="quantity"
+          value={quantity}
+          onChange={onChangeQuantity}
+          validations={[required]}
+        />
+      </td>
+      <td>
+        <Input
+          type="text"
+          className="form-control col"
+          name="price"
+          value={price}
+          onChange={onChangePrice}
+          validations={[required]}
+        />
+      </td>
+      <td>
+        <Input
+          type="text"
+          className="form-control col"
+          name="amount"
+          value={amount}
+          onChange={onChangeAmount}
+          validations={[required]}
+        />
+      </td>
+      <td>
+        <Input
+          type="text"
+          className="form-control col"
+          name="insurance"
+          value={insurance}
+          onChange={onChangeInsurance}
+          validations={[required]}
+        />
+      </td>
+      <td>
+        <Input
+          type="text"
+          className="form-control col"
+          name="payment"
+          value={payment}
+          onChange={onChangePayment}
+          validations={[required]}
+        />
+      </td>
+      <td>
+        <Input
+          type="text"
+          className="form-control col"
+          name="diff"
+          value={diff}
+          onChange={onChangeDiff}
+          validations={[required]}
+        />
+      </td>
+      <td>
+        <Input
+          type="text"
+          className="form-control col"
+          name="total"
+          value={total}
+          onChange={onChangeTotal}
+          validations={[required]}
+        />
+      </td>
+    </tr>
+  );
+
+  const onAddRow = () => {
+    count += 1;
+    const tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+    const newRow = tableRef.insertRow(tableRef.rows.length);
+
+    // Insert a cell in the row at index 0
+    const newCell1 = newRow.insertCell(0);
+    const newCell2 = newRow.insertCell(1);
+    const newCell3 = newRow.insertCell(2);
+    const newCell4 = newRow.insertCell(3);
+    const newCell5 = newRow.insertCell(4);
+    const newCell6 = newRow.insertCell(5);
+    const newCell7 = newRow.insertCell(6);
+    const newCell8 = newRow.insertCell(7);
+    const newCell9 = newRow.insertCell(8);
+
+    // Append a text node to the cell
+    newCell1.innerHTML = `<td className="text-center">${count}</td>`;
+    newCell2.innerHTML = `<td><Input type="text" className="form-control col" name="testName${count}" value=${testName} onChange={onChangeTestName} validations={[required]} /></td>`;
+    newCell3.innerHTML = `<td className="text-center">${count}</td>`;
+    newCell4.innerHTML = `<td className="text-center">${count}</td>`;
+    newCell5.innerHTML = `<td className="text-center">${count}</td>`;
+    newCell6.innerHTML = `<td className="text-center">${count}</td>`;
+    newCell7.innerHTML = `<td className="text-center">${count}</td>`;
+    newCell8.innerHTML = `<td className="text-center">${count}</td>`;
+    newCell9.innerHTML = `<td className="text-center">${count}</td>`;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setSuccessful(false);
-    form.current.validateAll();
 
-    if (checkButton.current.context._errors.length === 0) {
-      // dispatch(register(username, email, password, role))
-      // .then(() => {
-      //   setSuccessful(true);
-      // })
-      // .catch(() => {
-      //   setSuccessful(false);
-      // });
+    if (submit) {
+      form.current.validateAll();
     }
+
+    // if (checkButton.current.context._errors.length === 0) {
+    // dispatch(register(username, email, password, role))
+    // .then(() => {
+    //   setSuccessful(true);
+    // })
+    // .catch(() => {
+    //   setSuccessful(false);
+    // });
+    // }
   };
 
   return (
@@ -205,14 +325,14 @@ function Biochemical(props) {
                   className="form-control"
                   name="patientId"
                   value={patientId}
-                  validations={[required]}
+                  disabled
                 />
               </div>
             </div>
 
             <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
               <div className="form-group row justify-content-center">
-                <label htmlFor="initialSample" className="col-md-2">
+                <label htmlFor="initialSample" className="col-md-2" style={{ marginTop: 5 }}>
                   Mẫu ban đầu:
                 </label>
                 <Input
@@ -236,7 +356,7 @@ function Biochemical(props) {
                   className="form-control"
                   name="name"
                   value={name}
-                  validations={[required]}
+                  disabled
                 />
               </div>
 
@@ -247,7 +367,7 @@ function Biochemical(props) {
                   className="form-control"
                   name="birthDate"
                   value={birthDate}
-                  validations={[required]}
+                  disabled
                 />
               </div>
 
@@ -257,7 +377,7 @@ function Biochemical(props) {
                   name="gender"
                   className="form-control"
                   value={gender}
-                  validations={[required]}
+                  disabled
                 >
                   <option value="Nam">Nam</option>
                   <option value="Nữ">Nữ</option>
@@ -272,7 +392,7 @@ function Biochemical(props) {
                 className="form-control"
                 name="address"
                 value={address}
-                validations={[required]}
+                disabled
               />
             </div>
 
@@ -283,7 +403,7 @@ function Biochemical(props) {
                   name="patientType"
                   className="form-control"
                   value={patientType}
-                  validations={[required]}
+                  disabled
                 >
                   <option value="Khám trong giờ">Khám trong giờ</option>
                   <option value="Khám ngoài giờ">Khám ngoài giờ</option>
@@ -297,7 +417,7 @@ function Biochemical(props) {
                   className="form-control"
                   name="department"
                   value={department}
-                  validations={[required]}
+                  disabled
                 />
               </div>
             </div>
@@ -315,7 +435,7 @@ function Biochemical(props) {
             </div>
 
             {/* TODO: add rows to table */}
-            <table className="table table-bordered">
+            <table className="table table-bordered" id="myTable">
               <thead>
                 <tr style={{ textAlign: 'center' }}>
                   <th scope="col" style={{ width: '5%' }}>
@@ -379,15 +499,8 @@ function Biochemical(props) {
               </thead>
               <tbody>
                 <tr style={{ textAlign: 'center' }}>
-                  <td>
-                    <Input
-                      type="text"
-                      className="form-control col"
-                      name="number"
-                      value={number}
-                      onChange={onChangeNumber}
-                      validations={[required]}
-                    />
+                  <td className="text-center">
+                    {count}
                   </td>
                   <td>
                     <Input
@@ -470,6 +583,24 @@ function Biochemical(props) {
                     />
                   </td>
                 </tr>
+              </tbody>
+              <tfoot>
+                {/* add row button */}
+                <tr>
+                  <td colSpan="9" className="text-center">
+                    <button className="btn btn-primary" onClick={onAddRow}>
+                      <i className="bi bi-plus-square">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus-lg" viewBox="0 0 16 16">
+                          <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z" />
+                        </svg>
+                        {' '}
+                      </i>
+                      <span style={{ marginTop: 8, marginLeft: 5 }}>
+                        Thêm dòng
+                      </span>
+                    </button>
+                  </td>
+                </tr>
                 {/* TODO: complete function to count total amount */}
                 <tr>
                   <td colSpan="4" style={{ fontWeight: 'bold', textAlign: 'center' }}>
@@ -481,7 +612,7 @@ function Biochemical(props) {
                   <td />
                   <td />
                 </tr>
-              </tbody>
+              </tfoot>
             </table>
 
             {/* TODO: update time realtime */}
@@ -512,11 +643,6 @@ function Biochemical(props) {
               </div>
             </div>
 
-            <div className="form-group">
-              <button className="btn btn-primary btn-block">
-                In phiếu xét nghiệm
-              </button>
-            </div>
           </div>
         )}
 
@@ -533,7 +659,9 @@ function Biochemical(props) {
             </div>
           </div>
         )} */}
-        <CheckButton style={{ display: 'none' }} ref={checkButton} />
+        <button className="btn btn-primary btn-block" onClick={onSubmitClick}>
+          In phiếu xét nghiệm
+        </button>
       </Form>
     </div>
   );

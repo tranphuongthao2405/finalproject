@@ -28,7 +28,7 @@ function NavBar() {
           href="/"
           style={{ display: 'flex', justifyContent: 'space-between', textDecoration: 'none' }}
         >
-          Homepage
+          Trang chủ
         </a>
       </div>
       <div className="menu__container">

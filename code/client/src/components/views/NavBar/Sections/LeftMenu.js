@@ -40,7 +40,7 @@ function LeftMenu(props) {
       {adminBoard && (
         <Menu>
           <Menu.Item key="adminBoard">
-            <a href="/adminBoard" style={{ textDecoration: 'none' }}>Admin Board</a>
+            <a href="/adminBoard" style={{ textDecoration: 'none' }}>Nhập thông tin bệnh nhân</a>
           </Menu.Item>
           <Menu.Item key="patientList">
             <a href="/patientsList" style={{ textDecoration: 'none' }}>Danh sách bệnh nhân</a>
@@ -50,33 +50,33 @@ function LeftMenu(props) {
 
       {doctorBoard && (
         <Menu>
-          <Menu.Item key="doctorBoard">
-            <a href="/doctorBoard" style={{ textDecoration: 'none' }}>Doctor Board</a>
-          </Menu.Item>
           <Menu.Item key="patientsReceived">
             <a href="/patientStateReceived" style={{ textDecoration: 'none' }}>Danh sách bệnh nhân tiếp nhận</a>
+          </Menu.Item>
+          <Menu.Item key="doctorBoard">
+            <a href="/doctorBoard" style={{ textDecoration: 'none' }}>Chẩn đoán</a>
           </Menu.Item>
         </Menu>
       )}
 
       {laboratoryStaffBoard && (
         <Menu>
-          <Menu.Item key="laboratoryStaffBoard">
-            <a href="/laboratoryStaffBoard" style={{ textDecoration: 'none' }}>Laboratory Staff Board</a>
-          </Menu.Item>
           <Menu.Item key="patientsReceived">
             <a href="/laboratoryPatientList" style={{ textDecoration: 'none' }}>Danh sách bệnh nhân tiếp nhận</a>
+          </Menu.Item>
+          <Menu.Item key="laboratoryStaffBoard">
+            <a href="/laboratoryStaffBoard" style={{ textDecoration: 'none' }}>Điền phiếu xét nghiệm</a>
           </Menu.Item>
         </Menu>
       )}
 
       {imagingStaffBoard && (
       <Menu>
-        <Menu.Item key="imagingStaffBoard">
-          <a href="/imagingStaffBoard" style={{ textDecoration: 'none' }}>Imaging Staff Board</a>
-        </Menu.Item>
         <Menu.Item key="patientsReceived">
           <a href="/imagingPatientList" style={{ textDecoration: 'none' }}>Danh sách bệnh nhân tiếp nhận</a>
+        </Menu.Item>
+        <Menu.Item key="imagingStaffBoard">
+          <a href="/imagingStaffBoard" style={{ textDecoration: 'none' }}>Chụp chẩn đoán hình ảnh</a>
         </Menu.Item>
       </Menu>
       )}

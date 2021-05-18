@@ -6,9 +6,10 @@ function PatientList() {
   const [patients, setPatients] = useState();
   const [showTable, setShowTable] = useState(false);
   // state to check process
-  const [biochemicalCheck, setBioChemicalCheck] = useState(false);
-  const [fungusAndParasiteCheck, setFungusAndParasiteCheck] = useState(false);
-  const [hematologyAndImmunologyCheck, setHematologyAndImmunologyCheck] = useState(false);
+  const [doctorDiagnosis, setDoctorDiagnosis] = useState([]);
+  const [biochemicalCheck, setBioChemicalCheck] = useState([]);
+  const [fungusAndParasiteCheck, setFungusAndParasiteCheck] = useState([]);
+  const [hematologyAndImmunologyCheck, setHematologyAndImmunologyCheck] = useState([]);
 
   let count = 0;
 
@@ -21,7 +22,7 @@ function PatientList() {
         setShowTable(false);
       }
     });
-  }, []);
+  }, [patients]);
 
   return (
     <div>
@@ -48,6 +49,9 @@ function PatientList() {
                 Giới tính
               </th>
               <th scope="col" style={{ width: '10%' }}>
+                Chẩn đoán của bác sĩ
+              </th>
+              <th scope="col" style={{ width: '10%' }}>
                 Cần xét nghiệm sinh hóa máu
               </th>
               <th scope="col" style={{ width: '10%' }}>
@@ -67,6 +71,7 @@ function PatientList() {
                   const year = fulltime.substring(0, 4);
                   const time = `${day}/${month}/${year}`;
                   count += 1;
+                  const pCount = count - 1;
 
                   const values = {
                     patientId: patient.patientId,
@@ -74,11 +79,30 @@ function PatientList() {
 
                   axios.post('/api/diagnosis/getDiagnosisById', values).then((response) => {
                     if (response.data.success) {
-                      if (response.data.doc[0].imaging === 'pending') {
-                        setBioChemicalCheck(response.data.doc[0].biochemical === 'pending');
-                        setFungusAndParasiteCheck(response.data.doc[0].fungusAndParasite === 'pending');
-                        setHematologyAndImmunologyCheck(response.data.doc[0].hematologyAndImmunology === 'pending');
+                      if (response.data.doc[0].biochemical === 'done') {
+                        biochemicalCheck[pCount] = 'Đã xong';
+                      } else if (response.data.doc[0].biochemical === 'pending') {
+                        biochemicalCheck[pCount] = 'Có';
+                      } else if (response.data.doc[0].biochemical === '') {
+                        biochemicalCheck[pCount] = 'Không';
                       }
+
+                      if (response.data.doc[0].hematologyAndImmunology === 'done') {
+                        hematologyAndImmunologyCheck[pCount] = 'Đã xong';
+                      } else if (response.data.doc[0].hematologyAndImmunology === 'pending') {
+                        hematologyAndImmunologyCheck[pCount] = 'Có';
+                      } else if (response.data.doc[0].hematologyAndImmunology === '') {
+                        hematologyAndImmunologyCheck[pCount] = 'Không';
+                      }
+
+                      if (response.data.doc[0].fungusAndParasite === 'done') {
+                        fungusAndParasiteCheck[pCount] = 'Đã xong';
+                      } else if (response.data.doc[0].fungusAndParasite === 'pending') {
+                        fungusAndParasiteCheck[pCount] = 'Có';
+                      } else if (response.data.doc[0].fungusAndParasite === '') {
+                        fungusAndParasiteCheck[pCount] = 'Không';
+                      }
+                      doctorDiagnosis[pCount] = response.data.doc[0].doctorDiagnosis;
                     } else {
                       // do something
                     }
@@ -90,9 +114,10 @@ function PatientList() {
                       <td className="text-center">{patient.patientId}</td>
                       <td className="text-center">{time}</td>
                       <td className="text-center">{patient.gender}</td>
-                      <td className="text-center">{biochemicalCheck ? 'Có' : 'Không'}</td>
-                      <td className="text-center">{fungusAndParasiteCheck ? 'Có' : 'Không'}</td>
-                      <td className="text-center">{hematologyAndImmunologyCheck ? 'Có' : 'Không'}</td>
+                      <td className="text-center">{doctorDiagnosis[pCount]}</td>
+                      <td className="text-center">{biochemicalCheck[pCount]}</td>
+                      <td className="text-center">{fungusAndParasiteCheck[pCount]}</td>
+                      <td className="text-center">{hematologyAndImmunologyCheck[pCount]}</td>
                     </tr>
                   ));
                 })
