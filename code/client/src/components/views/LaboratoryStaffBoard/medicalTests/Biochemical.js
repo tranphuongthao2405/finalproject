@@ -77,7 +77,7 @@ function Biochemical(props) {
   }, []);
 
   const onChangeDiagnosis = (e) => {
-    diagnosis.push(e.target.value);
+    setDiagnosis(e.target.value);
   };
 
   const onChangeTestName = (e) => {
@@ -125,6 +125,10 @@ function Biochemical(props) {
   };
 
   const onAddRow = () => {
+    // have to finish previous line before add next line
+    // count is a share variable
+    form.current.validateAll();
+    console.log(form.current.validateAll());
     count += 1;
     const tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
     const newRow = tableRef.insertRow(tableRef.rows.length);
@@ -139,11 +143,13 @@ function Biochemical(props) {
     const newCell7 = newRow.insertCell(6);
     const newCell8 = newRow.insertCell(7);
     const newCell9 = newRow.insertCell(8);
-    const value1 = ''; const value2 = ''; const value3 = ''; const value4 = ''; const value5 = ''; const value6 = ''; const value7 = ''; const
+    let value1 = ''; const value2 = ''; const value3 = ''; const value4 = ''; const value5 = ''; const value6 = ''; const value7 = ''; const
       value8 = '';
 
     const onChangeValue1 = (e) => {
-      testName[count - 1] = e.target.value;
+      value1 = e.target.value;
+      testName[count - 1] = value1;
+      console.log(testName);
     };
 
     // Append a text node to the cell
@@ -158,8 +164,6 @@ function Biochemical(props) {
     newCell8.innerHTML = `<Input type="text" class="form-control col" name="diff${count}" value="${value7}" onChange="" validations={[required]} />`;
     newCell9.innerHTML = `<Input type="text" class="form-control col" name="total${count}" value="${value8}" onChange="" validations={[required]} />`;
   };
-
-  console.log(testName);
 
   const handleSubmit = (e) => {
     e.preventDefault();
