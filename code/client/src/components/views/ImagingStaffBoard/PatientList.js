@@ -1,6 +1,5 @@
 /* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
-
 import axios from 'axios';
 
 function PatientList() {
@@ -23,6 +22,10 @@ function PatientList() {
 
   return (
     <div>
+      <div className="p-5 text-center">
+        <h3 className="mb-3">HƯỚNG DẪN</h3>
+        <p>Ấn vào tên bệnh nhân cần chụp chẩn đoán hình ảnh để tiến hành</p>
+      </div>
       <div className="p-5 text-center">
         <h3 className="mb-3">DANH SÁCH BỆNH NHÂN TIẾP NHẬN</h3>
       </div>
@@ -85,7 +88,7 @@ function PatientList() {
                    return ((
                      <tr>
                        <td className="text-center">{count}</td>
-                       <td className="text-center"><a href={`/imagingStaffBoard/${patient.patientId}`} style={{ textDecoration: 'none' }}>{patient.name}</a></td>
+                       <td className="text-center">{imagingState[pCount] === 'Đã xong' ? (patient.name) : (<a href={`/imagingStaffBoard/${patient.patientId}`} style={{ textDecoration: 'none' }}>{patient.name}</a>)}</td>
                        <td className="text-center">{patient.patientId}</td>
                        <td className="text-center">{time}</td>
                        <td className="text-center">{patient.gender}</td>
