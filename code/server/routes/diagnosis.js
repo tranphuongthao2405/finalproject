@@ -3,14 +3,15 @@ const router = express.Router();
 const { Diagnosis } = require("../models/Diagnosis");
 const { auth } = require("../middleware/auth");
 
-router.post("/updateImage", auth, (req, res) => {
+
+router.post("/updateImagingDiagnosis", auth, (req, res) => {
   let patientId = req.body.patientId;
 
   Diagnosis.findOneAndUpdate(
     {
       patientId: patientId,
     },
-    { $set: { images: req.body.images, imaging: req.body.imaging } },
+    { $set: { imaging: req.body.imaging } },
     { new: true },
     (err, doc) => {
       if (err) {

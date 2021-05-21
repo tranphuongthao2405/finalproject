@@ -19,6 +19,7 @@ import PatientList from './views/AdminBoard/PatientList';
 import patientStateReceived from './views/DoctorBoard/PatientList';
 import imagingPatientList from './views/ImagingStaffBoard/PatientList';
 import laboratoryPatientList from './views/LaboratoryStaffBoard/PatientList';
+import ImageProcessing from './views/ImagingStaffBoard/ImageProcessing';
 
 function App() {
   return (
@@ -32,7 +33,7 @@ function App() {
             <Route exact path="/register" component={Auth(RegisterPage, false)} />
             <Route exact path="/user/:userId" component={Auth(UserInfo, true)} />
             <Route exact path="/laboratoryStaffBoard" component={Auth(LaboratoryStaffBoard, true)} />
-            <Route exact path="/imagingStaffBoard" component={Auth(ImagingStaffBoard, true)} />
+            <Route exact path="/imagingStaffBoard/:id" component={Auth(ImagingStaffBoard, true)} />
             <Route exact path="/adminBoard" component={Auth(AdminBoard, true)} />
             <Route exact path="/doctorBoard" component={Auth(DoctorBoard, true)} />
             <Route exact path="/laboratoryStaffBoard/biochemical/:patientId" component={Auth(Biochemical, true)} />
@@ -43,6 +44,7 @@ function App() {
             <Route exact path="/patientStateReceived" component={Auth(patientStateReceived, true)} />
             <Route exact path="/imagingPatientList" component={Auth(imagingPatientList, true)} />
             <Route exact path="/laboratoryPatientList" component={Auth(laboratoryPatientList, true)} />
+            <Route exact path="/imageProcessing/:id" component={Auth(ImageProcessing, true)} />
           </Switch>
         </div>
         <Footer />

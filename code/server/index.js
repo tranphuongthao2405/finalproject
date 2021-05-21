@@ -32,10 +32,12 @@ app.use(cookieParser());
 app.use("/api/users", require("./routes/users"));
 app.use("/api/patients", require("./routes/patients"));
 app.use("/api/diagnosis", require("./routes/diagnosis"));
+app.use("/api/diagnosis/imagingDiagnosis", require("./routes/imagingDiagnosis"));
 
 // use this to show the image you have in node js server to client (react js)
 // https://stackoverflow.com/questions/48914987/send-image-path-from-node-js-express-server-to-react-client
 app.use("/uploads", express.static("uploads"));
+app.use("/imageProcessing", express.static("imageProcessing"));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {

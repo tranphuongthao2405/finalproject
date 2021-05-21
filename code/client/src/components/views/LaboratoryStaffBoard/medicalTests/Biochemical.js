@@ -10,17 +10,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import Logo from './images/logo.jpg';
 
-// eslint-disable-next-line consistent-return
-const required = (value) => {
-  if (!value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        Vui lòng điền đầy đủ thông tin bắt buộc
-      </div>
-    );
-  }
-};
-
 function Biochemical(props) {
   // eslint-disable-next-line react/destructuring-assignment
   const patientId = props.match.params.patientId;
@@ -53,6 +42,10 @@ function Biochemical(props) {
   const [diff, setDiff] = useState([]);
   const [total, setTotal] = useState([]);
 
+  const [amountSum, setAmountSum] = useState();
+  const [paymentSum, setPaymentSum] = useState();
+  const [totalSum, setTotalSum] = useState();
+
   const [submit, setSubmit] = useState(false);
 
   useEffect(() => {
@@ -75,6 +68,29 @@ function Biochemical(props) {
         }
       });
   }, []);
+
+  const calculateSum = (valueArr) => {
+    let sum = 0;
+    valueArr.forEach((value) => {
+      const intValue = (value !== '') ? parseInt(value, 10) : 0;
+      sum += intValue;
+    });
+    return sum;
+  };
+
+  useEffect(() => {
+    if (amount.length >= 1) {
+      setAmountSum(calculateSum(amount));
+    }
+
+    if (payment.length >= 1) {
+      setPaymentSum(calculateSum(payment));
+    }
+
+    if (total.length >= 1) {
+      setTotalSum(calculateSum(total));
+    }
+  }, [amount.length, payment.length, total.length, count]);
 
   const onChangeDiagnosis = (e) => {
     setDiagnosis(e.target.value);
@@ -124,45 +140,95 @@ function Biochemical(props) {
     setSubmit(true);
   };
 
+  const checkAllTableField = () => {
+    let allFieldFilled = true;
+    document.getElementById('myTable').querySelectorAll('[required]').forEach((element) => {
+      if (!element.value) {
+        allFieldFilled = false;
+      }
+    });
+    return allFieldFilled;
+  };
+
   const onAddRow = () => {
     // have to finish previous line before add next line
     // count is a share variable
-    form.current.validateAll();
-    console.log(form.current.validateAll());
-    count += 1;
-    const tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
-    const newRow = tableRef.insertRow(tableRef.rows.length);
+    if (checkAllTableField()) {
+      count += 1;
+      const tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+      const newRow = tableRef.insertRow(tableRef.rows.length);
 
-    // Insert a cell in the row at index 0
-    const newCell1 = newRow.insertCell(0);
-    const newCell2 = newRow.insertCell(1);
-    const newCell3 = newRow.insertCell(2);
-    const newCell4 = newRow.insertCell(3);
-    const newCell5 = newRow.insertCell(4);
-    const newCell6 = newRow.insertCell(5);
-    const newCell7 = newRow.insertCell(6);
-    const newCell8 = newRow.insertCell(7);
-    const newCell9 = newRow.insertCell(8);
-    let value1 = ''; const value2 = ''; const value3 = ''; const value4 = ''; const value5 = ''; const value6 = ''; const value7 = ''; const
-      value8 = '';
+      // Insert a cell in the row at index 0
+      const newCell1 = newRow.insertCell(0);
+      const newCell2 = newRow.insertCell(1);
+      const newCell3 = newRow.insertCell(2);
+      const newCell4 = newRow.insertCell(3);
+      const newCell5 = newRow.insertCell(4);
+      const newCell6 = newRow.insertCell(5);
+      const newCell7 = newRow.insertCell(6);
+      const newCell8 = newRow.insertCell(7);
+      const newCell9 = newRow.insertCell(8);
+      let value1 = ''; let value2 = ''; let value3 = ''; let value4 = ''; let value5 = ''; let value6 = ''; let value7 = ''; let
+        value8 = '';
+      const onChangeValue1 = (e) => {
+        value1 = e.target.value;
+        testName[count - 1] = value1;
+      };
 
-    const onChangeValue1 = (e) => {
-      value1 = e.target.value;
-      testName[count - 1] = value1;
-      console.log(testName);
-    };
+      const onChangeValue2 = (e) => {
+        value2 = e.target.value;
+        quantity[count - 1] = value2;
+      };
 
-    // Append a text node to the cell
-    newCell1.innerHTML = `<div class="text-center">${count}</div>`;
-    newCell2.innerHTML = `<Input type="text" class="form-control col" name="testName${count}" value="${value1}" validations={[required]} />`;
-    newCell2.onchange = onChangeValue1;
-    newCell3.innerHTML = `<Input type="text" class="form-control col" name="quantity${count}" value="${value2}" onChange="" validations={[required]} />`;
-    newCell4.innerHTML = `<Input type="text" class="form-control col" name="price${count}" value="${value3}" onChange="" validations={[required]} />`;
-    newCell5.innerHTML = `<Input type="text" class="form-control col" name="amount${count}" value="${value4}" onChange="" validations={[required]} />`;
-    newCell6.innerHTML = `<Input type="text" class="form-control col" name="insurance${count}" value="${value5}" onChange="" validations={[required]} />`;
-    newCell7.innerHTML = `<Input type="text" class="form-control col" name="payment${count}" value="${value6}" onChange=$} validations={[required]} />`;
-    newCell8.innerHTML = `<Input type="text" class="form-control col" name="diff${count}" value="${value7}" onChange="" validations={[required]} />`;
-    newCell9.innerHTML = `<Input type="text" class="form-control col" name="total${count}" value="${value8}" onChange="" validations={[required]} />`;
+      const onChangeValue3 = (e) => {
+        value3 = e.target.value;
+        price[count - 1] = value3;
+      };
+
+      const onChangeValue4 = (e) => {
+        value4 = e.target.value;
+        amount[count - 1] = value4;
+      };
+
+      const onChangeValue5 = (e) => {
+        value5 = e.target.value;
+        insurance[count - 1] = value5;
+      };
+
+      const onChangeValue6 = (e) => {
+        value6 = e.target.value;
+        payment[count - 1] = value6;
+      };
+
+      const onChangeValue7 = (e) => {
+        value7 = e.target.value;
+        diff[count - 1] = value7;
+      };
+
+      const onChangeValue8 = (e) => {
+        value8 = e.target.value;
+        total[count - 1] = value8;
+      };
+
+      // Append a text node to the cell
+      newCell1.innerHTML = `<div class="text-center">${count}</div>`;
+      newCell2.innerHTML = `<Input type="text" class="form-control col" name="testName${count}" onchange="" value="${value1}" required />`;
+      newCell2.onchange = onChangeValue1;
+      newCell3.innerHTML = `<Input type="text" class="form-control col" name="quantity${count}" onchange="" value="${value2}" required />`;
+      newCell3.onchange = onChangeValue2;
+      newCell4.innerHTML = `<Input type="text" class="form-control col" name="price${count}" onchange="" value="${value3}" required />`;
+      newCell4.onchange = onChangeValue3;
+      newCell5.innerHTML = `<Input type="text" class="form-control col" name="amount${count}" onchange="" value="${value4}" required />`;
+      newCell5.onchange = onChangeValue4;
+      newCell6.innerHTML = `<Input type="text" class="form-control col" name="insurance${count}" onchange="" value="${value5}" />`;
+      newCell6.onchange = onChangeValue5;
+      newCell7.innerHTML = `<Input type="text" class="form-control col" name="payment${count}" onchange="" value="${value6}" required />`;
+      newCell7.onchange = onChangeValue6;
+      newCell8.innerHTML = `<Input type="text" class="form-control col" name="diff${count}" onchange="" value="${value7}" />`;
+      newCell8.onchange = onChangeValue7;
+      newCell9.innerHTML = `<Input type="text" class="form-control col" name="total${count}" onchange="" value="${value8}" required/>`;
+      newCell9.onchange = onChangeValue8;
+    }
   };
 
   const handleSubmit = (e) => {
@@ -170,7 +236,7 @@ function Biochemical(props) {
     setSuccessful(false);
 
     if (submit) {
-      form.current.validateAll();
+      // form.current.validateAll();
     }
   };
 
@@ -212,7 +278,7 @@ function Biochemical(props) {
                       className="form-check-input"
                       name="casetype"
                       value="normal"
-                      validations={[required]}
+                      required
                     />
                     Thường
                   </div>
@@ -226,7 +292,7 @@ function Biochemical(props) {
                       className="form-check-input"
                       name="casetype"
                       value="emergency"
-                      validations={[required]}
+                      required
                     />
                     Cấp cứu
                   </div>
@@ -256,7 +322,7 @@ function Biochemical(props) {
                   name="initialSample"
                   value={initialSample}
                   onChange={onChangeInitialSample}
-                  validations={[required]}
+                  required
                 />
               </div>
               <p>THỰC HIỆN XÉT NGHIỆM TẠI KHU LẤY BỆNH PHẨM</p>
@@ -345,7 +411,7 @@ function Biochemical(props) {
                 name="diagnosis"
                 value={diagnosis}
                 onChange={onChangeDiagnosis}
-                validations={[required]}
+                required
               />
             </div>
 
@@ -424,7 +490,7 @@ function Biochemical(props) {
                       name="testName"
                       value={testName[count - 1]}
                       onChange={onChangeTestName}
-                      validations={[required]}
+                      required
                     />
                   </td>
                   <td>
@@ -434,7 +500,7 @@ function Biochemical(props) {
                       name="quantity"
                       value={quantity[count - 1]}
                       onChange={onChangeQuantity}
-                      validations={[required]}
+                      required
                     />
                   </td>
                   <td>
@@ -444,7 +510,7 @@ function Biochemical(props) {
                       name="price"
                       value={price[count - 1]}
                       onChange={onChangePrice}
-                      validations={[required]}
+                      required
                     />
                   </td>
                   <td>
@@ -454,7 +520,7 @@ function Biochemical(props) {
                       name="amount"
                       value={amount[count - 1]}
                       onChange={onChangeAmount}
-                      validations={[required]}
+                      required
                     />
                   </td>
                   <td>
@@ -464,7 +530,6 @@ function Biochemical(props) {
                       name="insurance"
                       value={insurance[count - 1]}
                       onChange={onChangeInsurance}
-                      validations={[required]}
                     />
                   </td>
                   <td>
@@ -474,7 +539,7 @@ function Biochemical(props) {
                       name="payment"
                       value={payment[count - 1]}
                       onChange={onChangePayment}
-                      validations={[required]}
+                      required
                     />
                   </td>
                   <td>
@@ -484,7 +549,6 @@ function Biochemical(props) {
                       name="diff"
                       value={diff[count - 1]}
                       onChange={onChangeDiff}
-                      validations={[required]}
                     />
                   </td>
                   <td>
@@ -494,7 +558,7 @@ function Biochemical(props) {
                       name="total"
                       value={total[count - 1]}
                       onChange={onChangeTotal}
-                      validations={[required]}
+                      required
                     />
                   </td>
                 </tr>
@@ -521,11 +585,17 @@ function Biochemical(props) {
                   <td colSpan="4" style={{ fontWeight: 'bold', textAlign: 'center' }}>
                     Tổng
                   </td>
+                  <td>
+                    {amountSum}
+                  </td>
                   <td />
+                  <td>
+                    {paymentSum}
+                  </td>
                   <td />
-                  <td />
-                  <td />
-                  <td />
+                  <td>
+                    {totalSum}
+                  </td>
                 </tr>
               </tfoot>
             </table>

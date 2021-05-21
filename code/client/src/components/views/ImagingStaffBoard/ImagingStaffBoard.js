@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-alert */
 /* eslint-disable react/button-has-type */
 /* eslint-disable no-lonely-if */
@@ -6,33 +7,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Typography } from 'antd';
-import Form from 'react-validation/build/form';
-import Input from 'react-validation/build/input';
-import CheckButton from 'react-validation/build/button';
 import axios from 'axios';
 import ImageGallery from 'react-image-gallery';
 import FileUpload from '../../utils/FileUpload';
 
 const { Title } = Typography;
 
-// eslint-disable-next-line consistent-return
-const required = (value) => {
-  if (!value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        Vui lòng điền đầy đủ thông tin bắt buộc
-      </div>
-    );
-  }
-};
-
-function ImagingStaffBoard() {
-  const form = useRef();
-  const checkButton = useRef();
+function ImagingStaffBoard(props) {
+  const pId = props.match.params.id;
 
   const history = useHistory();
-
-  const [patientId, setPatientId] = useState();
   const [images, setImages] = useState([]);
   const [imagesArray, setImagesArray] = useState([]);
   const [successful, setSuccessful] = useState(false);
@@ -58,33 +42,36 @@ function ImagingStaffBoard() {
     setImages(newImage);
   };
 
-  const onChangePatientId = (e) => {
-    setPatientId(e.target.value);
-  };
-
   const onSubmit = (evt) => {
     evt.preventDefault();
     setSuccessful(false);
-    form.current.validateAll();
+    if (images.length !== []) {
+      const dataToSubmit = {
+        pId,
+        images,
+      };
 
-    if (checkButton.current.context._errors.length === 0) {
-      if (patientId !== undefined && images !== []) {
-        const dataToSubmit = {
-          patientId,
-          imaging: 'done',
-          images,
-        };
+      axios.post('/api/diagnosis/imagingDiagnosis/uploadImage', dataToSubmit).then((res) => {
+        if (res.data.success) {
+          // alert('Update information successfully');
+        } else {
+          alert('Failed to update information');
+        }
+      });
 
-        axios.post('/api/diagnosis/updateImage', dataToSubmit).then((res) => {
-          if (res.data.success) {
-            alert('Update information successfully');
-          } else {
-            alert('Failed to update information');
-          }
-        });
-      }
+      const dataToSubmit2 = {
+        imaging: 'done',
+      };
 
-      history.push('/imagingPatientList');
+      axios.post('/api/diagnosis/updateImagingDiagnosis', dataToSubmit2).then((res) => {
+        if (res.data.success) {
+          // alert('Update information successfully');
+        } else {
+          alert('Failed to update information');
+        }
+      });
+
+      history.push(`/imageProcessing/${pId}`);
     }
   };
 
@@ -104,22 +91,23 @@ function ImagingStaffBoard() {
         <Title level={2}>Tải ảnh chụp chẩn đoán của bệnh nhân</Title>
       </div>
 
-      <Form onSubmit={onSubmit} ref={form}>
-        <div className="form-group row justify-content-center">
+      <form onSubmit={onSubmit}>
+        <div className="form-group form-row justify-content-center">
           <label
-            style={{ display: 'block', marginTop: 10 }}
+            style={{ display: 'inline-block', marginTop: 10 }}
             className="col-md-1"
           >
             Mã BN:
           </label>
-          <Input
-            type="text"
-            className="form-control"
-            name="patientId"
-            value={patientId}
-            onChange={onChangePatientId}
-            validations={[required]}
-          />
+          {pId && (
+            <input
+              type="text"
+              className="form-control col-md-2"
+              name="patientId"
+              value={pId}
+              disabled
+            />
+          )}
         </div>
         <br />
         <br />
@@ -131,15 +119,16 @@ function ImagingStaffBoard() {
             <ImageGallery items={imagesArray} />
           </div>
         )}
+
         <br />
         <br />
         <div className="form-row justify-content-center">
           <button className="btn btn-primary btn-block form-group col-md-3">
-            Upload
+            Tiến hành phân tích ảnh
           </button>
         </div>
-        <CheckButton style={{ display: 'none' }} ref={checkButton} />
-      </Form>
+      </form>
+
     </div>
   );
 }

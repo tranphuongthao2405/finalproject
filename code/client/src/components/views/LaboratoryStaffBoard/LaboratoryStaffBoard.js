@@ -5,17 +5,7 @@ import Input from 'react-validation/build/input';
 import Form from 'react-validation/build/form';
 import { Modal, Button } from 'antd';
 
-// eslint-disable-next-line consistent-return
-const required = (value) => {
-  if (!value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        Vui lòng điền đầy đủ thông tin bắt buộc
-      </div>
-    );
-  }
-};
-
+// TODO: handle redirect link, current redirect is not true
 function LaboratoryStaffBoard() {
   const history = useHistory();
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -68,7 +58,7 @@ function LaboratoryStaffBoard() {
                     name="patientId"
                     value={patientId}
                     onChange={onChangeId}
-                    validations={[required]}
+                    required
                   />
                   {error && (
                     <div className="alert alert-danger" role="alert">
@@ -101,7 +91,7 @@ function LaboratoryStaffBoard() {
                     name="patientId"
                     value={patientId}
                     onChange={onChangeId}
-                    validations={[required]}
+                    required
                   />
                   {error && (
                     <div className="alert alert-danger" role="alert">
@@ -134,7 +124,7 @@ function LaboratoryStaffBoard() {
                     name="patientId"
                     value={patientId}
                     onChange={onChangeId}
-                    validations={[required]}
+                    required
                   />
                   {error && (
                     <div className="alert alert-danger" role="alert">
@@ -167,7 +157,7 @@ function LaboratoryStaffBoard() {
                     name="patientId"
                     value={patientId}
                     onChange={onChangeId}
-                    validations={[required]}
+                    required
                   />
                   {error && (
                     <div className="alert alert-danger" role="alert">

@@ -21,10 +21,6 @@ const diagnosisSchema = mongoose.Schema(
     imaging: {
       type: String,
     },
-    images: {
-      type: Array,
-      default: [],
-    },
     doctorDiagnosis: {
       type: String,
     },

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
 
 import axios from 'axios';
@@ -84,12 +85,12 @@ function PatientList() {
                    return ((
                      <tr>
                        <td className="text-center">{count}</td>
-                       <td className="text-center">{patient.name}</td>
+                       <td className="text-center"><a href={`/imagingStaffBoard/${patient.patientId}`} style={{ textDecoration: 'none' }}>{patient.name}</a></td>
                        <td className="text-center">{patient.patientId}</td>
                        <td className="text-center">{time}</td>
                        <td className="text-center">{patient.gender}</td>
-                       <td className="text-center">{imagingState[pCount]}</td>
                        <td className="text-center">{doctorDiagnosis[pCount]}</td>
+                       <td className="text-center">{imagingState[pCount]}</td>
                      </tr>
                    ));
                  })
