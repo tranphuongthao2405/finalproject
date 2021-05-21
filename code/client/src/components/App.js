@@ -35,7 +35,7 @@ function App() {
             <Route exact path="/laboratoryStaffBoard" component={Auth(LaboratoryStaffBoard, true)} />
             <Route exact path="/imagingStaffBoard/:id" component={Auth(ImagingStaffBoard, true)} />
             <Route exact path="/adminBoard" component={Auth(AdminBoard, true)} />
-            <Route exact path="/doctorBoard" component={Auth(DoctorBoard, true)} />
+            <Route exact path="/doctorBoard/:id" component={Auth(DoctorBoard, true)} />
             <Route exact path="/laboratoryStaffBoard/biochemical/:patientId" component={Auth(Biochemical, true)} />
             <Route exact path="/laboratoryStaffBoard/fungusAndParasite/:patientId" component={Auth(FungusAndParasite, true)} />
             <Route exact path="/laboratoryStaffBoard/hematologyAndImmunology/:patientId" component={Auth(HematologyAndImmunology, true)} />

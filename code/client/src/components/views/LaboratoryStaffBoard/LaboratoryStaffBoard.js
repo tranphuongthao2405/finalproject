@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import Input from 'react-validation/build/input';
 import Form from 'react-validation/build/form';
 import { Modal, Button } from 'antd';
 
@@ -52,7 +51,7 @@ function LaboratoryStaffBoard() {
               <Form>
                 <div className="form-group">
                   <label htmlFor="patientId">Vui lòng nhập mã bệnh nhân:</label>
-                  <Input
+                  <input
                     type="text"
                     className="form-control"
                     name="patientId"
@@ -85,7 +84,7 @@ function LaboratoryStaffBoard() {
               <Form>
                 <div className="form-group">
                   <label htmlFor="patientId">Vui lòng nhập mã bệnh nhân:</label>
-                  <Input
+                  <input
                     type="text"
                     className="form-control"
                     name="patientId"
@@ -118,7 +117,7 @@ function LaboratoryStaffBoard() {
               <Form>
                 <div className="form-group">
                   <label htmlFor="patientId">Vui lòng nhập mã bệnh nhân:</label>
-                  <Input
+                  <input
                     type="text"
                     className="form-control"
                     name="patientId"
@@ -151,7 +150,7 @@ function LaboratoryStaffBoard() {
               <Form>
                 <div className="form-group">
                   <label htmlFor="patientId">Vui lòng nhập mã bệnh nhân:</label>
-                  <Input
+                  <input
                     type="text"
                     className="form-control"
                     name="patientId"

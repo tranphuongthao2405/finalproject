@@ -3,9 +3,6 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useRef, useEffect } from 'react';
-import Form from 'react-validation/build/form';
-import Input from 'react-validation/build/input';
-import Select from 'react-validation/build/select';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import Logo from './images/logo.jpg';
@@ -212,21 +209,21 @@ function Biochemical(props) {
 
       // Append a text node to the cell
       newCell1.innerHTML = `<div class="text-center">${count}</div>`;
-      newCell2.innerHTML = `<Input type="text" class="form-control col" name="testName${count}" onchange="" value="${value1}" required />`;
+      newCell2.innerHTML = `<input type="text" class="form-control col" name="testName${count}" onchange="" value="${value1}" required />`;
       newCell2.onchange = onChangeValue1;
-      newCell3.innerHTML = `<Input type="text" class="form-control col" name="quantity${count}" onchange="" value="${value2}" required />`;
+      newCell3.innerHTML = `<input type="text" class="form-control col" name="quantity${count}" onchange="" value="${value2}" required />`;
       newCell3.onchange = onChangeValue2;
-      newCell4.innerHTML = `<Input type="text" class="form-control col" name="price${count}" onchange="" value="${value3}" required />`;
+      newCell4.innerHTML = `<input type="text" class="form-control col" name="price${count}" onchange="" value="${value3}" required />`;
       newCell4.onchange = onChangeValue3;
-      newCell5.innerHTML = `<Input type="text" class="form-control col" name="amount${count}" onchange="" value="${value4}" required />`;
+      newCell5.innerHTML = `<input type="text" class="form-control col" name="amount${count}" onchange="" value="${value4}" required />`;
       newCell5.onchange = onChangeValue4;
-      newCell6.innerHTML = `<Input type="text" class="form-control col" name="insurance${count}" onchange="" value="${value5}" />`;
+      newCell6.innerHTML = `<input type="text" class="form-control col" name="insurance${count}" onchange="" value="${value5}" />`;
       newCell6.onchange = onChangeValue5;
-      newCell7.innerHTML = `<Input type="text" class="form-control col" name="payment${count}" onchange="" value="${value6}" required />`;
+      newCell7.innerHTML = `<input type="text" class="form-control col" name="payment${count}" onchange="" value="${value6}" required />`;
       newCell7.onchange = onChangeValue6;
-      newCell8.innerHTML = `<Input type="text" class="form-control col" name="diff${count}" onchange="" value="${value7}" />`;
+      newCell8.innerHTML = `<input type="text" class="form-control col" name="diff${count}" onchange="" value="${value7}" />`;
       newCell8.onchange = onChangeValue7;
-      newCell9.innerHTML = `<Input type="text" class="form-control col" name="total${count}" onchange="" value="${value8}" required/>`;
+      newCell9.innerHTML = `<input type="text" class="form-control col" name="total${count}" onchange="" value="${value8}" required/>`;
       newCell9.onchange = onChangeValue8;
     }
   };
@@ -242,7 +239,7 @@ function Biochemical(props) {
 
   return (
     <div className="laboratory-form">
-      <Form onSubmit={handleSubmit} ref={form}>
+      <form onSubmit={handleSubmit} ref={form}>
         {!successful && (
           <div>
             {/* form header */}
@@ -273,7 +270,7 @@ function Biochemical(props) {
                     className="form-check form-check-inline"
                     onChange={onChangeCaseType}
                   >
-                    <Input
+                    <input
                       type="radio"
                       className="form-check-input"
                       name="casetype"
@@ -287,7 +284,7 @@ function Biochemical(props) {
                     className="form-check form-check-inline"
                     onChange={onChangeCaseType}
                   >
-                    <Input
+                    <input
                       type="radio"
                       className="form-check-input"
                       name="casetype"
@@ -301,7 +298,7 @@ function Biochemical(props) {
 
               <div className="form-group col-md-2">
                 <label htmlFor="patientId">Mã BN:</label>
-                <Input
+                <input
                   type="text"
                   className="form-control"
                   name="patientId"
@@ -316,9 +313,9 @@ function Biochemical(props) {
                 <label htmlFor="initialSample" className="col-md-2" style={{ marginTop: 5 }}>
                   Mẫu ban đầu:
                 </label>
-                <Input
+                <input
                   type="text"
-                  className="form-control col-md-6"
+                  className="form-control col-md-3"
                   name="initialSample"
                   value={initialSample}
                   onChange={onChangeInitialSample}
@@ -332,7 +329,7 @@ function Biochemical(props) {
             <div className="form-row">
               <div className="form-group col-md-4">
                 <label htmlFor="username">Họ tên người bệnh:</label>
-                <Input
+                <input
                   type="text"
                   className="form-control"
                   name="name"
@@ -343,7 +340,7 @@ function Biochemical(props) {
 
               <div className="form-group col-md-4">
                 <label htmlFor="birthDate">Năm sinh:</label>
-                <Input
+                <input
                   type="text"
                   className="form-control"
                   name="birthDate"
@@ -354,7 +351,7 @@ function Biochemical(props) {
 
               <div className="form-group col-md-4">
                 <label htmlFor="gender">Giới tính:</label>
-                <Select
+                <select
                   name="gender"
                   className="form-control"
                   value={gender}
@@ -362,13 +359,13 @@ function Biochemical(props) {
                 >
                   <option value="Nam">Nam</option>
                   <option value="Nữ">Nữ</option>
-                </Select>
+                </select>
               </div>
             </div>
 
             <div className="form-group">
               <label htmlFor="address">Địa chỉ:</label>
-              <Input
+              <input
                 type="text"
                 className="form-control"
                 name="address"
@@ -380,7 +377,7 @@ function Biochemical(props) {
             <div className="form-row">
               <div className="form-group col-md-4">
                 <label htmlFor="patientType">Đối tượng:</label>
-                <Select
+                <select
                   name="patientType"
                   className="form-control"
                   value={patientType}
@@ -388,12 +385,12 @@ function Biochemical(props) {
                 >
                   <option value="Khám trong giờ">Khám trong giờ</option>
                   <option value="Khám ngoài giờ">Khám ngoài giờ</option>
-                </Select>
+                </select>
               </div>
 
               <div className="form-group col-md-8">
                 <label htmlFor="department">Khoa phòng:</label>
-                <Input
+                <input
                   type="text"
                   className="form-control"
                   name="department"
@@ -405,7 +402,7 @@ function Biochemical(props) {
 
             <div className="form-group">
               <label htmlFor="diagnosis">Chẩn đoán:</label>
-              <Input
+              <input
                 type="text"
                 className="form-control"
                 name="diagnosis"
@@ -484,7 +481,7 @@ function Biochemical(props) {
                     {count}
                   </td>
                   <td>
-                    <Input
+                    <input
                       type="text"
                       className="form-control col"
                       name="testName"
@@ -494,7 +491,7 @@ function Biochemical(props) {
                     />
                   </td>
                   <td>
-                    <Input
+                    <input
                       type="text"
                       className="form-control col"
                       name="quantity"
@@ -504,7 +501,7 @@ function Biochemical(props) {
                     />
                   </td>
                   <td>
-                    <Input
+                    <input
                       type="text"
                       className="form-control col"
                       name="price"
@@ -514,7 +511,7 @@ function Biochemical(props) {
                     />
                   </td>
                   <td>
-                    <Input
+                    <input
                       type="text"
                       className="form-control col"
                       name="amount"
@@ -524,7 +521,7 @@ function Biochemical(props) {
                     />
                   </td>
                   <td>
-                    <Input
+                    <input
                       type="text"
                       className="form-control col"
                       name="insurance"
@@ -533,7 +530,7 @@ function Biochemical(props) {
                     />
                   </td>
                   <td>
-                    <Input
+                    <input
                       type="text"
                       className="form-control col"
                       name="payment"
@@ -543,7 +540,7 @@ function Biochemical(props) {
                     />
                   </td>
                   <td>
-                    <Input
+                    <input
                       type="text"
                       className="form-control col"
                       name="diff"
@@ -552,7 +549,7 @@ function Biochemical(props) {
                     />
                   </td>
                   <td>
-                    <Input
+                    <input
                       type="text"
                       className="form-control col"
                       name="total"
@@ -647,7 +644,7 @@ function Biochemical(props) {
         <button className="btn btn-primary btn-block" onClick={onSubmitClick}>
           In phiếu xét nghiệm
         </button>
-      </Form>
+      </form>
     </div>
   );
 }

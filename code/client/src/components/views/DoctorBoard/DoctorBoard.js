@@ -1,35 +1,15 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import Input from 'react-validation/build/input';
-import Textarea from 'react-validation/build/textarea';
-import Form from 'react-validation/build/form';
-import Select from 'react-validation/build/select';
-import CheckButton from 'react-validation/build/button';
 import axios from 'axios';
 import SCHEDULE from '../../../constant/Constant';
 
-// eslint-disable-next-line consistent-return
-const required = (value) => {
-  if (!value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        Vui lòng điền đầy đủ thông tin bắt buộc
-      </div>
-    );
-  }
-};
-
-function DoctorBoard() {
-  const form = useRef();
-  const checkButton = useRef();
-  const form2 = useRef();
-  const checkButton2 = useRef();
-
+function DoctorBoard(props) {
   const history = useHistory();
+  const patientId = props.match.params.id;
 
-  const [patientId, setPatientId] = useState();
   const [name, setName] = useState();
   const [birthDate, setBirthDate] = useState();
   const [gender, setGender] = useState();
@@ -41,8 +21,8 @@ function DoctorBoard() {
   const [necessaryWork, setNecessaryWork] = useState([]);
 
   const [showInfo, setShowInfo] = useState(false);
-  const [showButton, setShowButton] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [showButton, setShowButton] = useState(true);
   let doctors = [];
 
   // state to check process
@@ -50,12 +30,6 @@ function DoctorBoard() {
   const [biochemicalCheck, setBioChemicalCheck] = useState(false);
   const [fungusAndParasiteCheck, setFungusAndParasiteCheck] = useState(false);
   const [hematologyAndImmunologyCheck, setHematologyAndImmunologyCheck] = useState(false);
-
-  const onChangePatientId = (e) => {
-    setPatientId(e.target.value);
-    setShowInfo(false);
-    setShowButton(true);
-  };
 
   const onChangePrimaryDiagnosis = (e) => {
     setPrimaryDiagnosis(e.target.value);
@@ -82,32 +56,30 @@ function DoctorBoard() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    form.current.validateAll();
 
-    if (checkButton.current.context._errors.length === 0) {
-      axios.get(`/api/patients/getPatientById?id=${patientId}`)
-        .then((response) => {
-          if (response.data.success) {
-            const fulltime = response.data.patient[0].birthDate;
-            const day = fulltime.substring(8, 10);
-            const month = fulltime.substring(5, 7);
-            const year = fulltime.substring(0, 4);
-            const time = `${day}/${month}/${year}`;
-            setBirthDate(time);
-            setName(response.data.patient[0].name);
-            setAddress(response.data.patient[0].address);
-            setGender(response.data.patient[0].gender);
-            setPatientType(response.data.patient[0].patientType);
-            setShowInfo(true);
-            setShowButton(false);
-            setNotFound(false);
-          } else {
-            setShowInfo(false);
-            setNotFound(true);
-            // alert(response.data.err);
-          }
-        });
-    }
+    axios.get(`/api/patients/getPatientById?id=${patientId}`)
+      .then((response) => {
+        if (response.data.success) {
+          const fulltime = response.data.patient[0].birthDate;
+          const day = fulltime.substring(8, 10);
+          const month = fulltime.substring(5, 7);
+          const year = fulltime.substring(0, 4);
+          const time = `${day}/${month}/${year}`;
+          setBirthDate(time);
+          setName(response.data.patient[0].name);
+          setAddress(response.data.patient[0].address);
+          setGender(response.data.patient[0].gender);
+          setPatientType(response.data.patient[0].patientType);
+          setShowInfo(true);
+          setShowButton(false);
+          setNotFound(false);
+        } else {
+          setShowInfo(false);
+          setNotFound(true);
+          setShowButton(true);
+          // alert(response.data.err);
+        }
+      });
   };
 
   const onChangeDepartment = (e) => {
@@ -118,11 +90,28 @@ function DoctorBoard() {
     setDoctor(e.target.value);
   };
 
+  const checkAllTableField = () => {
+    let allFieldFilled = true;
+    document.getElementById('checkForm').querySelectorAll('[required]').forEach((element) => {
+      if (!element.value) {
+        allFieldFilled = false;
+      }
+
+      if (element.type === 'radio') {
+        let radioValueCheck = false;
+        document.getElementById('checkForm').querySelectorAll(`[name=${element.name}]`).forEach((r) => {
+          if (r.checked) radioValueCheck = true;
+        });
+        allFieldFilled = radioValueCheck;
+      }
+    });
+    return allFieldFilled;
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
-    form.current.validateAll();
 
-    if (checkButton2.current.context._errors.length === 0) {
+    if (checkAllTableField) {
       // update doctor and department for patient
       const dataToUpdate = {
         patientId,
@@ -188,7 +177,7 @@ function DoctorBoard() {
         </p>
       </div>
       {/* get id of patient */}
-      <Form onSubmit={handleSubmit} ref={form}>
+      <form onSubmit={handleSubmit}>
         <div className="form-group row justify-content-center">
           <label
             style={{ display: 'block', marginTop: 8 }}
@@ -196,24 +185,22 @@ function DoctorBoard() {
           >
             Vui lòng nhập mã bệnh nhân:
           </label>
-          <Input
+          <input
             type="text"
-            className="form-control"
+            className="form-control col-md-2"
             name="patientId"
             value={patientId}
-            onChange={onChangePatientId}
-            validations={[required]}
+            disabled
           />
         </div>
         {showButton && (
         <div className="form-row justify-content-center">
-          <button className="btn btn-primary btn-block form-group col-md-3">
-            Tiếp tục
+          <button className="btn btn-primary btn-block form-group col-md-2">
+            Chẩn đoán
           </button>
         </div>
         )}
-        <CheckButton style={{ display: 'none' }} ref={checkButton} />
-      </Form>
+      </form>
 
       {/* show information of patient */}
       {showInfo && (
@@ -262,16 +249,16 @@ function DoctorBoard() {
 
         {/* assign imaging */}
         {/* assign labratory */}
-        <Form onSubmit={onSubmit} ref={form2}>
+        <form id="checkForm" onSubmit={onSubmit}>
           <div className="form-row justify-content-center">
             <div className="form-group col-md-6">
               <h6 className="mb-3">Phòng khám:</h6>
-              <Select
+              <select
                 name="department"
                 className="form-control"
                 value={department}
                 onChange={onChangeDepartment}
-                validations={[required]}
+                required
               >
                 {
                   SCHEDULE.map((item) => (
@@ -281,17 +268,17 @@ function DoctorBoard() {
                     </option>
                   ))
                 }
-              </Select>
+              </select>
             </div>
             {/* still some bugs when select first doctor */}
             <div className="form-group col-md-6">
               <h6 className="mb-3">Bác sĩ điều trị:</h6>
-              <Select
+              <select
                 name="doctor"
                 className="form-control"
                 value={doctor}
                 onChange={onChangeDoctor}
-                validations={[required]}
+                required
               >
                 {SCHEDULE.forEach((item) => {
                   if (item.PK === department) {
@@ -308,7 +295,7 @@ function DoctorBoard() {
                     </option>
                   ))
                 }
-              </Select>
+              </select>
             </div>
           </div>
           <div className="form-row justify-content-center">
@@ -316,13 +303,13 @@ function DoctorBoard() {
               <h6 className="mb-3">
                 Chẩn đoán ban đầu:
               </h6>
-              <Textarea
+              <textarea
                 placeholder="Nhập chẩn đoán ban đầu của bệnh nhân"
                 className="form-control "
                 name="primaryDiagnosis"
                 value={primaryDiagnosis}
                 onChange={onChangePrimaryDiagnosis}
-                validations={[required]}
+                required
               />
             </div>
           </div>
@@ -383,13 +370,13 @@ function DoctorBoard() {
           </div>
           <br />
           <br />
+
           <div className="form-row justify-content-center">
             <button className="btn btn-primary btn-block form-group col-md-3">
               Tiếp tục
             </button>
           </div>
-          <CheckButton style={{ display: 'none' }} ref={checkButton2} />
-        </Form>
+        </form>
       </div>
       )}
     </div>

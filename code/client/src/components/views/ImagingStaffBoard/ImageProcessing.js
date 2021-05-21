@@ -88,11 +88,11 @@ function ImageProcessing(props) {
       <br />
       <br />
 
-      <div className="form-row text-center justify-content-center">
+      {/* <div className="form-row text-center justify-content-center">
         <button className="btn btn-primary btn-block col-md-3">
           <a href="/imagingPatientList" style={{ textDecoration: 'none', color: 'white' }}>Quay về trang chủ</a>
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

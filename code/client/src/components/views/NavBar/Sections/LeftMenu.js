@@ -24,9 +24,6 @@ function LeftMenu(props) {
           <Menu.Item key="patientsReceived">
             <a href="/patientStateReceived" style={{ textDecoration: 'none' }}>Danh sách bệnh nhân tiếp nhận</a>
           </Menu.Item>
-          <Menu.Item key="doctorBoard">
-            <a href="/doctorBoard" style={{ textDecoration: 'none' }}>Chẩn đoán</a>
-          </Menu.Item>
         </Menu>
       )}
 
