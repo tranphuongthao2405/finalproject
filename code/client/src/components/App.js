@@ -7,7 +7,6 @@ import RegisterPage from './views/RegisterPage/RegisterPage';
 import NavBar from './views/NavBar/NavBar';
 import Footer from './views/Footer/Footer';
 import UserInfo from './views/UserInfo/UserInfo';
-import LaboratoryStaffBoard from './views/LaboratoryStaffBoard/LaboratoryStaffBoard';
 import Biochemical from './views/LaboratoryStaffBoard/medicalTests/Biochemical';
 import FungusAndParasite from './views/LaboratoryStaffBoard/medicalTests/FungusAndParasite';
 import HematologyAndImmunology from './views/LaboratoryStaffBoard/medicalTests/HematologyAndImmunology';
@@ -32,7 +31,6 @@ function App() {
             <Route exact path="/login" component={Auth(LoginPage, false)} />
             <Route exact path="/register" component={Auth(RegisterPage, false)} />
             <Route exact path="/user/:userId" component={Auth(UserInfo, true)} />
-            <Route exact path="/laboratoryStaffBoard" component={Auth(LaboratoryStaffBoard, true)} />
             <Route exact path="/imagingStaffBoard/:id" component={Auth(ImagingStaffBoard, true)} />
             <Route exact path="/adminBoard" component={Auth(AdminBoard, true)} />
             <Route exact path="/doctorBoard/:id" component={Auth(DoctorBoard, true)} />

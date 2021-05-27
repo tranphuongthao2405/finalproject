@@ -12,7 +12,7 @@ function Biochemical(props) {
   const patientId = props.match.params.patientId;
   const form = useRef();
   const date = new Date().toLocaleString('en-GB');
-  let count = 1;
+  const [count, setCount] = useState(0);
 
   const [name, setName] = useState();
   const [birthDate, setBirthDate] = useState();
@@ -87,42 +87,10 @@ function Biochemical(props) {
     if (total.length >= 1) {
       setTotalSum(calculateSum(total));
     }
-  }, [amount.length, payment.length, total.length, count]);
+  }, []);
 
   const onChangeDiagnosis = (e) => {
     setDiagnosis(e.target.value);
-  };
-
-  const onChangeTestName = (e) => {
-    testName[count - 1] = e.target.value;
-  };
-
-  const onChangeQuantity = (e) => {
-    quantity[count - 1] = e.target.value;
-  };
-
-  const onChangePrice = (e) => {
-    price[count - 1] = e.target.value;
-  };
-
-  const onChangeAmount = (e) => {
-    amount[count - 1] = e.target.value;
-  };
-
-  const onChangeInsurance = (e) => {
-    insurance[count - 1] = e.target.value;
-  };
-
-  const onChangePayment = (e) => {
-    payment[count - 1] = e.target.value;
-  };
-
-  const onChangeDiff = (e) => {
-    diff[count - 1] = e.target.value;
-  };
-
-  const onChangeTotal = (e) => {
-    total[count - 1] = e.target.value;
   };
 
   const onChangeCaseType = (e) => {
@@ -147,11 +115,76 @@ function Biochemical(props) {
     return allFieldFilled;
   };
 
+  const onChangeTestName = (e) => {
+    const cntStr = e.target.name.substring(8);
+    console.log('is changing');
+    console.log(cntStr);
+    const cntNum = parseInt(cntStr, 10);
+    testName[cntNum] = e.target.value;
+  };
+
+  const onChangeQuantity = (e) => {
+    const cntStr = e.target.name.substring(8);
+    console.log('is changing');
+    console.log(cntStr);
+    const cntNum = parseInt(cntStr, 10);
+    testName[cntNum] = e.target.value;
+  };
+
+  const onChangePrice = (e) => {
+    const cntStr = e.target.name.substring(5);
+    console.log('is changing');
+    console.log(cntStr);
+    const cntNum = parseInt(cntStr, 10);
+    testName[cntNum] = e.target.value;
+  };
+
+  const onChangeAmount = (e) => {
+    const cntStr = e.target.name.substring(6);
+    console.log('is changing');
+    console.log(cntStr);
+    const cntNum = parseInt(cntStr, 10);
+    testName[cntNum] = e.target.value;
+  };
+
+  const onChangeInsurance = (e) => {
+    const cntStr = e.target.name.substring(9);
+    console.log('is changing');
+    console.log(cntStr);
+    const cntNum = parseInt(cntStr, 10);
+    testName[cntNum] = e.target.value;
+  };
+
+  const onChangePayment = (e) => {
+    const cntStr = e.target.name.substring(7);
+    console.log('is changing');
+    console.log(cntStr);
+    const cntNum = parseInt(cntStr, 10);
+    testName[cntNum] = e.target.value;
+  };
+
+  const onChangeDiff = (e) => {
+    const cntStr = e.target.name.substring(4);
+    console.log('is changing');
+    console.log(cntStr);
+    const cntNum = parseInt(cntStr, 10);
+    testName[cntNum] = e.target.value;
+  };
+
+  const onChangeTotal = (e) => {
+    const cntStr = e.target.name.substring(5);
+    console.log('is changing');
+    console.log(cntStr);
+    const cntNum = parseInt(cntStr, 10);
+    testName[cntNum] = e.target.value;
+  };
+
   const onAddRow = () => {
     // have to finish previous line before add next line
     // count is a share variable
     if (checkAllTableField()) {
-      count += 1;
+      const tempCount = count + 1;
+      setCount(tempCount);
       const tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
       const newRow = tableRef.insertRow(tableRef.rows.length);
 
@@ -165,66 +198,34 @@ function Biochemical(props) {
       const newCell7 = newRow.insertCell(6);
       const newCell8 = newRow.insertCell(7);
       const newCell9 = newRow.insertCell(8);
-      let value1 = ''; let value2 = ''; let value3 = ''; let value4 = ''; let value5 = ''; let value6 = ''; let value7 = ''; let
-        value8 = '';
-      const onChangeValue1 = (e) => {
-        value1 = e.target.value;
-        testName[count - 1] = value1;
-      };
 
-      const onChangeValue2 = (e) => {
-        value2 = e.target.value;
-        quantity[count - 1] = value2;
-      };
-
-      const onChangeValue3 = (e) => {
-        value3 = e.target.value;
-        price[count - 1] = value3;
-      };
-
-      const onChangeValue4 = (e) => {
-        value4 = e.target.value;
-        amount[count - 1] = value4;
-      };
-
-      const onChangeValue5 = (e) => {
-        value5 = e.target.value;
-        insurance[count - 1] = value5;
-      };
-
-      const onChangeValue6 = (e) => {
-        value6 = e.target.value;
-        payment[count - 1] = value6;
-      };
-
-      const onChangeValue7 = (e) => {
-        value7 = e.target.value;
-        diff[count - 1] = value7;
-      };
-
-      const onChangeValue8 = (e) => {
-        value8 = e.target.value;
-        total[count - 1] = value8;
-      };
+      const value1 = testName[tempCount - 1] ? testName[tempCount - 1] : '';
+      const value2 = quantity[tempCount - 1] ? quantity[tempCount - 1] : '';
+      const value3 = price[tempCount - 1] ? price[tempCount - 1] : '';
+      const value4 = amount[tempCount - 1] ? amount[tempCount - 1] : '';
+      const value5 = insurance[tempCount - 1] ? insurance[tempCount - 1] : '';
+      const value6 = payment[tempCount - 1] ? payment[tempCount - 1] : '';
+      const value7 = diff[tempCount - 1] ? diff[tempCount - 1] : '';
+      const value8 = total[tempCount - 1] ? total[tempCount - 1] : '';
 
       // Append a text node to the cell
-      newCell1.innerHTML = `<div class="text-center">${count}</div>`;
-      newCell2.innerHTML = `<input type="text" class="form-control col" name="testName${count}" onchange="" value="${value1}" required />`;
-      newCell2.onchange = onChangeValue1;
-      newCell3.innerHTML = `<input type="text" class="form-control col" name="quantity${count}" onchange="" value="${value2}" required />`;
-      newCell3.onchange = onChangeValue2;
-      newCell4.innerHTML = `<input type="text" class="form-control col" name="price${count}" onchange="" value="${value3}" required />`;
-      newCell4.onchange = onChangeValue3;
-      newCell5.innerHTML = `<input type="text" class="form-control col" name="amount${count}" onchange="" value="${value4}" required />`;
-      newCell5.onchange = onChangeValue4;
-      newCell6.innerHTML = `<input type="text" class="form-control col" name="insurance${count}" onchange="" value="${value5}" />`;
-      newCell6.onchange = onChangeValue5;
-      newCell7.innerHTML = `<input type="text" class="form-control col" name="payment${count}" onchange="" value="${value6}" required />`;
-      newCell7.onchange = onChangeValue6;
-      newCell8.innerHTML = `<input type="text" class="form-control col" name="diff${count}" onchange="" value="${value7}" />`;
-      newCell8.onchange = onChangeValue7;
-      newCell9.innerHTML = `<input type="text" class="form-control col" name="total${count}" onchange="" value="${value8}" required/>`;
-      newCell9.onchange = onChangeValue8;
+      newCell1.innerHTML = `<div class="text-center">${tempCount}</div>`;
+      newCell2.innerHTML = `<input type="text" class="form-control col" name="testName${tempCount}" onchange="" value="${value1}" required />`;
+      newCell2.onchange = onChangeTestName;
+      newCell3.innerHTML = `<input type="text" class="form-control col" name="quantity${tempCount}" onchange="" value="${value2}" required />`;
+      newCell3.onchange = onChangeQuantity;
+      newCell4.innerHTML = `<input type="text" class="form-control col" name="price${tempCount}" onchange="" value="${value3}" required />`;
+      newCell4.onchange = onChangePrice;
+      newCell5.innerHTML = `<input type="text" class="form-control col" name="amount${tempCount}" onchange="" value="${value4}" required />`;
+      newCell5.onchange = onChangeAmount;
+      newCell6.innerHTML = `<input type="text" class="form-control col" name="insurance${tempCount}" onchange="" value="${value5}" />`;
+      newCell6.onchange = onChangeInsurance;
+      newCell7.innerHTML = `<input type="text" class="form-control col" name="payment${tempCount}" onchange="" value="${value6}" required />`;
+      newCell7.onchange = onChangePayment;
+      newCell8.innerHTML = `<input type="text" class="form-control col" name="diff${tempCount}" onchange="" value="${value7}" />`;
+      newCell8.onchange = onChangeDiff;
+      newCell9.innerHTML = `<input type="text" class="form-control col" name="total${tempCount}" onchange="" value="${value8}" required/>`;
+      newCell9.onchange = onChangeTotal;
     }
   };
 
@@ -236,6 +237,8 @@ function Biochemical(props) {
       // form.current.validateAll();
     }
   };
+
+  console.log(testName, price, amount, payment, total);
 
   return (
     <div className="laboratory-form">
@@ -475,91 +478,7 @@ function Biochemical(props) {
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                <tr style={{ textAlign: 'center' }}>
-                  <td className="text-center">
-                    {count}
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      className="form-control col"
-                      name="testName"
-                      value={testName[count - 1]}
-                      onChange={onChangeTestName}
-                      required
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      className="form-control col"
-                      name="quantity"
-                      value={quantity[count - 1]}
-                      onChange={onChangeQuantity}
-                      required
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      className="form-control col"
-                      name="price"
-                      value={price[count - 1]}
-                      onChange={onChangePrice}
-                      required
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      className="form-control col"
-                      name="amount"
-                      value={amount[count - 1]}
-                      onChange={onChangeAmount}
-                      required
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      className="form-control col"
-                      name="insurance"
-                      value={insurance[count - 1]}
-                      onChange={onChangeInsurance}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      className="form-control col"
-                      name="payment"
-                      value={payment[count - 1]}
-                      onChange={onChangePayment}
-                      required
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      className="form-control col"
-                      name="diff"
-                      value={diff[count - 1]}
-                      onChange={onChangeDiff}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      className="form-control col"
-                      name="total"
-                      value={total[count - 1]}
-                      onChange={onChangeTotal}
-                      required
-                    />
-                  </td>
-                </tr>
-              </tbody>
+              <tbody />
               <tfoot>
                 {/* add row button */}
                 <tr>

@@ -33,10 +33,10 @@ function RightMenu(props) {
     return (
       <Menu mode={props.mode}>
         <Menu.Item key="signin">
-          <a href="/login" style={{ textDecoration: 'none' }}>Sign In</a>
+          <a href="/login" style={{ textDecoration: 'none' }}>Đăng ký</a>
         </Menu.Item>
         <Menu.Item key="signup">
-          <a href="/register" style={{ textDecoration: 'none' }}>Sign Up</a>
+          <a href="/register" style={{ textDecoration: 'none' }}>Đăng ký</a>
         </Menu.Item>
       </Menu>
     );
@@ -48,7 +48,7 @@ function RightMenu(props) {
         <SubMenu title={(
           <span>
             {' '}
-            Hi,
+            Xin chào,
             {' '}
             {name}
           </span>
@@ -56,12 +56,12 @@ function RightMenu(props) {
         >
           <MenuItemGroup>
             <Menu.Item key="user info">
-              <a href={`/user/${localStorage.userId}`}>
-                Update information
+              <a href={`/user/${localStorage.userId}`} style={{ textDecoration: 'none' }}>
+                Cập nhật thông tin
               </a>
             </Menu.Item>
             <Menu.Item key="logout">
-              <a onClick={logoutHandler}>Logout</a>
+              <a onClick={logoutHandler}>Đăng xuất</a>
             </Menu.Item>
           </MenuItemGroup>
         </SubMenu>

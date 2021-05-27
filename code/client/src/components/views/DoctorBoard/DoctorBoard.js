@@ -22,7 +22,6 @@ function DoctorBoard(props) {
 
   const [showInfo, setShowInfo] = useState(false);
   const [notFound, setNotFound] = useState(false);
-  const [showButton, setShowButton] = useState(true);
   let doctors = [];
 
   // state to check process
@@ -54,9 +53,7 @@ function DoctorBoard(props) {
     }
   }, [necessaryWork]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  useEffect(() => {
     axios.get(`/api/patients/getPatientById?id=${patientId}`)
       .then((response) => {
         if (response.data.success) {
@@ -71,22 +68,22 @@ function DoctorBoard(props) {
           setGender(response.data.patient[0].gender);
           setPatientType(response.data.patient[0].patientType);
           setShowInfo(true);
-          setShowButton(false);
           setNotFound(false);
         } else {
           setShowInfo(false);
           setNotFound(true);
-          setShowButton(true);
           // alert(response.data.err);
         }
       });
-  };
+  }, []);
 
   const onChangeDepartment = (e) => {
+    console.log(e.target.value);
     setDepartment(e.target.value);
   };
 
   const onChangeDoctor = (e) => {
+    console.log(e.target.value);
     setDoctor(e.target.value);
   };
 
@@ -126,82 +123,31 @@ function DoctorBoard(props) {
         }
       });
 
-      // update doctor diagnosis
-      const dataToUpdate2 = {
-        patientId,
-        primaryDiagnosis,
-      };
-      axios.post('/api/diagnosis/updateDoctorDiagnosis', dataToUpdate2).then((response) => {
-        if (response.data.success) {
-          // do something
-        } else {
-          // do something
-        }
-      });
-
-      // update doctor diagnosis
       const value1 = imagingCheck ? 'pending' : '';
       const value2 = biochemicalCheck ? 'pending' : '';
       const value3 = fungusAndParasiteCheck ? 'pending' : '';
       const value4 = hematologyAndImmunologyCheck ? 'pending' : '';
-      const dataToUpdate3 = {
+      const dataToUpdate2 = {
         patientId,
         value1,
         value2,
         value3,
         value4,
+        primaryDiagnosis,
       };
-      axios.post('/api/diagnosis/updateDiagnosis', dataToUpdate3).then((response) => {
+      axios.post('/api/diagnosis/updateDiagnosis', dataToUpdate2).then((response) => {
         if (response.data.success) {
           // do something
+          history.push('/patientStateReceived');
         } else {
           // do something
         }
       });
-
-      history.push('/patientStateReceived');
     }
   };
+
   return (
     <div>
-      <div>
-        <h3 className="mb-3">HƯỚNG DẪN:</h3>
-        <p>
-          1. Nhập mã bệnh nhân đến khám để xem thông tin chi tiết của bệnh nhân
-          <br />
-          2. Thực hiện khám và đưa ra chẩn đoán sơ bộ ban đầu
-          <br />
-          3. Thực hiện bố trí bệnh nhân tiến hành chụp chẩn đoán hình ảnh hoặc làm các xét nghiệm cần thiết
-          <br />
-          4. Xem kết quả chẩn đoán cuối ở bảng theo dõi
-        </p>
-      </div>
-      {/* get id of patient */}
-      <form onSubmit={handleSubmit}>
-        <div className="form-group row justify-content-center">
-          <label
-            style={{ display: 'block', marginTop: 8 }}
-            className="col-md-2"
-          >
-            Vui lòng nhập mã bệnh nhân:
-          </label>
-          <input
-            type="text"
-            className="form-control col-md-2"
-            name="patientId"
-            value={patientId}
-            disabled
-          />
-        </div>
-        {showButton && (
-        <div className="form-row justify-content-center">
-          <button className="btn btn-primary btn-block form-group col-md-2">
-            Chẩn đoán
-          </button>
-        </div>
-        )}
-      </form>
-
       {/* show information of patient */}
       {showInfo && (
       <div>
@@ -260,6 +206,7 @@ function DoctorBoard(props) {
                 onChange={onChangeDepartment}
                 required
               >
+                <option value="">Chọn phòng khám</option>
                 {
                   SCHEDULE.map((item) => (
                     <option key={item.PK} value={item.PK}>
@@ -280,6 +227,7 @@ function DoctorBoard(props) {
                 onChange={onChangeDoctor}
                 required
               >
+                <option value="">Chọn bác sĩ</option>
                 {SCHEDULE.forEach((item) => {
                   if (item.PK === department) {
                     doctors = item.doctor;

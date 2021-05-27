@@ -4,29 +4,12 @@ import React, { useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Typography } from 'antd';
 import DatePicker from 'react-datepicker';
-import Form from 'react-validation/build/form';
-import Input from 'react-validation/build/input';
-import Select from 'react-validation/build/select';
-import CheckButton from 'react-validation/build/button';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 
 const { Title } = Typography;
 
-// eslint-disable-next-line consistent-return
-const required = (value) => {
-  if (!value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        Vui lòng điền đầy đủ thông tin bắt buộc
-      </div>
-    );
-  }
-};
-
 function AdminBoard(props) {
-  const form = useRef();
-  const checkButton = useRef();
   const history = useHistory();
 
   const [patientId, setPatientId] = useState('');
@@ -35,7 +18,6 @@ function AdminBoard(props) {
   const [gender, setGender] = useState();
   const [address, setAddress] = useState('');
   const [patientType, setPatientType] = useState('');
-  const [successful, setSuccessful] = useState(false);
 
   const onChangePatientId = (e) => {
     setPatientId(e.target.value);
@@ -61,12 +43,20 @@ function AdminBoard(props) {
     setPatientType(e.target.value);
   };
 
+  const checkAllTableField = () => {
+    let allFieldFilled = true;
+    document.getElementById('checkForm').querySelectorAll('[required]').forEach((element) => {
+      if (!element.value) {
+        allFieldFilled = false;
+      }
+    });
+    return allFieldFilled;
+  };
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    setSuccessful(false);
-    form.current.validateAll();
 
-    if (checkButton.current.context._errors.length === 0 && props.user.userData !== undefined) {
+    if (checkAllTableField) {
       const values = {
         writer: props.user.userData._id,
         patientId,
@@ -80,10 +70,17 @@ function AdminBoard(props) {
       };
       axios.post('/api/patients/uploadInfo', values).then((response) => {
         if (response.data.success) {
-          setSuccessful(true);
-          history.push('/patientsList');
+          const data = {
+            patientId,
+          };
+          axios.post('/api/diagnosis/putDiagnosis', data).then((res) => {
+            if (res.data.success) {
+              history.push('/patientsList');
+            } else {
+              alert('Failed to put primary information');
+            }
+          });
         } else {
-          setSuccessful(false);
           alert('Failed to upload information');
         }
       });
@@ -98,104 +95,104 @@ function AdminBoard(props) {
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
         <Title level={2}>Nhập thông tin bệnh nhân</Title>
       </div>
-      <Form onSubmit={handleSubmit} ref={form}>
-        {!successful && (
-          <div>
-            <div className="form-row justify-content-center">
-              <div className="form-group col-md-6">
-                <label htmlFor="patientId">Mã BN:</label>
-                <Input
-                  type="text"
-                  className="form-control"
-                  name="patientId"
-                  value={patientId}
-                  onChange={onChangePatientId}
-                  validations={[required]}
-                />
-              </div>
-            </div>
-
-            <div className="form-row justify-content-center">
-              <div className="form-group col-md-6">
-                <label htmlFor="username">Họ tên người bệnh:</label>
-                <Input
-                  type="text"
-                  className="form-control"
-                  name="name"
-                  value={name}
-                  onChange={onChangeName}
-                  validations={[required]}
-                />
-              </div>
-            </div>
-
-            <div className="form-row justify-content-center">
-              <div className="form-group col-md-6">
-                <label htmlFor="datebirth">Năm sinh:</label>
-                <br />
-                <DatePicker
-                  className="form-control"
-                  mode="date"
-                  format="YYYY-MM-DD"
-                  selected={birthDate}
-                  onChange={onChangeDate}
-                />
-              </div>
-            </div>
-
-            <div className="form-row justify-content-center">
-              <div className="form-group col-md-6">
-                <label htmlFor="gender">Giới tính:</label>
-                <Select
-                  name="gender"
-                  className="form-control"
-                  value={gender}
-                  onChange={onChangeGender}
-                  validations={[required]}
-                >
-                  <option value="Nam">Nam</option>
-                  <option value="Nữ">Nữ</option>
-                </Select>
-              </div>
-            </div>
-
-            <div className="form-row justify-content-center">
-              <div className="form-group col-md-6">
-                <label htmlFor="address">Địa chỉ:</label>
-                <Input
-                  type="text"
-                  className="form-control"
-                  name="address"
-                  value={address}
-                  onChange={onChangeAddress}
-                  validations={[required]}
-                />
-              </div>
-            </div>
-
-            <div className="form-row justify-content-center">
-              <div className="form-group col-md-6">
-                <label htmlFor="patientType">Đối tượng:</label>
-                <Select
-                  name="patientType"
-                  className="form-control"
-                  value={patientType}
-                  onChange={onChangePatientType}
-                  validations={[required]}
-                >
-                  <option value="Khám trong giờ">Khám trong giờ</option>
-                  <option value="Khám ngoài giờ">Khám ngoài giờ</option>
-                </Select>
-              </div>
-            </div>
-
-            <div className="form-row justify-content-center">
-              <button className="btn btn-primary btn-block form-group col-md-3">
-                Thêm thông tin bệnh nhân
-              </button>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <div className="form-row justify-content-center">
+            <div className="form-group col-md-5">
+              <label htmlFor="patientId">Mã BN:</label>
+              <input
+                type="text"
+                className="form-control"
+                name="patientId"
+                value={patientId}
+                onChange={onChangePatientId}
+                required
+              />
             </div>
           </div>
-        )}
+
+          <div className="form-row justify-content-center">
+            <div className="form-group col-md-5">
+              <label htmlFor="username">Họ tên người bệnh:</label>
+              <input
+                type="text"
+                className="form-control"
+                name="name"
+                value={name}
+                onChange={onChangeName}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-row justify-content-center">
+            <div className="form-group col-md-5">
+              <label htmlFor="datebirth">Năm sinh:</label>
+              <br />
+              <DatePicker
+                className="form-control"
+                mode="date"
+                format="YYYY-MM-DD"
+                selected={birthDate}
+                onChange={onChangeDate}
+              />
+            </div>
+          </div>
+
+          <div className="form-row justify-content-center">
+            <div className="form-group col-md-5">
+              <label htmlFor="gender">Giới tính:</label>
+              <select
+                name="gender"
+                className="form-control"
+                value={gender}
+                onChange={onChangeGender}
+                required
+              >
+                <option value="">Chọn giới tính bệnh nhân</option>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="form-row justify-content-center">
+            <div className="form-group col-md-5">
+              <label htmlFor="address">Địa chỉ:</label>
+              <input
+                type="text"
+                className="form-control"
+                name="address"
+                value={address}
+                onChange={onChangeAddress}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-row justify-content-center">
+            <div className="form-group col-md-5">
+              <label htmlFor="patientType">Đối tượng:</label>
+              <select
+                name="patientType"
+                className="form-control"
+                value={patientType}
+                onChange={onChangePatientType}
+                required
+              >
+                <option value="">Chọn đối tượng</option>
+                <option value="Khám trong giờ">Khám trong giờ</option>
+                <option value="Khám ngoài giờ">Khám ngoài giờ</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="form-row justify-content-center">
+            <button className="btn btn-primary btn-block form-group col-md-2">
+              Thêm thông tin bệnh nhân
+            </button>
+          </div>
+        </div>
 
         {/* {message && (
           <div className="form-group">
@@ -210,8 +207,7 @@ function AdminBoard(props) {
             </div>
           </div>
         )} */}
-        <CheckButton style={{ display: 'none' }} ref={checkButton} />
-      </Form>
+      </form>
     </div>
   );
 }

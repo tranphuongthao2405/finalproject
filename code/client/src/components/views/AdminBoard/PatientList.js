@@ -28,48 +28,24 @@ function PatientList() {
             <tr style={{ textAlign: 'center' }}>
               <th scope="col">
                 STT
-                <br />
-                {' '}
-                (1)
               </th>
               <th scope="col">
                 Họ tên
-                {' '}
-                <br />
-                {' '}
-                (2)
               </th>
               <th scope="col">
                 Mã bệnh nhân
-                {' '}
-                <br />
-                {' '}
-                (3)
               </th>
               <th scope="col">
                 Ngày sinh
-                {' '}
-                <br />
-                {' '}
-                (4)
               </th>
               <th scope="col">
                 Giới tính
-                <br />
-                {' '}
-                (5)
               </th>
               <th scope="col">
                 Địa chỉ
-                <br />
-                {' '}
-                (6)
               </th>
               <th scope="col">
                 Đối tượng
-                <br />
-                {' '}
-                (7)
               </th>
             </tr>
           </thead>
