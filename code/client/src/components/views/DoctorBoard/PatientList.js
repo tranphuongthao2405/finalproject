@@ -99,6 +99,42 @@ function PatientList() {
     }
   }, [patients, showTable]);
 
+  const showBiochemicalResult = (value, id) => {
+    if (value === 'Có') {
+      return ('Có');
+    } if (value === 'Đã xong') {
+      return (<a href={`/biochemicalForm/${id}`} style={{ textDecoration: 'none' }}>Đã xong</a>);
+    }
+    return ('Không');
+  };
+
+  const showFungusResult = (value, id) => {
+    if (value === 'Có') {
+      return ('Có');
+    } if (value === 'Đã xong') {
+      return (<a href={`/fungusForm/${id}`} style={{ textDecoration: 'none' }}>Đã xong</a>);
+    }
+    return ('Không');
+  };
+
+  const showHematologyResult = (value, id) => {
+    if (value === 'Có') {
+      return ('Có');
+    } if (value === 'Đã xong') {
+      return (<a href={`/hematologyForm/${id}`} style={{ textDecoration: 'none' }}>Đã xong</a>);
+    }
+    return ('Không');
+  };
+
+  const showResult = (value, id) => {
+    if (value === 'Có') {
+      return ('Có');
+    } if (value === 'Đã xong') {
+      return (<a href={`/resultForm/${id}`} style={{ textDecoration: 'none' }}>Đã xong</a>);
+    }
+    return ('Không');
+  };
+
   return (
     <div>
       <div>
@@ -172,10 +208,18 @@ function PatientList() {
                       <td className="text-center">{time}</td>
                       <td className="text-center">{patient.gender}</td>
                       <td className="text-center">{imagingState[pCount] === 'Đã xong' ? (<a href={`/imageProcessing/${patient.patientId}`} style={{ textDecoration: 'none' }}>Đã xong</a>) : (`${imagingState[pCount]}`)}</td>
-                      <td className="text-center">{biochemicalCheck[pCount]}</td>
-                      <td className="text-center">{fungusAndParasiteCheck[pCount]}</td>
-                      <td className="text-center">{hematologyAndImmunologyCheck[pCount]}</td>
-                      <td className="text-center">{resultCheck[pCount]}</td>
+                      <td className="text-center">
+                        {showBiochemicalResult(biochemicalCheck[pCount], patient.patientId)}
+                      </td>
+                      <td className="text-center">
+                        {showFungusResult(fungusAndParasiteCheck[pCount], patient.patientId)}
+                      </td>
+                      <td className="text-center">
+                        {showHematologyResult(hematologyAndImmunologyCheck[pCount], patient.patientId)}
+                      </td>
+                      <td className="text-center">
+                        {showResult(resultCheck[pCount], patient.patientId)}
+                      </td>
                     </tr>
                   ));
                 })
