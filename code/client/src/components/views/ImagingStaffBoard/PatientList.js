@@ -1,4 +1,6 @@
 /* eslint-disable max-len */
+/* eslint-disable no-loop-func */
+/* eslint-disable array-callback-return */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -7,18 +9,56 @@ function PatientList() {
   const [showTable, setShowTable] = useState(false);
   const [imagingState, setImagingState] = useState([]);
   const [doctorDiagnosis, setDoctorDiagnosis] = useState([]);
+
   let count = 0;
+  let tempCount = 0;
 
   useEffect(() => {
     axios.get('/api/patients/getAllPatients').then((response) => {
       if (response.data.success) {
-        setShowTable(true);
         setPatients(response.data.patients);
       } else {
         setShowTable(false);
       }
     });
-  }, [patients]);
+  }, []);
+
+  useEffect(() => {
+    if (patients) {
+      for (let i = 0; i < patients.length; i += 1) {
+        const values = {
+          patientId: patients[i].patientId,
+        };
+
+        axios.post('/api/diagnosis/getDiagnosisById', values).then((response) => {
+          if (response.data.success) {
+            if (response.data.doc[0].doctorDiagnosis !== '') {
+              doctorDiagnosis[tempCount] = response.data.doc[0].doctorDiagnosis;
+
+              if (response.data.doc[0].imaging === 'done') {
+                imagingState[tempCount] = 'Đã xong';
+              } else if (response.data.doc[0].biochemical === 'pending') {
+                imagingState[tempCount] = 'Có';
+              } else if (response.data.doc[0].biochemical === '') {
+                imagingState[tempCount] = 'Không';
+              }
+            } else {
+              doctorDiagnosis[tempCount] = 'Chưa chẩn đoán';
+              imagingState[tempCount] = 'Chưa xử lý';
+            }
+
+            tempCount += 1;
+            if (tempCount === patients.length) {
+              setShowTable(true);
+            }
+          } else {
+            // do something
+            setShowTable(false);
+          }
+        });
+      }
+    }
+  }, [patients, showTable]);
 
   return (
     <div>
@@ -29,7 +69,7 @@ function PatientList() {
       <div className="p-5 text-center">
         <h3 className="mb-3">DANH SÁCH BỆNH NHÂN TIẾP NHẬN</h3>
       </div>
-      {patients && patients.length > 0 && setShowTable && (
+      {patients && patients.length > 0 && showTable ? (
         <table className="table table-bordered">
           <thead>
             <tr style={{ textAlign: 'center' }}>
@@ -67,39 +107,25 @@ function PatientList() {
                    count += 1;
                    const pCount = count - 1;
 
-                   const values = {
-                     patientId: patient.patientId,
-                   };
-
-                   axios.post('/api/diagnosis/getDiagnosisById', values).then((response) => {
-                     if (response.data.success) {
-                       if (response.data.doc[0].imaging === 'done') {
-                         imagingState[pCount] = 'Đã xong';
-                       } else if (response.data.doc[0].imaging === 'pending') {
-                         imagingState[pCount] = 'Có';
-                       } else if (response.data.doc[0].imaging === '') {
-                         imagingState[pCount] = 'Không';
-                       }
-                       doctorDiagnosis[pCount] = response.data.doc[0].doctorDiagnosis;
-                     } else {
-                       // do something
-                     }
-                   });
                    return ((
                      <tr>
                        <td className="text-center">{count}</td>
-                       <td className="text-center">{imagingState[pCount] === 'Đã xong' ? (patient.name) : (<a href={`/imagingStaffBoard/${patient.patientId}`} style={{ textDecoration: 'none' }}>{patient.name}</a>)}</td>
+                       <td className="text-center">{imagingState[pCount] !== 'Đã xong' && imagingState[pCount] !== 'Chưa xử lý' ? (<a href={`/imagingStaffBoard/${patient.patientId}`} style={{ textDecoration: 'none' }}>{patient.name}</a>) : (patient.name)}</td>
                        <td className="text-center">{patient.patientId}</td>
                        <td className="text-center">{time}</td>
                        <td className="text-center">{patient.gender}</td>
                        <td className="text-center">{doctorDiagnosis[pCount]}</td>
-                       <td className="text-center">{imagingState[pCount]}</td>
+                       <td className="text-center">{imagingState[pCount] === 'Đã xong' ? (<a href={`/imageProcessing/${patient.patientId}`} style={{ textDecoration: 'none' }}>{imagingState[pCount]}</a>) : (imagingState[pCount])}</td>
                      </tr>
                    ));
                  })
             }
           </tbody>
         </table>
+      ) : (
+        <div className="p-5 text-center">
+          <h6 className="mb-3">Đang tải danh sách bệnh nhân...</h6>
+        </div>
       ) }
     </div>
   );

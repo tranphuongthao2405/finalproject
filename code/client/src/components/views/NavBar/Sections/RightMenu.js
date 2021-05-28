@@ -33,7 +33,7 @@ function RightMenu(props) {
     return (
       <Menu mode={props.mode}>
         <Menu.Item key="signin">
-          <a href="/login" style={{ textDecoration: 'none' }}>Đăng ký</a>
+          <a href="/login" style={{ textDecoration: 'none' }}>Đăng nhập</a>
         </Menu.Item>
         <Menu.Item key="signup">
           <a href="/register" style={{ textDecoration: 'none' }}>Đăng ký</a>

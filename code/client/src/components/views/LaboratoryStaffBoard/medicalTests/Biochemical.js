@@ -299,15 +299,12 @@ function Biochemical(props) {
                 </div>
               </div>
 
-              <div className="form-group col-md-2">
-                <label htmlFor="patientId">Mã BN:</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="patientId"
-                  value={patientId}
-                  disabled
-                />
+              <div>
+                <label htmlFor="patientId">
+                  Mã BN:
+                  {' '}
+                  {patientId}
+                </label>
               </div>
             </div>
 

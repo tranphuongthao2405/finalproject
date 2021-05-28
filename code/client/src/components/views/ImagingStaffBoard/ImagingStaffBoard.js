@@ -51,42 +51,26 @@ function ImagingStaffBoard(props) {
         images,
       };
 
-      axios.post('/api/diagnosis/imagingDiagnosis/uploadImage', dataToSubmit).then((res) => {
-        if (res.data.success) {
-          // alert('Update information successfully');
+      axios.post('/api/diagnosis/imagingDiagnosis/saveImage', dataToSubmit).then((response) => {
+        if (response.data.success) {
+          // alert('Save images successfully');
+          axios.post('/api/diagnosis/imagingDiagnosis/uploadImage', dataToSubmit).then((res) => {
+            if (res.data.success) {
+              // alert('Update images successfully');
+              history.push(`/imageProcessing/${pId}`);
+            } else {
+              // do something
+            }
+          });
         } else {
           alert('Failed to update information');
         }
       });
-
-      const dataToSubmit2 = {
-        imaging: 'done',
-      };
-
-      axios.post('/api/diagnosis/updateImagingDiagnosis', dataToSubmit2).then((res) => {
-        if (res.data.success) {
-          // alert('Update information successfully');
-        } else {
-          alert('Failed to update information');
-        }
-      });
-
-      history.push(`/imageProcessing/${pId}`);
     }
   };
 
   return (
     <div style={{ maxWidth: '90%', margin: '2rem auto' }}>
-      <div>
-        <h3 className="mb-3">HƯỚNG DẪN:</h3>
-        <p>
-          1. Xem danh sách tiếp nhận bệnh nhân để xem thông tin các bệnh nhân cần chụp chẩn đoán
-          <br />
-          2. Thực hiện chụp chẩn đoán cho bệnh nhân
-          <br />
-          3.  Nhập mã bệnh nhân và upload các ảnh liên quan của bệnh nhân
-        </p>
-      </div>
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
         <Title level={2}>Tải ảnh chụp chẩn đoán của bệnh nhân</Title>
       </div>
@@ -102,7 +86,7 @@ function ImagingStaffBoard(props) {
           {pId && (
             <input
               type="text"
-              className="form-control col-md-2"
+              className="form-control col-md-1"
               name="patientId"
               value={pId}
               disabled

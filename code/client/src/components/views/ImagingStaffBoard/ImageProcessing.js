@@ -11,6 +11,7 @@ function ImageProcessing(props) {
 
   const [images, setImages] = useState([]);
   const [imageProcessing, setImageProcessing] = useState([]);
+  const [done, setDone] = useState(false);
 
   const populateTableData = () => {
     let count = 0;
@@ -45,20 +46,38 @@ function ImageProcessing(props) {
     const dataToSubmit = {
       patientId,
     };
+
     axios.post('/api/diagnosis/imagingDiagnosis/getImagingDiagnosisById', dataToSubmit)
       .then((response) => {
         if (response.data.success) {
           if (response.data.doc[0] !== undefined) {
             setImages(response.data.doc[0].images);
             setImageProcessing(response.data.doc[0].imagingDiagnosis);
+            const dataToSubmit2 = {
+              patientId,
+              imaging: 'done',
+            };
+
+            axios.post('/api/diagnosis/updateImagingDiagnosis', dataToSubmit2).then((res) => {
+              if (res.data.success) {
+                // alert('Update information successfully');
+                setDone(true);
+              } else {
+                alert('Failed to update information');
+              }
+            });
           }
         } else {
           alert(response.data.err);
         }
       });
+  }, []);
 
-    populateTableData();
-  }, [images, imageProcessing]);
+  useEffect(() => {
+    if (done) {
+      populateTableData();
+    }
+  }, [done]);
 
   return (
     <div>
@@ -66,25 +85,31 @@ function ImageProcessing(props) {
         <Title level={2}>Kết quả phân tích ảnh</Title>
       </div>
 
-      <table className="table-bordered" id="myTable">
-        <thead>
-          <tr style={{ textAlign: 'center' }}>
-            <th scope="col" style={{ width: '5%' }}>
-              STT
-            </th>
-            <th scope="col" style={{ width: '10%' }}>
-              Mã bệnh nhân
-            </th>
-            <th scope="col" style={{ width: '50%' }}>
-              Ảnh
-            </th>
-            <th scope="col" style={{ width: '15%' }}>
-              Tỉ lệ bị ung thư hắc tố da (Melanoma)
-            </th>
-          </tr>
-        </thead>
-        <tbody />
-      </table>
+      {images && done ? (
+        <table className="table table-bordered" id="myTable">
+          <thead>
+            <tr style={{ textAlign: 'center' }}>
+              <th scope="col" style={{ width: '5%' }}>
+                STT
+              </th>
+              <th scope="col" style={{ width: '10%' }}>
+                Mã bệnh nhân
+              </th>
+              <th scope="col" style={{ width: '50%' }}>
+                Ảnh
+              </th>
+              <th scope="col" style={{ width: '15%' }}>
+                Tỉ lệ bị ung thư hắc tố da (Melanoma)
+              </th>
+            </tr>
+          </thead>
+          <tbody />
+        </table>
+      ) : (
+        <div className="p-5 text-center">
+          <h6 className="mb-3">Đang tải kết quả phân tích ảnh...</h6>
+        </div>
+      )}
       <br />
       <br />
 
