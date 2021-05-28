@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const biochemicalSchema = mongoose.Schema(
+const hematologySchema = mongoose.Schema(
   {
     patientId: {
       type: String,
@@ -12,7 +12,7 @@ const biochemicalSchema = mongoose.Schema(
     caseType: {
       type: String,
     },
-    biochemicalDiagnosis: {
+    hematologyDiagnosis: {
       type: String,
     },
     testname: {
@@ -51,6 +51,6 @@ const biochemicalSchema = mongoose.Schema(
   { timestamp: true }
 );
 
-const BiochemicalDiagnosis = mongoose.model("BiochemicalDiagnosis", biochemicalSchema);
+const HematologyDiagnosis = mongoose.model("HematologyDiagnosis", hematologySchema);
 
-module.exports = { BiochemicalDiagnosis };
+module.exports = { HematologyDiagnosis };

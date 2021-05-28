@@ -21,6 +21,8 @@ import laboratoryPatientList from './views/LaboratoryStaffBoard/PatientList';
 import ImageProcessing from './views/ImagingStaffBoard/ImageProcessing';
 import BiochemicalForm from './views/LaboratoryStaffBoard/medicalTests/BiochemicalForm';
 import FungusForm from './views/LaboratoryStaffBoard/medicalTests/FungusForm';
+import HematologyForm from './views/LaboratoryStaffBoard/medicalTests/HematologyForm';
+import ResultForm from './views/LaboratoryStaffBoard/medicalTests/ResultForm';
 
 function App() {
   return (
@@ -47,6 +49,8 @@ function App() {
             <Route exact path="/imageProcessing/:id" component={Auth(ImageProcessing, true)} />
             <Route exact path="/biochemicalForm/:id" component={Auth(BiochemicalForm, true)} />
             <Route exact path="/fungusForm/:id" component={Auth(FungusForm, true)} />
+            <Route exact path="/hematologyForm/:id" component={Auth(HematologyForm, true)} />
+            <Route exact path="/resultForm/:id" component={Auth(ResultForm, true)} />
           </Switch>
         </div>
         <Footer />

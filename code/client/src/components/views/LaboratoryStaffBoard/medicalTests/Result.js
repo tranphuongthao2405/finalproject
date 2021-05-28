@@ -5,14 +5,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import Logo from './images/logo.jpg';
 
 function Result(props) {
   // eslint-disable-next-line react/destructuring-assignment
   const patientId = props.match.params.patientId;
   const form = useRef();
+  const history = useHistory();
   const date = new Date().toLocaleString('en-GB');
-  let count = 1;
+  const [count, setCount] = useState(0);
 
   const [name, setName] = useState();
   const [birthDate, setBirthDate] = useState();
@@ -26,19 +28,14 @@ function Result(props) {
 
   // state for form field
   const [testName, setTestName] = useState([]);
-  const [quantity, setQuantity] = useState([]);
-  const [price, setPrice] = useState([]);
-  const [amount, setAmount] = useState([]);
-  const [insurance, setInsurance] = useState([]);
-  const [payment, setPayment] = useState([]);
-  const [diff, setDiff] = useState([]);
-  const [total, setTotal] = useState([]);
-
-  const [amountSum, setAmountSum] = useState();
-  const [paymentSum, setPaymentSum] = useState();
-  const [totalSum, setTotalSum] = useState();
+  const [result, setResult] = useState([]);
+  const [normalRate, setNormalRate] = useState([]);
+  const [unit, setUnit] = useState([]);
+  const [note, setNote] = useState([]);
+  const [machine, setMachine] = useState([]);
 
   const [submit, setSubmit] = useState(false);
+  const [checkLine, setCheckLine] = useState(false);
 
   useEffect(() => {
     axios.get(`/api/patients/getPatientById?id=${patientId}`)
@@ -62,67 +59,17 @@ function Result(props) {
       });
   }, []);
 
-  const calculateSum = (valueArr) => {
-    let sum = 0;
-    valueArr.forEach((value) => {
-      const intValue = (value !== '') ? parseInt(value, 10) : 0;
-      sum += intValue;
-    });
-    return sum;
-  };
-
-  useEffect(() => {
-    if (amount.length >= 1) {
-      setAmountSum(calculateSum(amount));
-    }
-
-    if (payment.length >= 1) {
-      setPaymentSum(calculateSum(payment));
-    }
-
-    if (total.length >= 1) {
-      setTotalSum(calculateSum(total));
-    }
-  }, [amount.length, payment.length, total.length, count]);
-
   const onChangeDiagnosis = (e) => {
     setDiagnosis(e.target.value);
   };
 
-  const onChangeTestName = (e) => {
-    testName[count - 1] = e.target.value;
-  };
-
-  const onChangeQuantity = (e) => {
-    quantity[count - 1] = e.target.value;
-  };
-
-  const onChangePrice = (e) => {
-    price[count - 1] = e.target.value;
-  };
-
-  const onChangeAmount = (e) => {
-    amount[count - 1] = e.target.value;
-  };
-
-  const onChangeInsurance = (e) => {
-    insurance[count - 1] = e.target.value;
-  };
-
-  const onChangePayment = (e) => {
-    payment[count - 1] = e.target.value;
-  };
-
-  const onChangeDiff = (e) => {
-    diff[count - 1] = e.target.value;
-  };
-
-  const onChangeTotal = (e) => {
-    total[count - 1] = e.target.value;
-  };
-
   const onSubmitClick = () => {
     setSubmit(true);
+    if (count === 0) {
+      setCheckLine(false);
+    } else {
+      setCheckLine(true);
+    }
   };
 
   const checkAllTableField = () => {
@@ -135,11 +82,46 @@ function Result(props) {
     return allFieldFilled;
   };
 
+  const onChangeTestName = (e) => {
+    const cntStr = e.target.name.substring(8);
+    const cntNum = parseInt(cntStr, 10);
+    testName[cntNum - 1] = e.target.value;
+  };
+
+  const onChangeResult = (e) => {
+    const cntStr = e.target.name.substring(6);
+    const cntNum = parseInt(cntStr, 10);
+    result[cntNum - 1] = e.target.value;
+  };
+
+  const onChangeNormalRate = (e) => {
+    const cntStr = e.target.name.substring(10);
+    const cntNum = parseInt(cntStr, 10);
+    normalRate[cntNum - 1] = e.target.value;
+  };
+
+  const onChangeUnit = (e) => {
+    const cntStr = e.target.name.substring(4);
+    const cntNum = parseInt(cntStr, 10);
+    unit[cntNum - 1] = e.target.value;
+  };
+
+  const onChangeNote = (e) => {
+    const cntStr = e.target.name.substring(4);
+    const cntNum = parseInt(cntStr, 10);
+    note[cntNum - 1] = e.target.value;
+  };
+
+  const onChangeMachine = (e) => {
+    const cntStr = e.target.name.substring(7);
+    const cntNum = parseInt(cntStr, 10);
+    machine[cntNum - 1] = e.target.value;
+  };
+
   const onAddRow = () => {
-    // have to finish previous line before add next line
-    // count is a share variable
     if (checkAllTableField()) {
-      count += 1;
+      const tempCount = count + 1;
+      setCount(tempCount);
       const tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
       const newRow = tableRef.insertRow(tableRef.rows.length);
 
@@ -150,69 +132,27 @@ function Result(props) {
       const newCell4 = newRow.insertCell(3);
       const newCell5 = newRow.insertCell(4);
       const newCell6 = newRow.insertCell(5);
-      const newCell7 = newRow.insertCell(6);
-      const newCell8 = newRow.insertCell(7);
-      const newCell9 = newRow.insertCell(8);
-      let value1 = ''; let value2 = ''; let value3 = ''; let value4 = ''; let value5 = ''; let value6 = ''; let value7 = ''; let
-        value8 = '';
-      const onChangeValue1 = (e) => {
-        value1 = e.target.value;
-        testName[count - 1] = value1;
-      };
 
-      const onChangeValue2 = (e) => {
-        value2 = e.target.value;
-        quantity[count - 1] = value2;
-      };
-
-      const onChangeValue3 = (e) => {
-        value3 = e.target.value;
-        price[count - 1] = value3;
-      };
-
-      const onChangeValue4 = (e) => {
-        value4 = e.target.value;
-        amount[count - 1] = value4;
-      };
-
-      const onChangeValue5 = (e) => {
-        value5 = e.target.value;
-        insurance[count - 1] = value5;
-      };
-
-      const onChangeValue6 = (e) => {
-        value6 = e.target.value;
-        payment[count - 1] = value6;
-      };
-
-      const onChangeValue7 = (e) => {
-        value7 = e.target.value;
-        diff[count - 1] = value7;
-      };
-
-      const onChangeValue8 = (e) => {
-        value8 = e.target.value;
-        total[count - 1] = value8;
-      };
+      const value1 = testName[tempCount - 1] ? testName[tempCount - 1] : '';
+      const value2 = result[tempCount - 1] ? result[tempCount - 1] : '';
+      const value3 = normalRate[tempCount - 1] ? normalRate[tempCount - 1] : '';
+      const value4 = unit[tempCount - 1] ? unit[tempCount - 1] : '';
+      const value5 = note[tempCount - 1] ? note[tempCount - 1] : '';
+      const value6 = machine[tempCount - 1] ? machine[tempCount - 1] : '';
 
       // Append a text node to the cell
-      newCell1.innerHTML = `<div class="text-center">${count}</div>`;
-      newCell2.innerHTML = `<input type="text" class="form-control col" name="testName${count}" onchange="" value="${value1}" required />`;
-      newCell2.onchange = onChangeValue1;
-      newCell3.innerHTML = `<input type="text" class="form-control col" name="quantity${count}" onchange="" value="${value2}" required />`;
-      newCell3.onchange = onChangeValue2;
-      newCell4.innerHTML = `<input type="text" class="form-control col" name="price${count}" onchange="" value="${value3}" required />`;
-      newCell4.onchange = onChangeValue3;
-      newCell5.innerHTML = `<input type="text" class="form-control col" name="amount${count}" onchange="" value="${value4}" required />`;
-      newCell5.onchange = onChangeValue4;
-      newCell6.innerHTML = `<input type="text" class="form-control col" name="insurance${count}" onchange="" value="${value5}" />`;
-      newCell6.onchange = onChangeValue5;
-      newCell7.innerHTML = `<input type="text" class="form-control col" name="payment${count}" onchange="" value="${value6}" required />`;
-      newCell7.onchange = onChangeValue6;
-      newCell8.innerHTML = `<input type="text" class="form-control col" name="diff${count}" onchange="" value="${value7}" />`;
-      newCell8.onchange = onChangeValue7;
-      newCell9.innerHTML = `<input type="text" class="form-control col" name="total${count}" onchange="" value="${value8}" required/>`;
-      newCell9.onchange = onChangeValue8;
+      newCell1.innerHTML = `<input type="text" class="form-control col" name="testName${tempCount}" onchange="" value="${value1}" required />`;
+      newCell1.onchange = onChangeTestName;
+      newCell2.innerHTML = `<input type="text" class="form-control col" name="result${tempCount}" onchange="" value="${value2}" required />`;
+      newCell2.onchange = onChangeResult;
+      newCell3.innerHTML = `<input type="text" class="form-control col" name="normalrate${tempCount}" onchange="" value="${value3}" required />`;
+      newCell3.onchange = onChangeNormalRate;
+      newCell4.innerHTML = `<input type="text" class="form-control col" name="unit${tempCount}" onchange="" value="${value4}" required />`;
+      newCell4.onchange = onChangeUnit;
+      newCell5.innerHTML = `<input type="text" class="form-control col" name="note${tempCount}" onchange="" value="${value5}" />`;
+      newCell5.onchange = onChangeNote;
+      newCell6.innerHTML = `<input type="text" class="form-control col" name="machine${tempCount}" onchange="" value="${value6}" required />`;
+      newCell6.onchange = onChangeMachine;
     }
   };
 
@@ -221,7 +161,39 @@ function Result(props) {
     setSuccessful(false);
 
     if (submit) {
-      // form.current.validateAll();
+      if (checkLine) {
+        const dataToSubmit = {
+          patientId,
+          diagnosis,
+          testName,
+          result,
+          normalRate,
+          unit,
+          note,
+          machine,
+        };
+
+        axios.post('/api/diagnosis/result/saveResultForm', dataToSubmit)
+          .then((response) => {
+            if (response.data.success) {
+              const dataToSubmit2 = {
+                patientId,
+                result: 'done',
+              };
+
+              axios.post('/api/diagnosis/updateResultDiagnosis', dataToSubmit2).then((res) => {
+                if (res.data.success) {
+                  // alert('Update information successfully');
+                  history.push(`/resultForm/${patientId}`);
+                } else {
+                  alert('Failed to update information');
+                }
+              });
+            } else {
+              console.log(response.data.err);
+            }
+          });
+      }
     }
   };
 
@@ -330,6 +302,31 @@ function Result(props) {
             </div>
 
             <div className="form-row">
+              <div className="form-group col-md-6">
+                <label htmlFor="diagnosis">Chẩn đoán:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="diagnosis"
+                  value={diagnosis}
+                  onChange={onChangeDiagnosis}
+                  required
+                />
+              </div>
+
+              <div className="form-group col-md-6">
+                <label htmlFor="number">Số BHYT:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="number"
+                  value=""
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div className="form-row">
               <div className="form-group col-md-4">
                 <label htmlFor="patientType">Đối tượng:</label>
                 <select
@@ -425,6 +422,24 @@ function Result(props) {
                 </tr>
               </thead>
               <tbody />
+              <tfoot>
+                {/* add row button */}
+                <tr>
+                  <td colSpan="6" className="text-center">
+                    <button className="btn btn-primary" onClick={onAddRow}>
+                      <i className="bi bi-plus-square">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus-lg" viewBox="0 0 16 16">
+                          <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z" />
+                        </svg>
+                        {' '}
+                      </i>
+                      <span style={{ marginTop: 8, marginLeft: 5 }}>
+                        Thêm dòng
+                      </span>
+                    </button>
+                  </td>
+                </tr>
+              </tfoot>
             </table>
             <br />
             <br />
@@ -461,23 +476,11 @@ function Result(props) {
 
           </div>
         )}
-
-        {/* {message && (
-          <div className="form-group">
-            <div
-              className={
-                successful ? 'alert alert-success' : 'alert alert-danger'
-              }
-              role="alert"
-              style={{ textAlign: 'center', margin: 10 }}
-            >
-              {message}
-            </div>
-          </div>
-        )} */}
-        <button className="btn btn-primary btn-block" onClick={onSubmitClick}>
-          In phiếu xét nghiệm
-        </button>
+        <div className="form-row justify-content-center">
+          <button className="btn btn-primary" onClick={onSubmitClick}>
+            Xem phiếu xét nghiệm
+          </button>
+        </div>
       </form>
     </div>
   );

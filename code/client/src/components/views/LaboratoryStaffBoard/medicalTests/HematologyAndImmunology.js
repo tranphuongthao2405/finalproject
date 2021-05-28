@@ -255,18 +255,18 @@ function HematologyAndImmunology(props) {
           total,
         };
 
-        axios.post('/api/diagnosis/biochemicalDiagnosis/saveBiochemicalForm', dataToSubmit)
+        axios.post('/api/diagnosis/hematologyDiagnosis/saveHematologyForm', dataToSubmit)
           .then((response) => {
             if (response.data.success) {
               const dataToSubmit2 = {
                 patientId,
-                biochemical: 'done',
+                hematologyAndImmunology: 'done',
               };
 
-              axios.post('/api/diagnosis/updateBiochemicalDiagnosis', dataToSubmit2).then((res) => {
+              axios.post('/api/diagnosis/updateHematologyDiagnosis', dataToSubmit2).then((res) => {
                 if (res.data.success) {
                   // alert('Update information successfully');
-                  history.push(`/biochemicalForm/${patientId}`);
+                  history.push(`/hematologyForm/${patientId}`);
                 } else {
                   alert('Failed to update information');
                 }

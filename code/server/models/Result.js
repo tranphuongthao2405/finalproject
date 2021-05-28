@@ -1,50 +1,35 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const biochemicalSchema = mongoose.Schema(
+const resultSchema = mongoose.Schema(
   {
     patientId: {
       type: String,
     },
-    
-    initialSample: {
-      type: String,
-    },
-    caseType: {
-      type: String,
-    },
-    biochemicalDiagnosis: {
+    diagnosis: {
       type: String,
     },
     testname: {
       type: Array,
       default: [],
     },
-    quantity: {
+    result: {
       type: Array,
       default: [],
     },
-    price: {
+    normalRate: {
       type: Array,
       default: [],
     },
-    amount: {
+    unit: {
       type: Array,
       default: [],
     },
-    insurance: {
+    note: {
       type: Array,
       default: [],
     },
-    payment: {
-      type: Array,
-      default: [],
-    },
-    diff: {
-      type: Array,
-      default: [],
-    },
-    total: {
+    machine: {
       type: Array,
       default: [],
     },
@@ -52,6 +37,6 @@ const biochemicalSchema = mongoose.Schema(
   { timestamp: true }
 );
 
-const BiochemicalDiagnosis = mongoose.model("BiochemicalDiagnosis", biochemicalSchema);
+const ResultDiagnosis = mongoose.model("ResultDiagnosis", resultSchema);
 
-module.exports = { BiochemicalDiagnosis };
+module.exports = { ResultDiagnosis };
