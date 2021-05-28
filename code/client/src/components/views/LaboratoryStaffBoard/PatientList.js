@@ -91,6 +91,42 @@ function PatientList() {
     }
   }, [patients, showTable]);
 
+  const showBiochemicalResult = (value, id) => {
+    if (value === 'Có') {
+      return (<a href={`/laboratoryStaffBoard/biochemical/${id}`} style={{ textDecoration: 'none' }}>Có</a>);
+    } if (value === 'Đã xong') {
+      return (<a href={`/biochemicalForm/${id}`} style={{ textDecoration: 'none' }}>Đã xong</a>);
+    }
+    return ('Không');
+  };
+
+  const showFungusResult = (value, id) => {
+    if (value === 'Có') {
+      return (<a href={`/laboratoryStaffBoard/fungusAndParasite/${id}`} style={{ textDecoration: 'none' }}>Có</a>);
+    } if (value === 'Đã xong') {
+      return (<a href={`/fungusForm/${id}`} style={{ textDecoration: 'none' }}>Đã xong</a>);
+    }
+    return ('Không');
+  };
+
+  const showHematologyResult = (value, id) => {
+    if (value === 'Có') {
+      return (<a href={`/laboratoryStaffBoard/hematologyAndImmunology/${id}`} style={{ textDecoration: 'none' }}>Có</a>);
+    } if (value === 'Đã xong') {
+      return (<a href={`/hematologyForm/${id}`} style={{ textDecoration: 'none' }}>Đã xong</a>);
+    }
+    return ('Không');
+  };
+
+  const showResult = (value, id) => {
+    if (value === 'Có') {
+      return (<a href={`/laboratoryStaffBoard/result/${id}`} style={{ textDecoration: 'none' }}>Có</a>);
+    } if (value === 'Đã xong') {
+      return (<a href={`/resultForm/${id}`} style={{ textDecoration: 'none' }}>Đã xong</a>);
+    }
+    return ('Không');
+  };
+
   return (
     <div>
       <div className="p-5 text-center">
@@ -152,16 +188,16 @@ function PatientList() {
                       <td className="text-center">{patient.gender}</td>
                       <td className="text-center">{doctorDiagnosis[pCount]}</td>
                       <td className="text-center">
-                        {(biochemicalCheck[pCount] === 'Có' ? (<a href={`/laboratoryStaffBoard/biochemical/${patient.patientId}`} style={{ textDecoration: 'none' }}>Có</a>) : (biochemicalCheck[pCount]))}
+                        {showBiochemicalResult(biochemicalCheck[pCount], patient.patientId)}
                       </td>
                       <td className="text-center">
-                        {(fungusAndParasiteCheck[pCount] === 'Có' ? (<a href={`/laboratoryStaffBoard/fungusAndParasite/${patient.patientId}`} style={{ textDecoration: 'none' }}>Có</a>) : (fungusAndParasiteCheck[pCount]))}
+                        {showFungusResult(fungusAndParasiteCheck[pCount], patient.patientId)}
                       </td>
                       <td className="text-center">
-                        {(hematologyAndImmunologyCheck[pCount] === 'Có' ? (<a href={`/laboratoryStaffBoard/hematologyAndImmunology/${patient.patientId}`} style={{ textDecoration: 'none' }}>Có</a>) : (hematologyAndImmunologyCheck[pCount]))}
+                        {showHematologyResult(hematologyAndImmunologyCheck[pCount], patient.patientId)}
                       </td>
                       <td className="text-center">
-                        {(resultCheck[pCount] === 'Có' ? (<a href={`/laboratoryStaffBoard/result/${patient.patientId}`} style={{ textDecoration: 'none' }}>Có</a>) : (resultCheck[pCount]))}
+                        {showResult(resultCheck[pCount], patient.patientId)}
                       </td>
                     </tr>
                   ));

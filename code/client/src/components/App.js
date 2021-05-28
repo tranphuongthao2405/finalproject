@@ -19,6 +19,8 @@ import patientStateReceived from './views/DoctorBoard/PatientList';
 import imagingPatientList from './views/ImagingStaffBoard/PatientList';
 import laboratoryPatientList from './views/LaboratoryStaffBoard/PatientList';
 import ImageProcessing from './views/ImagingStaffBoard/ImageProcessing';
+import BiochemicalForm from './views/LaboratoryStaffBoard/medicalTests/BiochemicalForm';
+import FungusForm from './views/LaboratoryStaffBoard/medicalTests/FungusForm';
 
 function App() {
   return (
@@ -43,6 +45,8 @@ function App() {
             <Route exact path="/imagingPatientList" component={Auth(imagingPatientList, true)} />
             <Route exact path="/laboratoryPatientList" component={Auth(laboratoryPatientList, true)} />
             <Route exact path="/imageProcessing/:id" component={Auth(ImageProcessing, true)} />
+            <Route exact path="/biochemicalForm/:id" component={Auth(BiochemicalForm, true)} />
+            <Route exact path="/fungusForm/:id" component={Auth(FungusForm, true)} />
           </Switch>
         </div>
         <Footer />

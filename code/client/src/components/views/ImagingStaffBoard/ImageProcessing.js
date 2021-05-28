@@ -68,7 +68,7 @@ function ImageProcessing(props) {
             });
           }
         } else {
-          alert(response.data.err);
+          console.log(response.data.err);
         }
       });
   }, []);

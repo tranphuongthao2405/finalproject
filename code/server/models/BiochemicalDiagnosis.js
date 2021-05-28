@@ -6,13 +6,14 @@ const biochemicalSchema = mongoose.Schema(
     patientId: {
       type: String,
     },
-    caseType: {
-      type: String,
-    },
+    
     initialSample: {
       type: String,
     },
-    laboratoryResult: {
+    caseType: {
+      type: String,
+    },
+    biochemicalDiagnosis: {
       type: String,
     },
     testname: {
@@ -51,6 +52,6 @@ const biochemicalSchema = mongoose.Schema(
   { timestamp: true }
 );
 
-const Patient = mongoose.model("Patient", patientSchema);
+const BiochemicalDiagnosis = mongoose.model("BiochemicalDiagnosis", biochemicalSchema);
 
-module.exports = { Patient };
+module.exports = { BiochemicalDiagnosis };

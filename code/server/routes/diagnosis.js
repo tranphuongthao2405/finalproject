@@ -109,6 +109,44 @@ router.post("/putDiagnosis", auth, (req, res) => {
   });
 });
 
+router.post("/updateBiochemicalDiagnosis", auth, (req, res) => {
+  let patientId = req.body.patientId;
+
+  Diagnosis.findOneAndUpdate(
+    {
+      patientId: patientId,
+    },
+    { $set: { biochemical: req.body.biochemical } },
+    { new: true },
+    (err, doc) => {
+      if (err) {
+        return res.status(400).json({ success: false, err });
+      }
+
+      return res.status(200).json({ success: true, doc });
+    }
+  );
+});
+
+router.post("/updateFungusDiagnosis", auth, (req, res) => {
+  let patientId = req.body.patientId;
+
+  Diagnosis.findOneAndUpdate(
+    {
+      patientId: patientId,
+    },
+    { $set: { fungusAndParasite: req.body.fungusAndParasite } },
+    { new: true },
+    (err, doc) => {
+      if (err) {
+        return res.status(400).json({ success: false, err });
+      }
+
+      return res.status(200).json({ success: true, doc });
+    }
+  );
+});
+
 // should reference to patient schema
 // router.get("/getImagingPatientList", auth, (req, res) => {
 //   Diagnosis.find({

@@ -5,12 +5,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import Logo from './images/logo.jpg';
 
 function Biochemical(props) {
   // eslint-disable-next-line react/destructuring-assignment
   const patientId = props.match.params.patientId;
   const form = useRef();
+  const history = useHistory();
   const date = new Date().toLocaleString('en-GB');
   const [count, setCount] = useState(0);
 
@@ -19,8 +21,6 @@ function Biochemical(props) {
   const [gender, setGender] = useState();
   const [address, setAddress] = useState();
   const [patientType, setPatientType] = useState();
-  // get doctor request from department room of doctor
-  // TODO: using redux
   const [department, setDepartment] = useState();
   // const [doctor, setDoctor] = useState();
   const [diagnosis, setDiagnosis] = useState();
@@ -39,11 +39,13 @@ function Biochemical(props) {
   const [diff, setDiff] = useState([]);
   const [total, setTotal] = useState([]);
 
-  const [amountSum, setAmountSum] = useState();
-  const [paymentSum, setPaymentSum] = useState();
-  const [totalSum, setTotalSum] = useState();
+  const [amountSum, setAmountSum] = useState(0);
+  const [paymentSum, setPaymentSum] = useState(0);
+  const [totalSum, setTotalSum] = useState(0);
 
   const [submit, setSubmit] = useState(false);
+  const [checkLine, setCheckLine] = useState(false);
+  const [checkForm, setCheckForm] = useState(false);
 
   useEffect(() => {
     axios.get(`/api/patients/getPatientById?id=${patientId}`)
@@ -66,29 +68,6 @@ function Biochemical(props) {
       });
   }, []);
 
-  const calculateSum = (valueArr) => {
-    let sum = 0;
-    valueArr.forEach((value) => {
-      const intValue = (value !== '') ? parseInt(value, 10) : 0;
-      sum += intValue;
-    });
-    return sum;
-  };
-
-  useEffect(() => {
-    if (amount.length >= 1) {
-      setAmountSum(calculateSum(amount));
-    }
-
-    if (payment.length >= 1) {
-      setPaymentSum(calculateSum(payment));
-    }
-
-    if (total.length >= 1) {
-      setTotalSum(calculateSum(total));
-    }
-  }, []);
-
   const onChangeDiagnosis = (e) => {
     setDiagnosis(e.target.value);
   };
@@ -103,6 +82,11 @@ function Biochemical(props) {
 
   const onSubmitClick = () => {
     setSubmit(true);
+    if (count === 0) {
+      setCheckLine(false);
+    } else {
+      setCheckLine(true);
+    }
   };
 
   const checkAllTableField = () => {
@@ -117,71 +101,53 @@ function Biochemical(props) {
 
   const onChangeTestName = (e) => {
     const cntStr = e.target.name.substring(8);
-    console.log('is changing');
-    console.log(cntStr);
     const cntNum = parseInt(cntStr, 10);
-    testName[cntNum] = e.target.value;
+    testName[cntNum - 1] = e.target.value;
   };
 
   const onChangeQuantity = (e) => {
     const cntStr = e.target.name.substring(8);
-    console.log('is changing');
-    console.log(cntStr);
     const cntNum = parseInt(cntStr, 10);
-    testName[cntNum] = e.target.value;
+    quantity[cntNum - 1] = e.target.value;
   };
 
   const onChangePrice = (e) => {
     const cntStr = e.target.name.substring(5);
-    console.log('is changing');
-    console.log(cntStr);
     const cntNum = parseInt(cntStr, 10);
-    testName[cntNum] = e.target.value;
+    price[cntNum - 1] = e.target.value;
   };
 
   const onChangeAmount = (e) => {
     const cntStr = e.target.name.substring(6);
-    console.log('is changing');
-    console.log(cntStr);
     const cntNum = parseInt(cntStr, 10);
-    testName[cntNum] = e.target.value;
+    amount[cntNum - 1] = e.target.value;
   };
 
   const onChangeInsurance = (e) => {
     const cntStr = e.target.name.substring(9);
-    console.log('is changing');
-    console.log(cntStr);
     const cntNum = parseInt(cntStr, 10);
-    testName[cntNum] = e.target.value;
+    insurance[cntNum - 1] = e.target.value;
   };
 
   const onChangePayment = (e) => {
     const cntStr = e.target.name.substring(7);
-    console.log('is changing');
-    console.log(cntStr);
     const cntNum = parseInt(cntStr, 10);
-    testName[cntNum] = e.target.value;
+    payment[cntNum - 1] = e.target.value;
   };
 
   const onChangeDiff = (e) => {
     const cntStr = e.target.name.substring(4);
-    console.log('is changing');
-    console.log(cntStr);
     const cntNum = parseInt(cntStr, 10);
-    testName[cntNum] = e.target.value;
+    diff[cntNum - 1] = e.target.value;
   };
 
   const onChangeTotal = (e) => {
     const cntStr = e.target.name.substring(5);
-    console.log('is changing');
-    console.log(cntStr);
     const cntNum = parseInt(cntStr, 10);
-    testName[cntNum] = e.target.value;
+    total[cntNum - 1] = e.target.value;
   };
 
   const onAddRow = () => {
-    // have to finish previous line before add next line
-    // count is a share variable
     if (checkAllTableField()) {
       const tempCount = count + 1;
       setCount(tempCount);
@@ -229,16 +195,89 @@ function Biochemical(props) {
     }
   };
 
+  const calculateSum = (valueArr) => {
+    let sum = 0;
+    valueArr.forEach((value) => {
+      const intValue = (value !== '') ? parseInt(value, 10) : 0;
+      sum += intValue;
+    });
+    return sum;
+  };
+
+  const calculateAmountSum = () => {
+    if (checkAllTableField) {
+      if (amount.length >= 1) {
+        setAmountSum(calculateSum(amount));
+      }
+    }
+  };
+
+  const calculatePaymentSum = () => {
+    if (checkAllTableField) {
+      if (payment.length >= 1) {
+        setPaymentSum(calculateSum(payment));
+      }
+    }
+  };
+
+  const calculateTotalSum = () => {
+    if (checkAllTableField) {
+      if (total.length >= 1) {
+        setTotalSum(calculateSum(total));
+      }
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setSuccessful(false);
 
     if (submit) {
-      // form.current.validateAll();
+      calculateAmountSum();
+      calculatePaymentSum();
+      calculateTotalSum();
+      setCheckForm(true);
+      // if true then save to database
+
+      if (checkForm && checkLine) {
+        const dataToSubmit = {
+          patientId,
+          initialSample,
+          caseType,
+          diagnosis,
+          testName,
+          quantity,
+          price,
+          amount,
+          insurance,
+          payment,
+          diff,
+          total,
+        };
+
+        axios.post('/api/diagnosis/biochemicalDiagnosis/saveBiochemicalForm', dataToSubmit)
+          .then((response) => {
+            if (response.data.success) {
+              const dataToSubmit2 = {
+                patientId,
+                biochemical: 'done',
+              };
+
+              axios.post('/api/diagnosis/updateBiochemicalDiagnosis', dataToSubmit2).then((res) => {
+                if (res.data.success) {
+                  // alert('Update information successfully');
+                  history.push(`/biochemicalForm/${patientId}`);
+                } else {
+                  alert('Failed to update information');
+                }
+              });
+            } else {
+              console.log(response.data.err);
+            }
+          });
+      }
     }
   };
-
-  console.log(testName, price, amount, payment, total);
 
   return (
     <div className="laboratory-form">
@@ -277,7 +316,7 @@ function Biochemical(props) {
                       type="radio"
                       className="form-check-input"
                       name="casetype"
-                      value="normal"
+                      value="Thường"
                       required
                     />
                     Thường
@@ -291,7 +330,7 @@ function Biochemical(props) {
                       type="radio"
                       className="form-check-input"
                       name="casetype"
-                      value="emergency"
+                      value="Cấp cứu"
                       required
                     />
                     Cấp cứu
@@ -315,7 +354,7 @@ function Biochemical(props) {
                 </label>
                 <input
                   type="text"
-                  className="form-control col-md-3"
+                  className="form-control col-md-2"
                   name="initialSample"
                   value={initialSample}
                   onChange={onChangeInitialSample}
@@ -498,15 +537,15 @@ function Biochemical(props) {
                   <td colSpan="4" style={{ fontWeight: 'bold', textAlign: 'center' }}>
                     Tổng
                   </td>
-                  <td>
+                  <td className="text-center">
                     {amountSum}
                   </td>
                   <td />
-                  <td>
+                  <td className="text-center">
                     {paymentSum}
                   </td>
                   <td />
-                  <td>
+                  <td className="text-center">
                     {totalSum}
                   </td>
                 </tr>
@@ -540,26 +579,13 @@ function Biochemical(props) {
                 <br />
               </div>
             </div>
-
           </div>
         )}
-
-        {/* {message && (
-          <div className="form-group">
-            <div
-              className={
-                successful ? 'alert alert-success' : 'alert alert-danger'
-              }
-              role="alert"
-              style={{ textAlign: 'center', margin: 10 }}
-            >
-              {message}
-            </div>
-          </div>
-        )} */}
-        <button className="btn btn-primary btn-block" onClick={onSubmitClick}>
-          In phiếu xét nghiệm
-        </button>
+        <div className="form-row justify-content-center">
+          <button className="btn btn-primary" onClick={onSubmitClick}>
+            Xem phiếu xét nghiệm
+          </button>
+        </div>
       </form>
     </div>
   );
