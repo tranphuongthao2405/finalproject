@@ -32,7 +32,19 @@ code {
   padding-bottom: 150px;
 }
 
+.middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .laboratory-form {
+  width: 1121px;
+  padding: 20px;
+}
+
+.outer-form {
   padding: 20px;
   border: 1px solid #aaa;
 }

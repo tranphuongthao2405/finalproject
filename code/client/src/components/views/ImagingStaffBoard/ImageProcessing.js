@@ -1,7 +1,10 @@
+/* eslint-disable new-cap */
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/destructuring-assignment */
 import React, { useState, useEffect } from 'react';
 import { Typography } from 'antd';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 import axios from 'axios';
 
 const { Title } = Typography;
@@ -79,45 +82,68 @@ function ImageProcessing(props) {
     }
   }, [done]);
 
+  const downloadForm = () => {
+    const divToDownload = document.getElementById('download-part');
+    html2canvas(divToDownload, {
+      scrollY: -window.scrollY,
+      useCORS: true,
+    }).then((canvas) => {
+      const divImage = canvas.toDataURL('image/png');
+      console.log(divImage);
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgProps = pdf.getImageProperties(divImage);
+      const width = 210;
+      const height = (imgProps.height * width) / imgProps.width;
+      pdf.addImage(divImage, 'png', 0, 10, width, height);
+      const title = `${patientId}_chandoanhinhanh.pdf`;
+      pdf.save(title);
+    });
+  };
+
   return (
     <div>
-      <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-        <Title level={2}>Kết quả phân tích ảnh</Title>
-      </div>
-
       {images && done ? (
-        <table className="table table-bordered" id="myTable">
-          <thead>
-            <tr style={{ textAlign: 'center' }}>
-              <th scope="col" style={{ width: '5%' }}>
-                STT
-              </th>
-              <th scope="col" style={{ width: '10%' }}>
-                Mã bệnh nhân
-              </th>
-              <th scope="col" style={{ width: '50%' }}>
-                Ảnh
-              </th>
-              <th scope="col" style={{ width: '15%' }}>
-                Tỉ lệ bị ung thư hắc tố da (Melanoma)
-              </th>
-            </tr>
-          </thead>
-          <tbody />
-        </table>
+        <div style={{ padding: 20 }} id="download-part">
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <Title level={2}>Kết quả phân tích ảnh</Title>
+          </div>
+          <table className="table table-bordered" id="myTable">
+            <thead>
+              <tr style={{ textAlign: 'center' }}>
+                <th scope="col" style={{ width: '5%' }}>
+                  STT
+                </th>
+                <th scope="col" style={{ width: '10%' }}>
+                  Mã bệnh nhân
+                </th>
+                <th scope="col" style={{ width: '50%' }}>
+                  Ảnh
+                </th>
+                <th scope="col" style={{ width: '15%' }}>
+                  Tỉ lệ bị ung thư hắc tố da (Melanoma)
+                </th>
+              </tr>
+            </thead>
+            <tbody />
+          </table>
+        </div>
       ) : (
         <div className="p-5 text-center">
           <h6 className="mb-3">Đang tải kết quả phân tích ảnh...</h6>
         </div>
       )}
-      <br />
-      <br />
 
-      {/* <div className="form-row text-center justify-content-center">
-        <button className="btn btn-primary btn-block col-md-3">
-          <a href="/imagingPatientList" style={{ textDecoration: 'none', color: 'white' }}>Quay về trang chủ</a>
-        </button>
-      </div> */}
+      {done && images && (
+        <div>
+          <br />
+          <div className="form-row justify-content-center">
+
+            <button className="btn btn-primary" onClick={downloadForm}>
+              Tải kết quả chẩn đoán hình ảnh
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

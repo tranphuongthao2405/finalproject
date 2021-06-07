@@ -1,7 +1,10 @@
+/* eslint-disable new-cap */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/button-has-type */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 import Logo from './images/logo.jpg';
 
 function ResultForm(props) {
@@ -26,6 +29,7 @@ function ResultForm(props) {
   const [unit, setUnit] = useState([]);
   const [note, setNote] = useState([]);
   const [machine, setMachine] = useState([]);
+  const [showForm, setShowForm] = useState(false);
 
   const [done, setDone] = useState(false);
 
@@ -106,238 +110,267 @@ function ResultForm(props) {
   useEffect(() => {
     if (done) {
       onAddRow();
+      setShowForm(true);
     }
   }, [done]);
+
+  const downloadForm = () => {
+    const divToDownload = document.getElementById('download-form');
+    html2canvas(divToDownload, { scrollY: -window.scrollY }).then((canvas) => {
+      const divImage = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgProps = pdf.getImageProperties(divImage);
+      const width = 210;
+      const height = (imgProps.height * width) / imgProps.width;
+      pdf.addImage(divImage, 'png', 0, 10, width, height);
+      const title = `${patientId}_phieuxetnghiem.pdf`;
+      pdf.save(title);
+    });
+  };
 
   return (
     <>
       {done ? (
-        <div className="laboratory-form">
-          <div className="form-row">
-            <div className="form-group col-md-2">
-              <img src={Logo} alt="logo" width="100%" height="90%" />
-            </div>
-            <div className="form-group col-md-8">
-              <p>
-                <b>
-                  Bệnh viện Da liễu Trung ương
-                  <br />
-                  15A Phương Mai - Đống Đa - Hà Nội
-                  <br />
-                  Website:
-                  {' '}
-                  <a href="http://dalieu.vn" style={{ color: 'black' }}>
-                    http://dalieu.vn
-                  </a>
-                </b>
-              </p>
-              <p style={{ textAlign: 'center', fontSize: '24px' }}>
-                <b>PHIẾU KẾT QUẢ XÉT NGHIỆM</b>
-              </p>
+        <div className="outer-form">
+          <div className="laboratory-form" id="download-form">
+            <div className="form-row">
+              <div className="form-group col-md-2">
+                <img src={Logo} alt="logo" width="100%" height="90%" />
+              </div>
+              <div className="form-group col-md-8">
+                <p>
+                  <b>
+                    Bệnh viện Da liễu Trung ương
+                    <br />
+                    15A Phương Mai - Đống Đa - Hà Nội
+                    <br />
+                    Website:
+                    {' '}
+                    <a href="http://dalieu.vn" style={{ color: 'black' }}>
+                      http://dalieu.vn
+                    </a>
+                  </b>
+                </p>
+                <p style={{ textAlign: 'center', fontSize: '24px' }}>
+                  <b>PHIẾU KẾT QUẢ XÉT NGHIỆM</b>
+                </p>
+              </div>
+
+              <div className="form-group col-md-2">
+                <div>
+                  <label htmlFor="patientId">
+                    Mã BN:
+                    {' '}
+                    {patientId}
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    Ngày NM:
+                    {' '}
+                    {date.substring(0, 10)}
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    Giờ NM:
+                    {' '}
+                    {date.substring(11)}
+                  </label>
+                </div>
+              </div>
             </div>
 
-            <div className="form-group col-md-2">
-              <div>
-                <label htmlFor="patientId">
-                  Mã BN:
+            <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
+              <h4>THỰC HIỆN XÉT NGHIỆM TẠI KHU LẤY BỆNH PHẨM</h4>
+            </div>
+
+            {/* form fields */}
+            <div className="form-row">
+              <div className="form-group col-md-4">
+                <label htmlFor="username">
+                  Họ tên người bệnh:
                   {' '}
-                  {patientId}
+                  {name}
                 </label>
               </div>
-              <div>
-                <label>
-                  Ngày NM:
+
+              <div className="form-group col-md-3">
+                <label htmlFor="birthDate">
+                  Năm sinh:
+                  {' '}
+                  {birthDate}
+                </label>
+              </div>
+
+              <div className="form-group col-md-2">
+                <label htmlFor="gender">
+                  Giới tính:
+                  {' '}
+                  {gender}
+                </label>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group col-md-7">
+                <label htmlFor="address">
+                  Địa chỉ:
+                  {' '}
+                  {address}
+                </label>
+              </div>
+
+              <div className="form-group col-md-5">
+                <label htmlFor="patientType">
+                  Đối tượng:
+                  {' '}
+                  {patientType}
+                </label>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group col-md-7">
+                <label htmlFor="diagnosis">
+                  Chẩn đoán:
+                  {' '}
+                  {diagnosis}
+                </label>
+              </div>
+              <div className="form-group col-md-5">
+                <label htmlFor="number">
+                  Số BHYT:
+                </label>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group col-md-7">
+                <label htmlFor="department">
+                  Khoa phòng:
+                  {' '}
+                  PK
+                  {department}
+                </label>
+              </div>
+              <div className="form-group col-md-5">
+                <label htmlFor="doctor">
+                  Bác sĩ:
+                  {' '}
+                  {doctor}
+                </label>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group col-md-7">
+                <label htmlFor="getPerson">Người lấy mẫu:</label>
+              </div>
+
+              <div className="form-group col-md-5">
+                <label htmlFor="get">
+                  Thời gian lấy mẫu:
+                  {date.substring(11)}
+                  {' '}
+                  {' '}
                   {' '}
                   {date.substring(0, 10)}
                 </label>
               </div>
-              <div>
-                <label>
-                  Giờ NM:
+            </div>
+
+            <div className="form-row">
+              <div className="form-group col-md-7">
+                <label htmlFor="receivePerson">Người nhận mẫu: Administrator</label>
+              </div>
+              <div className="form-group col-md-5">
+                <label htmlFor="receive">
                   {' '}
+                  Thời gian nhận mẫu:
                   {date.substring(11)}
+                  {' '}
+                  {' '}
+                  {' '}
+                  {date.substring(0, 10)}
                 </label>
               </div>
             </div>
+
+            {/* TODO: add rows to table */}
+            <table className="table table-bordered" id="myTable">
+              <thead>
+                <tr style={{ textAlign: 'center' }}>
+                  <th scope="col" style={{ width: '10%' }}>
+                    TÊN XÉT NGHIỆM
+                  </th>
+                  <th scope="col" style={{ width: '10%' }}>
+                    KẾT QUẢ
+                  </th>
+                  <th scope="col" style={{ width: '15%' }}>
+                    TRỊ SỐ BÌNH THƯỜNG
+                  </th>
+                  <th scope="col">
+                    ĐƠN VỊ
+                  </th>
+                  <th scope="col">
+                    GHI CHÚ
+                  </th>
+                  <th scope="col">
+                    MÁY XÉT NGHIỆM
+                  </th>
+                </tr>
+              </thead>
+              <tbody />
+            </table>
+
+            {/* TODO: update time realtime */}
+            <div className="form-row">
+              <div className="col">
+                <p style={{ fontStyle: 'italic', fontWeight: 'bold', textAlign: 'center' }}>
+                  Chỉ định ngày
+                  {' '}
+                  {date}
+                </p>
+              </div>
+              <div className="col">
+                <p style={{ fontStyle: 'italic', textAlign: 'center' }}>
+                  In phiếu ngày
+                  {' '}
+                  {date}
+                </p>
+                <p style={{ fontWeight: 'bold', textAlign: 'center' }}>
+                  BÁC SĨ ĐIỀU TRỊ
+                </p>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+              </div>
+            </div>
+
           </div>
-
-          <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
-            <h4>THỰC HIỆN XÉT NGHIỆM TẠI KHU LẤY BỆNH PHẨM</h4>
-          </div>
-
-          {/* form fields */}
-          <div className="form-row">
-            <div className="form-group col-md-4">
-              <label htmlFor="username">
-                Họ tên người bệnh:
-                {' '}
-                {name}
-              </label>
-            </div>
-
-            <div className="form-group col-md-3">
-              <label htmlFor="birthDate">
-                Năm sinh:
-                {' '}
-                {birthDate}
-              </label>
-            </div>
-
-            <div className="form-group col-md-2">
-              <label htmlFor="gender">
-                Giới tính:
-                {' '}
-                {gender}
-              </label>
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-group col-md-7">
-              <label htmlFor="address">
-                Địa chỉ:
-                {' '}
-                {address}
-              </label>
-            </div>
-
-            <div className="form-group col-md-5">
-              <label htmlFor="patientType">
-                Đối tượng:
-                {' '}
-                {patientType}
-              </label>
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-group col-md-7">
-              <label htmlFor="diagnosis">
-                Chẩn đoán:
-                {' '}
-                {diagnosis}
-              </label>
-            </div>
-            <div className="form-group col-md-5">
-              <label htmlFor="number">
-                Số BHYT:
-              </label>
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-group col-md-7">
-              <label htmlFor="department">
-                Khoa phòng:
-                {' '}
-                PK
-                {department}
-              </label>
-            </div>
-            <div className="form-group col-md-5">
-              <label htmlFor="doctor">
-                Bác sĩ:
-                {' '}
-                {doctor}
-              </label>
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-group col-md-7">
-              <label htmlFor="getPerson">Người lấy mẫu:</label>
-            </div>
-
-            <div className="form-group col-md-5">
-              <label htmlFor="get">
-                Thời gian lấy mẫu:
-                {date.substring(11)}
-                {' '}
-                {' '}
-                {' '}
-                {date.substring(0, 10)}
-              </label>
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-group col-md-7">
-              <label htmlFor="receivePerson">Người nhận mẫu: Administrator</label>
-            </div>
-            <div className="form-group col-md-5">
-              <label htmlFor="receive">
-                {' '}
-                Thời gian nhận mẫu:
-                {date.substring(11)}
-                {' '}
-                {' '}
-                {' '}
-                {date.substring(0, 10)}
-              </label>
-            </div>
-          </div>
-
-          {/* TODO: add rows to table */}
-          <table className="table table-bordered" id="myTable">
-            <thead>
-              <tr style={{ textAlign: 'center' }}>
-                <th scope="col" style={{ width: '10%' }}>
-                  TÊN XÉT NGHIỆM
-                </th>
-                <th scope="col" style={{ width: '10%' }}>
-                  KẾT QUẢ
-                </th>
-                <th scope="col" style={{ width: '15%' }}>
-                  TRỊ SỐ BÌNH THƯỜNG
-                </th>
-                <th scope="col">
-                  ĐƠN VỊ
-                </th>
-                <th scope="col">
-                  GHI CHÚ
-                </th>
-                <th scope="col">
-                  MÁY XÉT NGHIỆM
-                </th>
-              </tr>
-            </thead>
-            <tbody />
-          </table>
-
-          {/* TODO: update time realtime */}
-          <div className="form-row">
-            <div className="col">
-              <p style={{ fontStyle: 'italic', fontWeight: 'bold', textAlign: 'center' }}>
-                Chỉ định ngày
-                {' '}
-                {date}
-              </p>
-            </div>
-            <div className="col">
-              <p style={{ fontStyle: 'italic', textAlign: 'center' }}>
-                In phiếu ngày
-                {' '}
-                {date}
-              </p>
-              <p style={{ fontWeight: 'bold', textAlign: 'center' }}>
-                BÁC SĨ ĐIỀU TRỊ
-              </p>
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-            </div>
-          </div>
-
         </div>
       ) : ((
         <div className="p-5 text-center">
           <h6 className="mb-3">Đang tải phiếu xét nghiệm...</h6>
         </div>
       ))}
+
+      {done && showForm && (
+      <div>
+        <br />
+        <div className="form-row justify-content-center">
+
+          <button className="btn btn-primary" onClick={downloadForm}>
+            Tải phiếu xét nghiệm
+          </button>
+        </div>
+      </div>
+      )}
     </>
   );
 }
