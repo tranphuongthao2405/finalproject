@@ -4,7 +4,6 @@
 import React, { useState, useEffect } from 'react';
 import { Typography } from 'antd';
 import axios from 'axios';
-import PatientIcon from './images/patient.png';
 
 const { Title } = Typography;
 
@@ -22,6 +21,8 @@ function PatientProfile() {
     patientId: '',
   });
 
+  const [noInfo, setNoInfo] = useState(false);
+
   const getPatients = (variables) => {
     if (variables.searchTerm !== undefined && variables.searchTerm.patientId !== '') {
       axios.get(`/api/patients/getPatientById?id=${variables.searchTerm.patientId}`)
@@ -38,6 +39,7 @@ function PatientProfile() {
           setDiagnosis(response.data.doc[0].doctorDiagnosis);
           setShowInfo(true);
         } else {
+          setShowInfo(false);
           // do something
         }
       });
@@ -57,7 +59,8 @@ function PatientProfile() {
                       setShowInfo(true);
                     }
                   } else {
-                    alert(res.data.err);
+                    setShowInfo(false);
+                    // alert(res.data.err);
                   }
                 });
             }
@@ -67,19 +70,6 @@ function PatientProfile() {
         }
       });
     }
-
-    // axios.post('/api/patients/getPatients', variables).then((response) => {
-    //   if (response.data.success) {
-    //     if (variables.loadMore) {
-    //       setPatients([...patients, ...response.data.tours]);
-    //     } else {
-    //       setPatients(response.data.tours);
-    //     }
-    //     setPostSize(response.data.postSize);
-    //   } else {
-    //     // alert("Failed to fetch product data");
-    //   }
-    // });
   };
 
   useEffect(() => {
@@ -87,6 +77,10 @@ function PatientProfile() {
       skip,
       limit,
     };
+
+    if (variables.searchTerm === undefined) {
+      setNoInfo(true);
+    }
     getPatients(variables);
   }, []);
 
@@ -108,6 +102,9 @@ function PatientProfile() {
       limit,
       searchTerm: searchTerms,
     };
+    if (searchTerms.patientId === '' && searchTerms.diagnosis === '') {
+      setNoInfo(true);
+    }
     setSkip(0);
     getPatients(variables);
   };
@@ -146,7 +143,7 @@ function PatientProfile() {
                 type="text"
                 className="form-control col-md-7"
                 patientId="patientId"
-                value={patientId}
+                value={searchTerms.patientId}
                 onChange={onChangePatientId}
               />
             </div>
@@ -163,7 +160,7 @@ function PatientProfile() {
                 type="text"
                 className="form-control col-md-7"
                 patientId="diagnosis"
-                value={diagnosis}
+                value={searchTerms.diagnosis}
                 onChange={onChangeDiagnosis}
               />
             </div>
@@ -180,7 +177,7 @@ function PatientProfile() {
 
         {postSize >= limit && (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <button className="btn btn-primary" onClick={onLoadMore}>Load more</button>
+          <button className="btn btn-primary" onClick={onLoadMore}>Tải thêm</button>
         </div>
         )}
       </div>
@@ -219,8 +216,22 @@ function PatientProfile() {
           <br />
         </div>
       )) : (
-        <div className="p-5 text-center">
-          <h6 className="mb-3">Đang tải thông tin bệnh nhân...</h6>
+        <div>
+          {noInfo ? (
+            <div className="p-5 text-center">
+              <h6 className="mb-3" style={{ fontStyle: 'italic' }}>
+                Vui lòng nhập ít nhất một trong hai trường thông tin để tìm kiếm
+                <br />
+                {' '}
+                thông tin bệnh nhân...
+              </h6>
+              {' '}
+            </div>
+          ) : (
+            <div className="p-5 text-center">
+              <h6 className="mb-3">Đang tải thông tin bệnh nhân...</h6>
+            </div>
+          )}
         </div>
       )}
     </div>

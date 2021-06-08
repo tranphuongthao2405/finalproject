@@ -66,9 +66,6 @@ function PatientInfo(props) {
         }
       });
 
-    // get diagnosis from doctor and chech other diagnosis
-    // if !== "" && done get result
-    // if !== "" && pending
     axios.get(`/api/diagnosis/getDiagnosisById?patientId=${patientId}`).then((response) => {
       if (response.data.success) {
         setDiagnosis(response.data.doc[0].doctorDiagnosis);
@@ -134,7 +131,7 @@ function PatientInfo(props) {
         setFungusAndParasiteDiagnosis('Chưa có/ Không có dữ liệu');
       }
 
-      if (fungusAndParasiteState === 'done') {
+      if (resultState === 'done') {
         axios.post('/api/diagnosis/result/getResultDiagnosisById', value)
           .then((response) => {
             if (response.data.success) {
@@ -146,7 +143,7 @@ function PatientInfo(props) {
             }
           });
       } else {
-        setFungusAndParasiteDiagnosis('Chưa có/ Không có dữ liệu');
+        setResultDiagnosis('Chưa có/ Không có dữ liệu');
       }
 
       if (hematologyAndImmunologyState === 'done') {
@@ -161,10 +158,10 @@ function PatientInfo(props) {
             }
           });
       } else {
-        setFungusAndParasiteDiagnosis('Chưa có/ Không có dữ liệu');
+        setHematologyAndImmunologyDiagnosis('Chưa có/ Không có dữ liệu');
       }
 
-      if (fungusAndParasiteState === 'done') {
+      if (biochemicalState === 'done') {
         axios.post('/api/diagnosis/biochemicalDiagnosis/getBiochemicalDiagnosisById', value)
           .then((response) => {
             if (response.data.success) {
@@ -176,7 +173,7 @@ function PatientInfo(props) {
             }
           });
       } else {
-        setFungusAndParasiteDiagnosis('Chưa có/ Không có dữ liệu');
+        setBioChemicalDiagnosis('Chưa có/ Không có dữ liệu');
       }
 
       if (imagingState === 'done') {
@@ -193,7 +190,7 @@ function PatientInfo(props) {
             }
           });
       } else {
-        setFungusAndParasiteDiagnosis('Chưa có/ Không có dữ liệu');
+        setImagingState('Chưa có/ Không có dữ liệu');
       }
     }
   }, [getState]);
@@ -220,7 +217,7 @@ function PatientInfo(props) {
 
   return (
     <>
-      {getState && done ? (
+      {getState && done && images.length > 0 && (
         <div className="outer-form">
           <div className="laboratory-form" id="download-form">
             <div className="form-row">
@@ -243,6 +240,9 @@ function PatientInfo(props) {
                 </p>
                 <p style={{ textAlign: 'center', fontSize: '24px' }}>
                   <b>THÔNG TIN BỆNH NHÂN</b>
+                </p>
+                <p style={{ textAlign: 'center', fontSize: '14px', fontStyle: 'italic' }}>
+                  (Kết quả chẩn đoán và xét nghiệm được lấy từ lần cuối bệnh nhân khám và xét nghiệm)
                 </p>
               </div>
 
@@ -395,12 +395,172 @@ function PatientInfo(props) {
             </div>
           </div>
         </div>
-      ) : ((
+      )}
+
+      {getState && !done && images.length === 0 && (
+        <div className="outer-form">
+          <div className="laboratory-form" id="download-form">
+            <div className="form-row">
+              <div className="form-group col-md-2">
+                <img src={Logo} alt="logo" width="100%" height="90%" />
+              </div>
+              <div className="form-group col-md-8">
+                <p>
+                  <b>
+                    Bệnh viện Da liễu Trung ương
+                    <br />
+                    15A Phương Mai - Đống Đa - Hà Nội
+                    <br />
+                    Website:
+                    {' '}
+                    <a href="http://dalieu.vn" style={{ color: 'black' }}>
+                      http://dalieu.vn
+                    </a>
+                  </b>
+                </p>
+                <p style={{ textAlign: 'center', fontSize: '24px' }}>
+                  <b>THÔNG TIN BỆNH NHÂN</b>
+                </p>
+
+                <p style={{ textAlign: 'center', fontSize: '14px', fontStyle: 'italic' }}>
+                  (Kết quả chẩn đoán và xét nghiệm được lấy từ lần cuối bệnh nhân khám và xét nghiệm)
+                </p>
+              </div>
+
+              <div className="form-group col-md-2">
+                <div>
+                  <label htmlFor="patientId">
+                    Mã BN:
+                    {' '}
+                    {patientId}
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {/* form fields */}
+            <div className="form-row">
+              <div className="form-group col-md-4">
+                <label htmlFor="username">
+                  Họ tên người bệnh:
+                  {' '}
+                  {name}
+                </label>
+              </div>
+
+              <div className="form-group col-md-3">
+                <label htmlFor="birthDate">
+                  Năm sinh:
+                  {' '}
+                  {birthDate}
+                </label>
+              </div>
+
+              <div className="form-group col-md-2">
+                <label htmlFor="gender">
+                  Giới tính:
+                  {' '}
+                  {gender}
+                </label>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group col-md-7">
+                <label htmlFor="address">
+                  Địa chỉ:
+                  {' '}
+                  {address}
+                </label>
+              </div>
+
+              <div className="form-group col-md-5">
+                <label htmlFor="patientType">
+                  Đối tượng:
+                  {' '}
+                  {patientType}
+                </label>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group col-md-7">
+                <label htmlFor="diagnosis">
+                  Chẩn đoán của bác sĩ:
+                  {' '}
+                  {diagnosis}
+                </label>
+              </div>
+              <div className="form-group col-md-5">
+                <label htmlFor="number">
+                  Số BHYT:
+                </label>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group col-md-7">
+                <label htmlFor="department">
+                  Khoa phòng:
+                  {' '}
+                  PK
+                  {department}
+                </label>
+              </div>
+              <div className="form-group col-md-5">
+                <label htmlFor="doctor">
+                  Bác sĩ:
+                  {' '}
+                  {doctor}
+                </label>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group col-md-7">
+                <label htmlFor="fungus">
+                  Kết quả xét nghiệm nấm - kí sinh trùng:
+                  {' '}
+                  {fungusAndParasiteDiagnosis}
+                </label>
+              </div>
+              <div className="form-group col-md-5">
+                <label htmlFor="biochemical">
+                  Kết quả xét nghiệm sinh hóa máu:
+                  {' '}
+                  {biochemicalDiagnosis}
+                </label>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group col-md-7">
+                <label htmlFor="hematology">
+                  Kết quả xét nghiệm huyết học - miễn dịch:
+                  {' '}
+                  {hematologyAndImmunologyDiagnosis}
+                </label>
+              </div>
+              <div className="form-group col-md-5">
+                <label htmlFor="result">
+                  Kết quả xét nghiệm tổng quát:
+                  {' '}
+                  {resultDiagnosis}
+                </label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {!done && !getState && images.length === 0 && (
         <div className="p-5 text-center">
           <h6 className="mb-3">Đang tải thông tin bệnh nhân...</h6>
         </div>
-      ))}
+      )}
 
+      {getState && done && (
       <div>
         <br />
         <div className="form-row justify-content-center">
@@ -410,6 +570,7 @@ function PatientInfo(props) {
           </button>
         </div>
       </div>
+      )}
     </>
   );
 }
