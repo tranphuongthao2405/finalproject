@@ -474,7 +474,6 @@ function BiochemicalForm(props) {
       <div>
         <br />
         <div className="form-row justify-content-center">
-
           <button className="btn btn-primary" onClick={downloadForm}>
             Tải phiếu xét nghiệm
           </button>

@@ -92,6 +92,19 @@ router.post("/getDiagnosisById", auth, (req, res) => {
   });
 });
 
+router.get("/getDiagnosisById", auth, (req, res) => {
+  let patientId = req.query.patientId;
+  Diagnosis.find({
+    patientId: patientId,
+  }).exec((err, doc) => {
+    if (err) {
+      return res.status(400).json({ success: false, err });
+    }
+
+    return res.status(200).json({ success: true, doc });
+  });
+});
+
 router.post("/putDiagnosis", auth, (req, res) => {
   const diagnosis = new Diagnosis({
     patientId: req.body.patientId,
@@ -185,17 +198,18 @@ router.post("/updateResultDiagnosis", auth, (req, res) => {
   );
 });
 
-// should reference to patient schema
-// router.get("/getImagingPatientList", auth, (req, res) => {
-//   Diagnosis.find({
-//     imaging: "pending",
-//   }).exec((err, docs) => {
-//     if (err) {
-//       return res.status(400).json({ success: false, err });
-//     }
+router.post("/getDiagnosis", auth, (req, res) => {
+  let diagnosis = req.body.diagnosis;
 
-//     return res.status(200).json({ success: true, docs });
-//   });
-// });
+  Diagnosis.find({
+    doctorDiagnosis: diagnosis,
+  }).exec((err, doc) => {
+    if (err) {
+      return res.status(400).json({ success: false, err });
+    }
+
+    return res.status(200).json({ success: true, doc });
+  });
+});
 
 module.exports = router;

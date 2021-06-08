@@ -15,14 +15,16 @@ import ImagingStaffBoard from './views/ImagingStaffBoard/ImagingStaffBoard';
 import AdminBoard from './views/AdminBoard/AdminBoard';
 import DoctorBoard from './views/DoctorBoard/DoctorBoard';
 import PatientList from './views/AdminBoard/PatientList';
-import patientStateReceived from './views/DoctorBoard/PatientList';
-import imagingPatientList from './views/ImagingStaffBoard/PatientList';
-import laboratoryPatientList from './views/LaboratoryStaffBoard/PatientList';
+import DoctorPatientList from './views/DoctorBoard/PatientList';
+import ImagingPatientList from './views/ImagingStaffBoard/PatientList';
+import LaboratoryPatientList from './views/LaboratoryStaffBoard/PatientList';
 import ImageProcessing from './views/ImagingStaffBoard/ImageProcessing';
 import BiochemicalForm from './views/LaboratoryStaffBoard/medicalTests/BiochemicalForm';
 import FungusForm from './views/LaboratoryStaffBoard/medicalTests/FungusForm';
 import HematologyForm from './views/LaboratoryStaffBoard/medicalTests/HematologyForm';
 import ResultForm from './views/LaboratoryStaffBoard/medicalTests/ResultForm';
+import PatientProfile from './views/PatientProfile/PatientProfile';
+import PatientInfo from './views/PatientProfile/PatientInfo';
 
 function App() {
   return (
@@ -43,14 +45,16 @@ function App() {
             <Route exact path="/laboratoryStaffBoard/hematologyAndImmunology/:patientId" component={Auth(HematologyAndImmunology, true)} />
             <Route exact path="/laboratoryStaffBoard/result/:patientId" component={Auth(Result, true)} />
             <Route exact path="/patientsList" component={Auth(PatientList, true)} />
-            <Route exact path="/patientStateReceived" component={Auth(patientStateReceived, true)} />
-            <Route exact path="/imagingPatientList" component={Auth(imagingPatientList, true)} />
-            <Route exact path="/laboratoryPatientList" component={Auth(laboratoryPatientList, true)} />
+            <Route exact path="/doctorPatientList" component={Auth(DoctorPatientList, true)} />
+            <Route exact path="/imagingPatientList" component={Auth(ImagingPatientList, true)} />
+            <Route exact path="/laboratoryPatientList" component={Auth(LaboratoryPatientList, true)} />
             <Route exact path="/imageProcessing/:id" component={Auth(ImageProcessing, true)} />
             <Route exact path="/biochemicalForm/:id" component={Auth(BiochemicalForm, true)} />
             <Route exact path="/fungusForm/:id" component={Auth(FungusForm, true)} />
             <Route exact path="/hematologyForm/:id" component={Auth(HematologyForm, true)} />
             <Route exact path="/resultForm/:id" component={Auth(ResultForm, true)} />
+            <Route exact path="/patientProfile" component={Auth(PatientProfile, true)} />
+            <Route exact path="/patientProfile/:id" component={Auth(PatientInfo, true)} />
           </Switch>
         </div>
         <Footer />

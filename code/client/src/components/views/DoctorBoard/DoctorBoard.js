@@ -138,7 +138,7 @@ function DoctorBoard(props) {
       axios.post('/api/diagnosis/updateDiagnosis', dataToUpdate2).then((response) => {
         if (response.data.success) {
           // do something
-          history.push('/patientStateReceived');
+          history.push('/doctorPatientList');
         } else {
           // do something
         }

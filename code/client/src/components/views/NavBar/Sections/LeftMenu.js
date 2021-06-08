@@ -22,7 +22,10 @@ function LeftMenu(props) {
       {user.userData !== undefined && user.userData.role === 'doctor' && (
         <Menu>
           <Menu.Item key="patientsReceived">
-            <a href="/patientStateReceived" style={{ textDecoration: 'none' }}>Danh sách bệnh nhân tiếp nhận</a>
+            <a href="/doctorPatientList" style={{ textDecoration: 'none' }}>Danh sách bệnh nhân tiếp nhận</a>
+          </Menu.Item>
+          <Menu.Item key="patientProfile">
+            <a href="/patientProfile" style={{ textDecoration: 'none' }}>Hồ sơ bệnh nhân</a>
           </Menu.Item>
         </Menu>
       )}
