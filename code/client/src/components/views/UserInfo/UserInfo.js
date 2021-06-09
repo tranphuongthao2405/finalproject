@@ -58,19 +58,19 @@ const UserInfo = (props) => {
 
       <form onSubmit={onSubmit} style={{ width: '800px' }}>
         <Form.Item>
-          <label>First name:</label>
+          <label>Họ:</label>
           <Input
             type="text"
-            placeholder="Enter your new first name"
+            placeholder="Nhập họ của bạn"
             value={firstName}
             onChange={onFirstNameChange}
           />
         </Form.Item>
         <Form.Item>
-          <label>Last name:</label>
+          <label>Tên:</label>
           <Input
             type="text"
-            placeholder="Enter your new last name"
+            placeholder="Nhập tên của bạn"
             value={lastName}
             onChange={onLastNameChange}
           />
@@ -79,16 +79,16 @@ const UserInfo = (props) => {
           <label>Email:</label>
           <Input
             type="email"
-            placeholder="Enter your new email"
+            placeholder="Nhập email"
             value={email}
             onChange={onEmailChange}
           />
         </Form.Item>
         <Form.Item>
-          <label>Password:</label>
+          <label>Mật khẩu mới:</label>
           <Input
             type="password"
-            placeholder="Enter your new password"
+            placeholder="Nhập mật khẩu mới"
             value={password}
             onChange={onPasswordChange}
           />
