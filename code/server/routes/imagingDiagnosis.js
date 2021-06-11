@@ -5,6 +5,7 @@ const { auth } = require("../middleware/auth");
 const fs = require("fs");
 const csvWriter = require("csv-write-stream");
 const parse = require("csv-parse");
+const spawn = require("child_process").spawn;
 
 router.post("/saveImage", auth, (req, res) => {
   let images = req.body.images;
@@ -48,12 +49,29 @@ router.post("/uploadImage", auth, (req, res) => {
   let images = req.body.images;
   let imagingProcessing = [];
   let finalPathFile = process.cwd() + "/imageProcessing/testdata.csv";
+  let pythonFilePath = process.cwd() + '/uploads/maskgen.py';
 
   const parser = parse({ columns: true }, function (err, records) {
     records.forEach((record) => {
       images.forEach((image) => {
+        let imageNamewExt = image.substring(8);
+        console.log(imageNamewExt);
         let imageName = image.substring(8);
         imageName = imageName.substring(0, imageName.length - 4);
+
+        const ls = spawn("python", [pythonFilePath, imageNamewExt]);
+
+        ls.stdout.on("data", (data) => {
+          console.log(`stdout: ${data}`);
+        });
+
+        ls.stderr.on("data", (data) => {
+          console.log(`stderr: ${data}`);
+        });
+
+        ls.on("close", (code) => {
+          console.log(`child process exited with code ${code}`);
+        });
         if (imageName === record.image_name) {
           imagingProcessing.push(record.target);
         }

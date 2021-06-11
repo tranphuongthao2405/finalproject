@@ -37,13 +37,13 @@ function PatientList() {
 
         axios.post('/api/diagnosis/getDiagnosisById', values).then((response) => {
           if (response.data.success) {
-            if (response.data.doc[0].doctorDiagnosis !== '') {
+            if (response.data.doc[0].imaging !== '') {
               doneDiagnosis[tempCount] = true;
               if (response.data.doc[0].imaging === 'done') {
                 imagingState[tempCount] = 'Đã xong';
-              } else if (response.data.doc[0].biochemical === 'pending') {
+              } else if (response.data.doc[0].imaging === 'pending') {
                 imagingState[tempCount] = 'Có';
-              } else if (response.data.doc[0].biochemical === '') {
+              } else if (response.data.doc[0].imaging === '') {
                 imagingState[tempCount] = 'Không';
               }
 

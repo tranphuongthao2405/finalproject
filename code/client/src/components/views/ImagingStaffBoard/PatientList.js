@@ -37,9 +37,9 @@ function PatientList() {
 
               if (response.data.doc[0].imaging === 'done') {
                 imagingState[tempCount] = 'Đã xong';
-              } else if (response.data.doc[0].biochemical === 'pending') {
+              } else if (response.data.doc[0].imaging === 'pending') {
                 imagingState[tempCount] = 'Có';
-              } else if (response.data.doc[0].biochemical === '') {
+              } else if (response.data.doc[0].imaging === '') {
                 imagingState[tempCount] = 'Không';
               }
             } else {

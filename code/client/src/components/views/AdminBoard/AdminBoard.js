@@ -89,7 +89,7 @@ function AdminBoard(props) {
 
   return (
     <div style={{
-      display: 'flex', flexDirection: 'column', justifyContent: 'center',
+      display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%',
     }}
     >
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>

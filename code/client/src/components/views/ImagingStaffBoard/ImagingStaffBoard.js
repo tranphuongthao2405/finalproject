@@ -70,7 +70,7 @@ function ImagingStaffBoard(props) {
   };
 
   return (
-    <div style={{ maxWidth: '90%', margin: '2rem auto' }}>
+    <div style={{ width: '90%', margin: '2rem auto' }}>
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
         <Title level={2}>Tải ảnh chụp chẩn đoán của bệnh nhân</Title>
       </div>
