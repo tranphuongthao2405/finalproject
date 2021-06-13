@@ -9,7 +9,7 @@ import axios from 'axios';
 
 const { Title } = Typography;
 
-function AdminBoard(props) {
+function Staff(props) {
   const history = useHistory();
 
   const [patientId, setPatientId] = useState('');
@@ -212,4 +212,4 @@ function AdminBoard(props) {
   );
 }
 
-export default AdminBoard;
+export default Staff;

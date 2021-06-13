@@ -47,18 +47,18 @@ function RegisterPage(props) {
         role: '',
       }}
       validationSchema={Yup.object().shape({
-        firstName: Yup.string().required('First name is required'),
-        lastName: Yup.string().required('Last name is required'),
+        firstName: Yup.string().required('Vui lòng nhập họ'),
+        lastName: Yup.string().required('Vui lòng nhập tên'),
         email: Yup.string()
-          .email('Email is invalid')
-          .required('Email is required'),
+          .email('Email không hợp lệ')
+          .required('Vui lòng nhập email'),
         password: Yup.string()
-          .min(6, 'Password must be at least 6 characters')
-          .required('Password is required'),
+          .min(6, 'Mật khẩu phải có tối thiểu 6 ký tự')
+          .required('Vui lòng nhập mật khẩu'),
         confirmPassword: Yup.string()
-          .oneOf([Yup.ref('password'), null], 'Passwords must match')
-          .required('Confirm password is required'),
-        role: Yup.string().required('Role is required'),
+          .oneOf([Yup.ref('password'), null], 'Mật khẩu phải khớp')
+          .required('Vui lòng nhập lại mật khẩu xác nhận'),
+        role: Yup.string().required('Vui lòng chọn vai trò'),
       })}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
@@ -96,16 +96,19 @@ function RegisterPage(props) {
         } = props;
         return (
           <div className="app">
-            <h2>Sign up</h2>
             <Form
-              style={{ minWidth: '450px' }}
+              style={{ minWidth: '550px' }}
               {...formItemLayout}
               onSubmit={handleSubmit}
+              className="form"
             >
-              <Form.Item required label="First Name">
+              <Form.Item style={{ textAlign: 'end' }}>
+                <h2>Đăng ký</h2>
+              </Form.Item>
+              <Form.Item required label="Họ">
                 <Input
                   id="firstName"
-                  placeholder="Enter your first name"
+                  placeholder="Nhập họ"
                   type="text"
                   value={values.firstName}
                   onChange={handleChange}
@@ -121,10 +124,10 @@ function RegisterPage(props) {
                 )}
               </Form.Item>
 
-              <Form.Item required label="Last Name">
+              <Form.Item required label="Tên">
                 <Input
                   id="lastName"
-                  placeholder="Enter your last name"
+                  placeholder="Nhập tên"
                   type="text"
                   value={values.lastName}
                   onChange={handleChange}
@@ -150,7 +153,7 @@ function RegisterPage(props) {
               >
                 <Input
                   id="email"
-                  placeholder="Enter your email"
+                  placeholder="Nhập email"
                   type="email"
                   value={values.email}
                   onChange={handleChange}
@@ -168,7 +171,7 @@ function RegisterPage(props) {
 
               <Form.Item
                 required
-                label="Password"
+                label="Mật khẩu"
                 hasFeedback
                 validateStatus={
                   errors.password && touched.password ? 'error' : 'success'
@@ -176,7 +179,7 @@ function RegisterPage(props) {
               >
                 <Input
                   id="password"
-                  placeholder="Enter your password"
+                  placeholder="Nhập mật khẩu"
                   type="password"
                   value={values.password}
                   onChange={handleChange}
@@ -192,10 +195,10 @@ function RegisterPage(props) {
                 )}
               </Form.Item>
 
-              <Form.Item required label="Confirm" hasFeedback>
+              <Form.Item required label="Xác nhận mật khẩu" hasFeedback>
                 <Input
                   id="confirmPassword"
-                  placeholder="Enter your confirm password"
+                  placeholder="Nhập mật khẩu xác nhận"
                   type="password"
                   value={values.confirmPassword}
                   onChange={handleChange}
@@ -211,10 +214,10 @@ function RegisterPage(props) {
                 )}
               </Form.Item>
 
-              <Form.Item required label="Role" hasFeedback>
+              <Form.Item required label="Vai trò" hasFeedback>
                 <Select
                   id="role"
-                  placeholder="Select your role"
+                  placeholder="Chọn vai trò"
                   value={values.role}
                   onChange={(selectedOption) => handleChange('role')(selectedOption)}
                   onBlur={handleBlur}
@@ -225,22 +228,23 @@ function RegisterPage(props) {
                   }
                 >
                   <Option value="admin">Admin</Option>
-                  <Option value="doctor">Doctor</Option>
-                  <Option value="laboratory staff">Laboratory staff</Option>
-                  <Option value="imaging staff">Imaging staff</Option>
+                  <Option value="doctor">Bác sĩ</Option>
+                  <Option value="laboratory staff">Nhân viên xét nghiệm</Option>
+                  <Option value="imaging staff">Nhân viên chụp chẩn đoán hình ảnh</Option>
+                  <Option value="staff">Nhân viên</Option>
                 </Select>
                 {errors.role && touched.role && (
                   <div className="input-feedback">{errors.role}</div>
                 )}
               </Form.Item>
 
-              <Form.Item {...tailFormItemLayout}>
+              <Form.Item style={{ textAlign: 'center' }} {...tailFormItemLayout}>
                 <Button
                   onClick={handleSubmit}
                   type="primary"
                   disabled={isSubmitting}
                 >
-                  Submit
+                  Đăng ký
                 </Button>
               </Form.Item>
             </Form>

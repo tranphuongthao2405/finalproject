@@ -12,9 +12,9 @@ import FungusAndParasite from './views/LaboratoryStaffBoard/medicalTests/FungusA
 import HematologyAndImmunology from './views/LaboratoryStaffBoard/medicalTests/HematologyAndImmunology';
 import Result from './views/LaboratoryStaffBoard/medicalTests/Result';
 import ImagingStaffBoard from './views/ImagingStaffBoard/ImagingStaffBoard';
-import AdminBoard from './views/AdminBoard/AdminBoard';
+import Staff from './views/Staff/Staff';
 import DoctorBoard from './views/DoctorBoard/DoctorBoard';
-import PatientList from './views/AdminBoard/PatientList';
+import PatientList from './views/Staff/PatientList';
 import DoctorPatientList from './views/DoctorBoard/PatientList';
 import ImagingPatientList from './views/ImagingStaffBoard/PatientList';
 import LaboratoryPatientList from './views/LaboratoryStaffBoard/PatientList';
@@ -25,6 +25,8 @@ import HematologyForm from './views/LaboratoryStaffBoard/medicalTests/Hematology
 import ResultForm from './views/LaboratoryStaffBoard/medicalTests/ResultForm';
 import PatientProfile from './views/PatientProfile/PatientProfile';
 import PatientInfo from './views/PatientProfile/PatientInfo';
+import Admin from './views/Admin/Admin';
+import UserList from './views/Admin/UserList';
 
 function App() {
   return (
@@ -38,7 +40,7 @@ function App() {
             <Route exact path="/register" component={Auth(RegisterPage, false)} />
             <Route exact path="/user/:userId" component={Auth(UserInfo, true)} />
             <Route exact path="/imagingStaffBoard/:id" component={Auth(ImagingStaffBoard, true)} />
-            <Route exact path="/adminBoard" component={Auth(AdminBoard, true)} />
+            <Route exact path="/staff" component={Auth(Staff, true)} />
             <Route exact path="/doctorBoard/:id" component={Auth(DoctorBoard, true)} />
             <Route exact path="/laboratoryStaffBoard/biochemical/:patientId" component={Auth(Biochemical, true)} />
             <Route exact path="/laboratoryStaffBoard/fungusAndParasite/:patientId" component={Auth(FungusAndParasite, true)} />
@@ -55,6 +57,8 @@ function App() {
             <Route exact path="/resultForm/:id" component={Auth(ResultForm, true)} />
             <Route exact path="/patientProfile" component={Auth(PatientProfile, true)} />
             <Route exact path="/patientProfile/:id" component={Auth(PatientInfo, true)} />
+            <Route exact path="/admin" component={Auth(Admin, true)} />
+            <Route exact path="/userlist" component={Auth(UserList, true)} />
           </Switch>
         </div>
         <Footer />

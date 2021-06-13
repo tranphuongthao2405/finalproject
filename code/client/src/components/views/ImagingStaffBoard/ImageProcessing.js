@@ -35,7 +35,8 @@ function ImageProcessing(props) {
           style={{ minWidth: '512px', width: '512px', height: '285px' }}
           src='http://localhost:5000/${images[i]}'
           alt='patientImage-${i}'
-        /></td>
+        />
+        </td>
       <td class="text-center">${parseFloat(imageProcessing[i]) * 100}%</td>
       </tr>
       `;

@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const cors = require("cors");
+const { Room } = require("./models/Room");
 
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -16,7 +17,10 @@ const connect = mongoose
     useCreateIndex: true,
     useFindAndModify: false,
   })
-  .then(() => console.log("MongoDB connected..."))
+  .then(() => {
+    console.log("MongoDB connected...");
+    initial();
+  })
   .catch((err) => console.log(err));
 
 app.use(cors());
@@ -32,10 +36,22 @@ app.use(cookieParser());
 app.use("/api/users", require("./routes/users"));
 app.use("/api/patients", require("./routes/patients"));
 app.use("/api/diagnosis", require("./routes/diagnosis"));
-app.use("/api/diagnosis/imagingDiagnosis", require("./routes/imagingDiagnosis"));
-app.use("/api/diagnosis/biochemicalDiagnosis", require("./routes/biochemicalDiagnosis"));
-app.use("/api/diagnosis/fungusAndParasiteDiagnosis", require("./routes/fungusAndParasiteDiagnosis"));
-app.use("/api/diagnosis/hematologyDiagnosis", require("./routes/hematologyDiagnosis"));
+app.use(
+  "/api/diagnosis/imagingDiagnosis",
+  require("./routes/imagingDiagnosis")
+);
+app.use(
+  "/api/diagnosis/biochemicalDiagnosis",
+  require("./routes/biochemicalDiagnosis")
+);
+app.use(
+  "/api/diagnosis/fungusAndParasiteDiagnosis",
+  require("./routes/fungusAndParasiteDiagnosis")
+);
+app.use(
+  "/api/diagnosis/hematologyDiagnosis",
+  require("./routes/hematologyDiagnosis")
+);
 app.use("/api/diagnosis/result", require("./routes/result"));
 
 // use this to show the image you have in node js server to client (react js)
@@ -60,3 +76,281 @@ const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server is listening on ${port}`);
 });
+
+function initial() {
+  Room.collection.estimatedDocumentCount((err, count) => {
+    if (!err && count === 0) {
+      new Room({
+        room: "1",
+        doctor: [
+          { name: "Hoàng Thị Ái Liên" },
+          { name: "Trịnh Minh Trang" },
+          { name: "Lê Thị Hoài Thu" },
+        ],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "2",
+        doctor: [
+          { name: "Đặng Bích Diệp" },
+          { name: "Đặng Thị Lương" },
+          { name: "Nguyễn Thị Kim Cúc" },
+        ],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "3",
+        doctor: [
+          { name: "Nguyễn Quang Minh" },
+          { name: "Nguyễn Minh Thu" },
+          { name: "Trần Thị Huyền" },
+        ],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "4",
+        doctor: [
+          { name: "Vũ Huy Lượng" },
+          { name: "Vũ Thị Nguyệt Minh" },
+          { name: "Nguyễn Thị Huyền Thương" },
+        ],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "5",
+        doctor: [{ name: "Phạm Thị Lan" }],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "6",
+        doctor: [{ name: "Trần Hậu Khang" }, { name: "Lê Thanh Hiền" }],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "7",
+        doctor: [{ name: "Nguyễn Hữu Sáu" }],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "8",
+        doctor: [{ name: "Lê Hữu Doanh" }],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "9A",
+        doctor: [
+          { name: "Phạm Thị Loan" },
+          { name: "Vũ Thị Phương Dung" },
+          { name: "Nguyễn Thị Hà Minh" },
+        ],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "9B",
+        doctor: [
+          { name: "Hoàng Thị Phượng" },
+          { name: "Trịnh Thị Linh" },
+          { name: "Hoàng Văn Tâm" },
+        ],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "10",
+        doctor: [
+          { name: "Đỗ Thị Thu Hiền" },
+          { name: "Nguyễn Thị Mai" },
+          { name: "Thân Trọng Tùy" },
+        ],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "11",
+        doctor: [
+          { name: "Nguyễn Thị Thanh Thùy" },
+          { name: "Nguyễn Mạnh Tân" },
+          { name: "Nguyễn Thùy Linh" },
+        ],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "12",
+        doctor: [
+          { name: "Lê Huyền My" },
+          { name: "Lê Hải Yến" },
+          { name: "Bùi Thị Phương Minh" },
+        ],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "13",
+        doctor: [
+          { name: "Vũ Thị Hồng Luyến" },
+          { name: "Lê Thị Mai" },
+          { name: "Trương Thị Huyền Trang" },
+        ],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "14",
+        doctor: [{ name: "Trần Cẩm Vân" }, { name: "Ngô Minh Thảo" }],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "15",
+        doctor: [{ name: "Phạm Thị Thu Hương" }],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "16",
+        doctor: [{ name: "Trịnh Thị Phượng" }, { name: "Nguyễn Minh Hường" }],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "17",
+        doctor: [
+          { name: "Vũ Thanh Tùng" },
+          { name: "Đinh Hữu Nghị" },
+          { name: "Hà Tuấn Minh" },
+        ],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "18",
+        doctor: [
+          { name: "Lê Thị Xuân" },
+          { name: "Nguyễn Thị Tuyến" },
+          { name: "Nguyễn Thị Hà Vinh" },
+        ],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "19",
+        doctor: [{ name: "Phạm Thị Minh Phương" }],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "20",
+        doctor: [{ name: "Quách Thị Hà Giang" }, { name: "Phạm Thị Thảo" }],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "21",
+        doctor: [
+          { name: "Hoàng Thị Ngọc Lý" },
+          { name: "Trần Thu Hà Phương" },
+          { name: "Trần Vân Anh" },
+        ],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "22",
+        doctor: [
+          { name: "Bùi Quang Hào" },
+          { name: "Phạm Đình Hòa" },
+          { name: "Nguyễn Thị Hoa" },
+        ],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+
+      new Room({
+        room: "23",
+        doctor: [{ name: "Đào Hữu Ghi" }, { name: "Dương Thị Lan" }],
+      }).save((err) => {
+        if (err) {
+          console.log("Error", err);
+        }
+      });
+    }
+  });
+}

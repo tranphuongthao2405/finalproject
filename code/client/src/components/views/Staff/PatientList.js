@@ -22,7 +22,7 @@ function PatientList() {
       <div className="p-5 text-center">
         <h3 className="mb-3">DANH SÁCH BỆNH NHÂN</h3>
       </div>
-      {patients && patients.length > 0 && setShowTable && (
+      {patients && patients.length > 0 && showTable && (
         <table className="table table-bordered">
           <thead>
             <tr style={{ textAlign: 'center' }}>

@@ -35,12 +35,12 @@ function LoginPage(props) {
       }}
       validationSchema={Yup.object().shape({
         email: Yup.string()
-          .email('Email is invalid')
-          .required('Email is required'),
+          .email('Email không hợp lệ')
+          .required('Yêu cầu nhập địa chỉ email'),
         password: Yup.string()
-          .min(6, 'Password must be at least 6 characters')
-          .required('Password is required')
-          .matches(/(?=.*[0-9])/, 'Password must contain a number.'),
+          .min(6, 'Password phải có độ dài tối thiểu là 6 ký tự')
+          .required('Yêu cầu nhập password')
+          .matches(/(?=.*[0-9])/, 'Password phải bao gồm ít nhất 1 chữ số'),
       })}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
@@ -62,13 +62,13 @@ function LoginPage(props) {
                 props.history.push('/');
               } else {
                 setFormErrorMessage(
-                  'Check out your email address or password again',
+                  'Kiểm tra lại email hoặc password của bạn',
                 );
               }
             })
             .catch((err) => {
               setFormErrorMessage(
-                'Check out your email address or password again',
+                'Kiểm tra lại email hoặc password của bạn',
               );
               setTimeout(() => {
                 setFormErrorMessage('');
@@ -100,7 +100,7 @@ function LoginPage(props) {
                   prefix={
                     <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
                   }
-                  placeholder="Enter your email"
+                  placeholder="Nhập email"
                   type="email"
                   value={values.email}
                   onChange={handleChange}
@@ -122,7 +122,7 @@ function LoginPage(props) {
                   prefix={
                     <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
                   }
-                  placeholder="Enter your password"
+                  placeholder="Nhập password"
                   type="password"
                   value={values.password}
                   onChange={handleChange}
@@ -160,14 +160,14 @@ function LoginPage(props) {
                   onChange={handleRememberMe}
                   checked={rememberMe}
                 >
-                  Remember me
+                  Ghi nhớ tài khoản
                 </Checkbox>
                 <a
                   className="login-form-forgot"
                   href="/reset_user"
                   style={{ float: 'right' }}
                 >
-                  Forget password?
+                  Quên mật khẩu
                 </a>
                 <div>
                   <Button
@@ -178,12 +178,9 @@ function LoginPage(props) {
                     disabled={isSubmitting}
                     onSubmit={handleSubmit}
                   >
-                    Log in
+                    Đăng nhập
                   </Button>
                 </div>
-                Or
-                {' '}
-                <a href="/register">register now!</a>
               </Form.Item>
             </form>
           </div>
