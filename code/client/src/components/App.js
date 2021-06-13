@@ -24,7 +24,6 @@ import FungusForm from './views/LaboratoryStaffBoard/medicalTests/FungusForm';
 import HematologyForm from './views/LaboratoryStaffBoard/medicalTests/HematologyForm';
 import ResultForm from './views/LaboratoryStaffBoard/medicalTests/ResultForm';
 import PatientProfile from './views/PatientProfile/PatientProfile';
-import PatientInfo from './views/PatientProfile/PatientInfo';
 import Admin from './views/Admin/Admin';
 import UserList from './views/Admin/UserList';
 
@@ -56,7 +55,6 @@ function App() {
             <Route exact path="/hematologyForm/:id" component={Auth(HematologyForm, true)} />
             <Route exact path="/resultForm/:id" component={Auth(ResultForm, true)} />
             <Route exact path="/patientProfile" component={Auth(PatientProfile, true)} />
-            <Route exact path="/patientProfile/:id" component={Auth(PatientInfo, true)} />
             <Route exact path="/admin" component={Auth(Admin, true)} />
             <Route exact path="/userlist" component={Auth(UserList, true)} />
           </Switch>

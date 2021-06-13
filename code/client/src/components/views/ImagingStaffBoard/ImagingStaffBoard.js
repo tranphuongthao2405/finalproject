@@ -99,7 +99,7 @@ function ImagingStaffBoard(props) {
         <br />
         <br />
         {imagesArray && imagesArray.length > 0 && (
-          <div className="form-row justify-content-center">
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10%' }}>
             <ImageGallery items={imagesArray} />
           </div>
         )}

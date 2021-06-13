@@ -210,7 +210,7 @@ function PatientProfile() {
               </p>
             </div>
             <div className="col-md-2" style={{ marginTop: '4%' }}>
-              <a href={`/patientProfile/${patient.patientId}`} style={{ textDecoration: 'none' }}>Xem chi tiết</a>
+              <a href={`/imageProcessing/${patient.patientId}`} style={{ textDecoration: 'none' }}>Xem chi tiết</a>
             </div>
           </div>
           <br />

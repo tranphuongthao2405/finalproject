@@ -43,6 +43,11 @@ code {
   width: 1121px;
   padding: 20px;
 }
+
+.image-gallery {
+  width: 512px;
+  height: 512px;
+}
  
 .btn.btn-primary {
   background-color: #337ab7;

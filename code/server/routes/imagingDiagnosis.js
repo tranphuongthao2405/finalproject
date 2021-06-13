@@ -50,7 +50,7 @@ router.post("/uploadImage", auth, (req, res) => {
   let images = req.body.images;
   let imagingProcessing = [];
   let finalPathFile = process.cwd() + "/imageProcessing/testdata.csv";
-  let pythonFilePath = process.cwd() + "/uploads/";
+  let pythonFilePath = process.cwd() + "\\uploads\\maskgen.py";
 
   const parser = parse({ columns: true }, function (err, records) {
     records.forEach((record) => {
@@ -59,40 +59,10 @@ router.post("/uploadImage", auth, (req, res) => {
         let imageName = image.substring(8);
         imageName = imageName.substring(0, imageName.length - 4);
 
-        // const ls = spawn("python", [
-        //   pythonFilePath,
-        //   imageNamewExt,
-        //   imageNamewExt,
-        // ]);
-
-        // // ls.stdout.on("data", (data) => {
-        // //   console.log(`stdout: ${data}`);
-        // // });
-
-        // ls.stderr.on("data", (data) => {
-        //   console.log(`stderr: ${data}`);
-        // });
-
-        // ls.on("close", (code) => {
-        //   console.log(`child process exited with code ${code}`);
-        // });
-
-        let options = {
-          mode: "binary",
-          pythonOptions: ["-u"],
-          scriptPath: pythonFilePath,
-          args: [imageNamewExt],
-        };
-
-        ps.PythonShell.run("maskgen.py", options, function (err, results) {
-          if (err) throw err;
-          console.log("finished");
-          console.log(results);
-        });
-
-        // ps.PythonShell.stdout.on("data", (data) => {
-        //   // Do something with the data returned from python script
-        // });
+        const ls = spawn("python", [
+          pythonFilePath,
+          imageNamewExt,
+        ], {cwd: process.cwd() + "\\uploads\\"});
 
         if (imageName === record.image_name) {
           imagingProcessing.push(record.target);
