@@ -6,11 +6,13 @@ import { Typography } from 'antd';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
+import SCHEDULE from '../../../constant/Constant';
 
 const { Title } = Typography;
 
 function Staff(props) {
   const history = useHistory();
+  let doctors = [];
 
   const [patientId, setPatientId] = useState('');
   const [name, setName] = useState('');
@@ -18,6 +20,8 @@ function Staff(props) {
   const [gender, setGender] = useState();
   const [address, setAddress] = useState('');
   const [patientType, setPatientType] = useState('');
+  const [doctor, setDoctor] = useState();
+  const [department, setDepartment] = useState();
 
   const onChangePatientId = (e) => {
     setPatientId(e.target.value);
@@ -43,6 +47,14 @@ function Staff(props) {
     setPatientType(e.target.value);
   };
 
+  const onChangeDepartment = (e) => {
+    setDepartment(e.target.value);
+  };
+
+  const onChangeDoctor = (e) => {
+    setDoctor(e.target.value);
+  };
+
   const checkAllTableField = () => {
     let allFieldFilled = true;
     document.getElementById('checkForm').querySelectorAll('[required]').forEach((element) => {
@@ -65,8 +77,8 @@ function Staff(props) {
         gender,
         address,
         patientType,
-        doctor: '',
-        department: '',
+        doctor,
+        department,
       };
       axios.post('/api/patients/uploadInfo', values).then((response) => {
         if (response.data.success) {
@@ -183,6 +195,59 @@ function Staff(props) {
                 <option value="">Chọn đối tượng</option>
                 <option value="Khám trong giờ">Khám trong giờ</option>
                 <option value="Khám ngoài giờ">Khám ngoài giờ</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="form-row justify-content-center">
+            <div className="form-group col-md-5">
+              <h6 className="mb-3">Phòng khám:</h6>
+              <select
+                name="department"
+                className="form-control"
+                value={department}
+                onChange={onChangeDepartment}
+                required
+              >
+                <option value="">Chọn phòng khám</option>
+                {
+                  SCHEDULE.map((item) => (
+                    <option key={item.PK} value={item.PK}>
+                      PK
+                      {item.PK}
+                    </option>
+                  ))
+                }
+              </select>
+            </div>
+          </div>
+
+          <div className="form-row justify-content-center">
+            <div className="form-group col-md-5">
+              <h6 className="mb-3">Bác sĩ điều trị:</h6>
+              <select
+                name="doctor"
+                className="form-control"
+                value={doctor}
+                onChange={onChangeDoctor}
+                required
+              >
+                <option value="">Chọn bác sĩ</option>
+                {SCHEDULE.forEach((item) => {
+                  if (item.PK === department) {
+                    doctors = item.doctor;
+                  }
+                })}
+                {
+                  doctors !== [] && doctors.map((dr) => (
+                    <option key={`${dr.name}${dr.level}`} value={dr.name}>
+                      {dr.level}
+                      .
+                      {' '}
+                      {dr.name}
+                    </option>
+                  ))
+                }
               </select>
             </div>
           </div>

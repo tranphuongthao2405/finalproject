@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const roomSchema = mongoose.Schema(
+const departmentSchema = mongoose.Schema(
   {
-    room: {
+    department: {
       type: String,
     },
     doctor: {
@@ -13,6 +13,6 @@ const roomSchema = mongoose.Schema(
   { timestamp: true }
 );
 
-const Room = mongoose.model("Room", roomSchema);
+const Department = mongoose.model("Department", departmentSchema);
 
-module.exports = { Room };
+module.exports = { Department };

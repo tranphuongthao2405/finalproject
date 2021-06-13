@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -22,7 +23,6 @@ function DoctorBoard(props) {
 
   const [showInfo, setShowInfo] = useState(false);
   const [notFound, setNotFound] = useState(false);
-  let doctors = [];
 
   // state to check process
   const [imagingCheck, setImagingCheck] = useState(false);
@@ -67,6 +67,8 @@ function DoctorBoard(props) {
           setAddress(response.data.patient[0].address);
           setGender(response.data.patient[0].gender);
           setPatientType(response.data.patient[0].patientType);
+          setDoctor(response.data.patient[0].doctor);
+          setDepartment(response.data.patient[0].department);
           setShowInfo(true);
           setNotFound(false);
         } else {
@@ -76,16 +78,6 @@ function DoctorBoard(props) {
         }
       });
   }, []);
-
-  const onChangeDepartment = (e) => {
-    console.log(e.target.value);
-    setDepartment(e.target.value);
-  };
-
-  const onChangeDoctor = (e) => {
-    console.log(e.target.value);
-    setDoctor(e.target.value);
-  };
 
   const checkAllTableField = () => {
     let allFieldFilled = true;
@@ -109,20 +101,6 @@ function DoctorBoard(props) {
     e.preventDefault();
 
     if (checkAllTableField) {
-      // update doctor and department for patient
-      const dataToUpdate = {
-        patientId,
-        doctor,
-        department,
-      };
-      axios.post('/api/patients/updateInfo', dataToUpdate).then((response) => {
-        if (response.data.success) {
-          // do something
-        } else {
-          // do something
-        }
-      });
-
       const value1 = imagingCheck ? 'pending' : '';
       const value2 = biochemicalCheck ? 'pending' : '';
       const value3 = fungusAndParasiteCheck ? 'pending' : '';
@@ -199,51 +177,24 @@ function DoctorBoard(props) {
           <div className="form-row justify-content-center">
             <div className="form-group col-md-6">
               <h6 className="mb-3">Phòng khám:</h6>
-              <select
-                name="department"
+              <input
+                type="text"
                 className="form-control"
+                name="department"
                 value={department}
-                onChange={onChangeDepartment}
-                required
-              >
-                <option value="">Chọn phòng khám</option>
-                {
-                  SCHEDULE.map((item) => (
-                    <option key={item.PK} value={item.PK}>
-                      PK
-                      {item.PK}
-                    </option>
-                  ))
-                }
-              </select>
+                disabled
+              />
             </div>
-            {/* still some bugs when select first doctor */}
+
             <div className="form-group col-md-6">
               <h6 className="mb-3">Bác sĩ điều trị:</h6>
-              <select
+              <input
+                type="text"
                 name="doctor"
                 className="form-control"
                 value={doctor}
-                onChange={onChangeDoctor}
-                required
-              >
-                <option value="">Chọn bác sĩ</option>
-                {SCHEDULE.forEach((item) => {
-                  if (item.PK === department) {
-                    doctors = item.doctor;
-                  }
-                })}
-                {
-                  doctors !== [] && doctors.map((dr) => (
-                    <option key={`${dr.name}${dr.level}`} value={dr.name}>
-                      {dr.level}
-                      .
-                      {' '}
-                      {dr.name}
-                    </option>
-                  ))
-                }
-              </select>
+                disabled
+              />
             </div>
           </div>
           <div className="form-row justify-content-center">

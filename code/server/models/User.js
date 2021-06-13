@@ -26,6 +26,9 @@ const userSchema = mongoose.Schema(
     role: {
       type: String,
     },
+    department: {
+      type: String
+    },
     token: {
       type: String,
     },

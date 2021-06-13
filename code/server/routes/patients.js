@@ -86,61 +86,17 @@ router.get("/getAllPatients", auth, (req, res) => {
     });
 });
 
-router.post("/updateInfo", auth, (req, res) => {
-  let patientId = req.body.patientId;
-  Patient.findOneAndUpdate(
-    {
-      patientId: patientId,
-    },
-    { $set: { doctor: req.body.doctor, department: req.body.department } },
-    { new: true },
-    (err, patient) => {
-      if (err) {
-        return res.status(400).json({ success: false, err });
-      }
-
-      return res.status(200).json({ success: true, patient });
+router.post("/getPatientsByDepartment", auth, (req, res) => {
+  let department = req.body.department;
+  Patient.find({
+    department: department,
+  }).exec((err, patients) => {
+    if (err) {
+      return res.status(400).json({ success: false, err });
     }
-  );
+
+    return res.status(200).json({ success: true, patients });
+  });
 });
-
-// router.post("/getPatients ", auth, (req, res) => {
-//   let order = req.body.order ? req.body.order : "desc";
-//   let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
-//   let limit = req.body.limit ? parseInt(req.body.limit) : 100;
-//   let skip = parseInt(req.body.skip);
-
-//   let findArgs = {};
-//   let term = req.body.searchTerm;
-
-//   if (term) {
-//     Patient.find(findArgs)
-//       .find({ $text: { $search: term } })
-//       .sort([[sortBy, order]])
-//       .skip(skip)
-//       .limit(limit)
-//       .exec((err, tours) => {
-//         if (err) {
-//           return res.status(400).json({ success: false, err });
-//         }
-//         return res
-//           .status(200)
-//           .json({ success: true, tours, postSize: tours.length });
-//       });
-//   } else {
-//     Patient.find(findArgs)
-//       .sort([[sortBy, order]])
-//       .skip(skip)
-//       .limit(limit)
-//       .exec((err, tours) => {
-//         if (err) {
-//           return res.status(400).json({ success: false, err });
-//         }
-//         return res
-//           .status(200)
-//           .json({ success: true, tours, postSize: tours.length });
-//       });
-//   }
-// });
 
 module.exports = router;

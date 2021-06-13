@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const cors = require("cors");
-const { Room } = require("./models/Room");
+const { Department } = require("./models/Department");
 
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -78,10 +78,10 @@ app.listen(port, () => {
 });
 
 function initial() {
-  Room.collection.estimatedDocumentCount((err, count) => {
+  Department.collection.estimatedDocumentCount((err, count) => {
     if (!err && count === 0) {
-      new Room({
-        room: "1",
+      new Department({
+        department: "1",
         doctor: [
           { name: "Hoàng Thị Ái Liên" },
           { name: "Trịnh Minh Trang" },
@@ -93,8 +93,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "2",
+      new Department({
+        department: "2",
         doctor: [
           { name: "Đặng Bích Diệp" },
           { name: "Đặng Thị Lương" },
@@ -106,8 +106,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "3",
+      new Department({
+        department: "3",
         doctor: [
           { name: "Nguyễn Quang Minh" },
           { name: "Nguyễn Minh Thu" },
@@ -119,8 +119,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "4",
+      new Department({
+        department: "4",
         doctor: [
           { name: "Vũ Huy Lượng" },
           { name: "Vũ Thị Nguyệt Minh" },
@@ -132,8 +132,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "5",
+      new Department({
+        department: "5",
         doctor: [{ name: "Phạm Thị Lan" }],
       }).save((err) => {
         if (err) {
@@ -141,8 +141,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "6",
+      new Department({
+        department: "6",
         doctor: [{ name: "Trần Hậu Khang" }, { name: "Lê Thanh Hiền" }],
       }).save((err) => {
         if (err) {
@@ -150,8 +150,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "7",
+      new Department({
+        department: "7",
         doctor: [{ name: "Nguyễn Hữu Sáu" }],
       }).save((err) => {
         if (err) {
@@ -159,8 +159,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "8",
+      new Department({
+        department: "8",
         doctor: [{ name: "Lê Hữu Doanh" }],
       }).save((err) => {
         if (err) {
@@ -168,8 +168,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "9A",
+      new Department({
+        department: "9A",
         doctor: [
           { name: "Phạm Thị Loan" },
           { name: "Vũ Thị Phương Dung" },
@@ -181,8 +181,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "9B",
+      new Department({
+        department: "9B",
         doctor: [
           { name: "Hoàng Thị Phượng" },
           { name: "Trịnh Thị Linh" },
@@ -194,8 +194,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "10",
+      new Department({
+        department: "10",
         doctor: [
           { name: "Đỗ Thị Thu Hiền" },
           { name: "Nguyễn Thị Mai" },
@@ -207,8 +207,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "11",
+      new Department({
+        department: "11",
         doctor: [
           { name: "Nguyễn Thị Thanh Thùy" },
           { name: "Nguyễn Mạnh Tân" },
@@ -220,8 +220,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "12",
+      new Department({
+        department: "12",
         doctor: [
           { name: "Lê Huyền My" },
           { name: "Lê Hải Yến" },
@@ -233,8 +233,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "13",
+      new Department({
+        department: "13",
         doctor: [
           { name: "Vũ Thị Hồng Luyến" },
           { name: "Lê Thị Mai" },
@@ -246,8 +246,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "14",
+      new Department({
+        department: "14",
         doctor: [{ name: "Trần Cẩm Vân" }, { name: "Ngô Minh Thảo" }],
       }).save((err) => {
         if (err) {
@@ -255,8 +255,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "15",
+      new Department({
+        department: "15",
         doctor: [{ name: "Phạm Thị Thu Hương" }],
       }).save((err) => {
         if (err) {
@@ -264,8 +264,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "16",
+      new Department({
+        department: "16",
         doctor: [{ name: "Trịnh Thị Phượng" }, { name: "Nguyễn Minh Hường" }],
       }).save((err) => {
         if (err) {
@@ -273,8 +273,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "17",
+      new Department({
+        department: "17",
         doctor: [
           { name: "Vũ Thanh Tùng" },
           { name: "Đinh Hữu Nghị" },
@@ -286,8 +286,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "18",
+      new Department({
+        department: "18",
         doctor: [
           { name: "Lê Thị Xuân" },
           { name: "Nguyễn Thị Tuyến" },
@@ -299,8 +299,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "19",
+      new Department({
+        department: "19",
         doctor: [{ name: "Phạm Thị Minh Phương" }],
       }).save((err) => {
         if (err) {
@@ -308,8 +308,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "20",
+      new Department({
+        department: "20",
         doctor: [{ name: "Quách Thị Hà Giang" }, { name: "Phạm Thị Thảo" }],
       }).save((err) => {
         if (err) {
@@ -317,8 +317,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "21",
+      new Department({
+        department: "21",
         doctor: [
           { name: "Hoàng Thị Ngọc Lý" },
           { name: "Trần Thu Hà Phương" },
@@ -330,8 +330,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "22",
+      new Department({
+        department: "22",
         doctor: [
           { name: "Bùi Quang Hào" },
           { name: "Phạm Đình Hòa" },
@@ -343,8 +343,8 @@ function initial() {
         }
       });
 
-      new Room({
-        room: "23",
+      new Department({
+        department: "23",
         doctor: [{ name: "Đào Hữu Ghi" }, { name: "Dương Thị Lan" }],
       }).save((err) => {
         if (err) {

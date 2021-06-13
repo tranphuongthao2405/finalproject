@@ -47,6 +47,12 @@ function PatientList() {
               <th scope="col">
                 Đối tượng
               </th>
+              <th scope="col">
+                Bác sĩ điều trị
+              </th>
+              <th scope="col">
+                Phòng khám
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -67,6 +73,8 @@ function PatientList() {
                       <td className="text-center">{patient.gender}</td>
                       <td className="text-center">{patient.address}</td>
                       <td className="text-center">{patient.patientType}</td>
+                      <td className="text-center">{patient.doctor}</td>
+                      <td className="text-center">{patient.department}</td>
                     </tr>
                   ));
                 })

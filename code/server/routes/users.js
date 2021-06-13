@@ -14,6 +14,7 @@ router.get("/auth", auth, (req, res) => {
     firstname: req.user.firstname,
     lastname: req.user.lastname,
     role: req.user.role,
+    department: req.user.department
   });
 });
 

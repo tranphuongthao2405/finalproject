@@ -3,8 +3,10 @@
 /* eslint-disable array-callback-return */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 function PatientList() {
+  const user = useSelector((state) => state.user);
   const [patients, setPatients] = useState();
   const [showTable, setShowTable] = useState(false);
   // state to check process
@@ -19,14 +21,20 @@ function PatientList() {
   let tempCount = 0;
 
   useEffect(() => {
-    axios.get('/api/patients/getAllPatients').then((response) => {
-      if (response.data.success) {
-        setPatients(response.data.patients);
-      } else {
-        setShowTable(false);
-      }
-    });
-  }, []);
+    if (user.userData !== undefined && user.userData.department !== undefined) {
+      const dataToSubmit = {
+        department: user.userData.department,
+      };
+
+      axios.post('/api/patients/getPatientsByDepartment', dataToSubmit).then((response) => {
+        if (response.data.success) {
+          setPatients(response.data.patients);
+        } else {
+          console.log(response.data.err);
+        }
+      });
+    }
+  }, [user.userData]);
 
   useEffect(() => {
     if (patients) {

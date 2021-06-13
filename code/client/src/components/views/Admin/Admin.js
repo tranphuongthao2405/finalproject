@@ -6,6 +6,7 @@ import { Typography } from 'antd';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../../../_actions/user_actions';
+import SCHEDULE from '../../../constant/Constant';
 
 const { Title } = Typography;
 
@@ -13,11 +14,12 @@ function Admin() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [email, setEmail] = useState('');
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
+  const [email, setEmail] = useState();
+  const [firstname, setFirstname] = useState();
+  const [lastname, setLastname] = useState();
   const [role, setRole] = useState();
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState();
+  const [department, setDepartment] = useState();
 
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
@@ -39,6 +41,10 @@ function Admin() {
     setRole(e.target.value);
   };
 
+  const onChangeDepartment = (e) => {
+    setDepartment(e.target.value);
+  };
+
   const checkAllTableField = () => {
     let allFieldFilled = true;
     document.getElementById('checkForm').querySelectorAll('[required]').forEach((element) => {
@@ -53,13 +59,25 @@ function Admin() {
     evt.preventDefault();
 
     if (checkAllTableField) {
-      const dataToSubmit = {
-        email,
-        password,
-        firstname,
-        lastname,
-        role,
-      };
+      let dataToSubmit;
+      if (department) {
+        dataToSubmit = {
+          email,
+          password,
+          firstname,
+          lastname,
+          role,
+          department,
+        };
+      } else {
+        dataToSubmit = {
+          email,
+          password,
+          firstname,
+          lastname,
+          role,
+        };
+      }
 
       dispatch(registerUser(dataToSubmit)).then((response) => {
         if (response.payload.success) {
@@ -155,6 +173,31 @@ function Admin() {
               </select>
             </div>
           </div>
+
+          {role === 'doctor' && (
+          <div className="form-row justify-content-center">
+            <div className="form-group col-md-5">
+              <h6 className="mb-3">Phòng khám:</h6>
+              <select
+                name="department"
+                className="form-control"
+                value={department}
+                onChange={onChangeDepartment}
+                required
+              >
+                <option value="">Chọn phòng khám</option>
+                {
+                  SCHEDULE.map((item) => (
+                    <option key={item.PK} value={item.PK}>
+                      PK
+                      {item.PK}
+                    </option>
+                  ))
+                }
+              </select>
+            </div>
+          </div>
+          )}
 
           <div className="form-row justify-content-center">
             <button className="btn btn-primary btn-block form-group col-md-2">
