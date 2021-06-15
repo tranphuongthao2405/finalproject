@@ -12,8 +12,8 @@ import FungusAndParasite from './views/LaboratoryStaffBoard/medicalTests/FungusA
 import HematologyAndImmunology from './views/LaboratoryStaffBoard/medicalTests/HematologyAndImmunology';
 import Result from './views/LaboratoryStaffBoard/medicalTests/Result';
 import ImagingStaffBoard from './views/ImagingStaffBoard/ImagingStaffBoard';
-import Staff from './views/Staff/Staff';
-import DoctorBoard from './views/DoctorBoard/DoctorBoard';
+import PatientsInfoInput from './views/Staff/PatientsInfoInput';
+import DoctorDiagnosis from './views/DoctorBoard/DoctorDiagnosis';
 import PatientList from './views/Staff/PatientList';
 import DoctorPatientList from './views/DoctorBoard/PatientList';
 import ImagingPatientList from './views/ImagingStaffBoard/PatientList';
@@ -39,8 +39,8 @@ function App() {
             <Route exact path="/register" component={Auth(RegisterPage, false)} />
             <Route exact path="/user/:userId" component={Auth(UserInfo, true)} />
             <Route exact path="/imagingStaffBoard/:id" component={Auth(ImagingStaffBoard, true)} />
-            <Route exact path="/staff" component={Auth(Staff, true)} />
-            <Route exact path="/doctorBoard/:id" component={Auth(DoctorBoard, true)} />
+            <Route exact path="/patientsInfoInput" component={Auth(PatientsInfoInput, true)} />
+            <Route exact path="/doctorDiagnosis/:id" component={Auth(DoctorDiagnosis, true)} />
             <Route exact path="/laboratoryStaffBoard/biochemical/:patientId" component={Auth(Biochemical, true)} />
             <Route exact path="/laboratoryStaffBoard/fungusAndParasite/:patientId" component={Auth(FungusAndParasite, true)} />
             <Route exact path="/laboratoryStaffBoard/hematologyAndImmunology/:patientId" component={Auth(HematologyAndImmunology, true)} />

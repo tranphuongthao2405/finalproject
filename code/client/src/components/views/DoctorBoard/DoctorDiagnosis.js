@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import SCHEDULE from '../../../constant/Constant';
 
-function DoctorBoard(props) {
+function DoctorDiagnosis(props) {
   const history = useHistory();
   const patientId = props.match.params.id;
 
@@ -282,4 +282,4 @@ function DoctorBoard(props) {
   );
 }
 
-export default DoctorBoard;
+export default DoctorDiagnosis;

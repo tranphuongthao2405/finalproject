@@ -92,7 +92,7 @@ function LoginPage(props) {
         } = props;
         return (
           <div className="app">
-            <Title level={2}>Log In</Title>
+            <Title style={{ textAlign: 'center' }} level={2}>Đăng nhập</Title>
             <form onSubmit={handleSubmit} style={{ width: '350px' }}>
               <Form.Item required>
                 <Input

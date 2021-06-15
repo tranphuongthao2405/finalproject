@@ -10,7 +10,7 @@ import SCHEDULE from '../../../constant/Constant';
 
 const { Title } = Typography;
 
-function Staff(props) {
+function PatientsInfoInput(props) {
   const history = useHistory();
   let doctors = [];
 
@@ -277,4 +277,4 @@ function Staff(props) {
   );
 }
 
-export default Staff;
+export default PatientsInfoInput;

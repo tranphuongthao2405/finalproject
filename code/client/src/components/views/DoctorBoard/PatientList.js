@@ -211,7 +211,7 @@ function PatientList() {
                   return ((
                     <tr>
                       <td className="text-center">{count}</td>
-                      <td className="text-center">{doneDiagnosis[pCount] ? (`${patient.name} (Đã chẩn đoán)`) : (<a href={`/doctorBoard/${patient.patientId}`} style={{ textDecoration: 'none' }}>{patient.name}</a>)}</td>
+                      <td className="text-center">{doneDiagnosis[pCount] ? (`${patient.name} (Đã chẩn đoán)`) : (<a href={`/doctorDiagnosis/${patient.patientId}`} style={{ textDecoration: 'none' }}>{patient.name}</a>)}</td>
                       <td className="text-center">{patient.patientId}</td>
                       <td className="text-center">{time}</td>
                       <td className="text-center">{patient.gender}</td>
