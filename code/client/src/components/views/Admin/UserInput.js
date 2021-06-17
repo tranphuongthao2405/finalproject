@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useRef } from 'react';
@@ -10,7 +11,7 @@ import SCHEDULE from '../../../constant/Constant';
 
 const { Title } = Typography;
 
-function Admin() {
+function UserInput() {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -198,6 +199,7 @@ function Admin() {
             </div>
           </div>
           )}
+          <br />
 
           <div className="form-row justify-content-center">
             <button className="btn btn-primary btn-block form-group col-md-2">
@@ -210,4 +212,4 @@ function Admin() {
   );
 }
 
-export default Admin;
+export default UserInput;

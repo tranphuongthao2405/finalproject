@@ -214,4 +214,4 @@ function PatientList() {
   );
 }
 
-export default PatientList;
+export default React.memo(PatientList);

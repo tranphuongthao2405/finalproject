@@ -143,9 +143,9 @@ function LoginPage(props) {
                   <p
                     style={{
                       color: '#ff0000bf',
-                      fontSize: '0.7rem',
+                      fontSize: '0.8rem',
                       border: '1px solid',
-                      padding: '1rem',
+                      padding: '0.5rem',
                       borderRadius: '10px',
                     }}
                   >

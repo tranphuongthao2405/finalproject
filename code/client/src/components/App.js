@@ -6,7 +6,6 @@ import LoginPage from './views/LoginPage/LoginPage';
 import RegisterPage from './views/RegisterPage/RegisterPage';
 import NavBar from './views/NavBar/NavBar';
 import Footer from './views/Footer/Footer';
-import UserInfo from './views/UserInfo/UserInfo';
 import Biochemical from './views/LaboratoryStaffBoard/medicalTests/Biochemical';
 import FungusAndParasite from './views/LaboratoryStaffBoard/medicalTests/FungusAndParasite';
 import HematologyAndImmunology from './views/LaboratoryStaffBoard/medicalTests/HematologyAndImmunology';
@@ -24,8 +23,9 @@ import FungusForm from './views/LaboratoryStaffBoard/medicalTests/FungusForm';
 import HematologyForm from './views/LaboratoryStaffBoard/medicalTests/HematologyForm';
 import ResultForm from './views/LaboratoryStaffBoard/medicalTests/ResultForm';
 import PatientProfile from './views/PatientProfile/PatientProfile';
-import Admin from './views/Admin/Admin';
+import UserInput from './views/Admin/UserInput';
 import UserList from './views/Admin/UserList';
+import UserEdit from './views/Admin/UserEdit';
 
 function App() {
   return (
@@ -37,7 +37,6 @@ function App() {
             <Route exact path="/" component={Auth(LandingPage, true)} />
             <Route exact path="/login" component={Auth(LoginPage, false)} />
             <Route exact path="/register" component={Auth(RegisterPage, false)} />
-            <Route exact path="/user/:userId" component={Auth(UserInfo, true)} />
             <Route exact path="/imagingStaffBoard/:id" component={Auth(ImagingStaffBoard, true)} />
             <Route exact path="/patientsInfoInput" component={Auth(PatientsInfoInput, true)} />
             <Route exact path="/doctorDiagnosis/:id" component={Auth(DoctorDiagnosis, true)} />
@@ -55,7 +54,8 @@ function App() {
             <Route exact path="/hematologyForm/:id" component={Auth(HematologyForm, true)} />
             <Route exact path="/resultForm/:id" component={Auth(ResultForm, true)} />
             <Route exact path="/patientProfile" component={Auth(PatientProfile, true)} />
-            <Route exact path="/admin" component={Auth(Admin, true)} />
+            <Route exact path="/userinput" component={Auth(UserInput, true)} />
+            <Route exact path="/useredit/:id" component={Auth(UserEdit, true)} />
             <Route exact path="/userlist" component={Auth(UserList, true)} />
           </Switch>
         </div>

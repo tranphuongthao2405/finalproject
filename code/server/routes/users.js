@@ -14,7 +14,7 @@ router.get("/auth", auth, (req, res) => {
     firstname: req.user.firstname,
     lastname: req.user.lastname,
     role: req.user.role,
-    department: req.user.department
+    department: req.user.department,
   });
 });
 
@@ -66,7 +66,7 @@ router.get("/logout", auth, (req, res) => {
   );
 });
 
-router.post('/updateInformation', auth, async (req, res) => {
+router.post("/updateInformation", auth, async (req, res) => {
   const filterUpdate = {};
 
   // only update fields with value not null
@@ -86,17 +86,28 @@ router.post('/updateInformation', auth, async (req, res) => {
     filterUpdate.password = hashPassword;
   }
 
-  if (req.body.firstName) {
-    filterUpdate.firstname = req.body.firstName;
+  if (req.body.firstname) {
+    filterUpdate.firstname = req.body.firstname;
   }
 
-  if (req.body.lastName) {
-    filterUpdate.lastname = req.body.lastName;
+  if (req.body.lastname) {
+    filterUpdate.lastname = req.body.lastname;
+  }
+
+  if (req.body.role) {
+    filterUpdate.role = req.body.role;
+  }
+
+  if (req.body.department) {
+    filterUpdate.department = req.body.department;
   }
 
   try {
-    const doc = await User.findOneAndUpdate({ _id: req.body.userId },
-      filterUpdate, { new: true });
+    const doc = await User.findOneAndUpdate(
+      { _id: req.body.userId },
+      filterUpdate,
+      { new: true }
+    );
     return res.status(200).json({ success: true, doc });
   } catch (err) {
     return res.status(400).json({ success: false, err });
@@ -104,14 +115,35 @@ router.post('/updateInformation', auth, async (req, res) => {
 });
 
 router.get("/getAllUsers", auth, (req, res) => {
-  User.find({})
-    .exec((err, users) => {
-      if (err) {
-        return res.status(400).json({ success: false, err });
-      }
+  User.find({}).exec((err, users) => {
+    if (err) {
+      return res.status(400).json({ success: false, err });
+    }
 
-      return res.status(200).json({ success: true, users });
-    });
+    return res.status(200).json({ success: true, users });
+  });
+});
+
+router.get("/getUserById", auth, (req, res) => {
+  User.find({
+    _id: req.query.id,
+  }).exec((err, user) => {
+    if (err) {
+      return res.status(400).json({ success: false, err });
+    }
+
+    return res.status(200).json({ success: true, user });
+  });
+});
+
+router.get("/deleteUserById", auth, (req, res) => {
+  User.deleteOne({ _id: req.query.id }, (err, result) => {
+    if (err) {
+      return res.status(400).json({ success: false, err });
+    }
+
+    return res.status(200).json({ success: true, result });
+  });
 });
 
 module.exports = router;

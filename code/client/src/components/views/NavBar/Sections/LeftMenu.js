@@ -10,8 +10,8 @@ function LeftMenu(props) {
     <Menu mode={props.mode}>
       { user.userData !== undefined && user.userData.role === 'admin' && (
       <Menu>
-        <Menu.Item key="admin">
-          <a href="/admin" style={{ textDecoration: 'none' }}>Nhập thông tin người dùng</a>
+        <Menu.Item key="userinput">
+          <a href="/userinput" style={{ textDecoration: 'none' }}>Nhập thông tin người dùng</a>
         </Menu.Item>
 
         <Menu.Item key="userlist">

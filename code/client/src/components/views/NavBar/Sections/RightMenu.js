@@ -54,16 +54,9 @@ function RightMenu(props) {
           </span>
     )}
         >
-          <MenuItemGroup>
-            <Menu.Item key="user info">
-              <a href={`/user/${localStorage.userId}`} style={{ textDecoration: 'none' }}>
-                Cập nhật thông tin
-              </a>
-            </Menu.Item>
-            <Menu.Item key="logout">
-              <a onClick={logoutHandler}>Đăng xuất</a>
-            </Menu.Item>
-          </MenuItemGroup>
+          <Menu.Item key="logout">
+            <a onClick={logoutHandler}>Đăng xuất</a>
+          </Menu.Item>
         </SubMenu>
       </Menu>
       )}

@@ -48,16 +48,6 @@ code {
   width: 512px;
   height: 512px;
 }
- 
-.btn.btn-primary {
-  background-color: #337ab7;
-  border-color: #204d74;
-}
-
-.btn.btn-primary:hover {
-  background-color: #204d74;
-  border-color: #2e6da4;
-}
 
 .outer-form {
   padding: 20px;
