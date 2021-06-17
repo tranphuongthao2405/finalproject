@@ -20,6 +20,7 @@ function UserEdit(props) {
   const [role, setRole] = useState();
   const [password, setPassword] = useState();
   const [department, setDepartment] = useState();
+  const [done, setDone] = useState(false);
 
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
@@ -54,6 +55,7 @@ function UserEdit(props) {
             setFirstname(response.data.user[0].firstname);
             setLastname(response.data.user[0].lastname);
             setRole(response.data.user[0].role);
+            setDone(true);
           } else {
             // alert(response.data.err);
           }
@@ -103,91 +105,92 @@ function UserEdit(props) {
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
         <Title level={2}>Chỉnh sửa thông tin người dùng</Title>
       </div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <div className="form-row justify-content-center">
-            <div className="form-group col-md-5">
-              <label htmlFor="email">Email:</label>
-              <input
-                type="text"
-                className="form-control"
-                name="email"
-                value={email}
-                onChange={onChangeEmail}
-              />
+      {done ? (
+        <form onSubmit={handleSubmit}>
+          <div>
+            <div className="form-row justify-content-center">
+              <div className="form-group col-md-5">
+                <label htmlFor="email">Email:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="email"
+                  value={email}
+                  onChange={onChangeEmail}
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="form-row justify-content-center">
-            <div className="form-group col-md-5">
-              <label htmlFor="firstname">Họ:</label>
-              <input
-                type="text"
-                className="form-control"
-                name="firstname"
-                value={firstname}
-                onChange={onChangeFirstname}
-              />
+            <div className="form-row justify-content-center">
+              <div className="form-group col-md-5">
+                <label htmlFor="firstname">Họ:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="firstname"
+                  value={firstname}
+                  onChange={onChangeFirstname}
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="form-row justify-content-center">
-            <div className="form-group col-md-5">
-              <label htmlFor="lastname">Tên:</label>
-              <input
-                type="text"
-                className="form-control"
-                name="lastname"
-                value={lastname}
-                onChange={onChangeLastname}
-              />
+            <div className="form-row justify-content-center">
+              <div className="form-group col-md-5">
+                <label htmlFor="lastname">Tên:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="lastname"
+                  value={lastname}
+                  onChange={onChangeLastname}
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="form-row justify-content-center">
-            <div className="form-group col-md-5">
-              <label htmlFor="password">Mật khẩu:</label>
-              <input
-                type="password"
-                className="form-control"
-                value={password}
-                onChange={onChangePassword}
-              />
+            <div className="form-row justify-content-center">
+              <div className="form-group col-md-5">
+                <label htmlFor="password">Mật khẩu:</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  value={password}
+                  onChange={onChangePassword}
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="form-row justify-content-center">
-            <div className="form-group col-md-5">
-              <label htmlFor="role">Giới tính:</label>
-              <select
-                name="role"
-                className="form-control"
-                value={role}
-                onChange={onChangeRole}
-              >
-                <option value="">Chọn vai trò người dùng</option>
-                <option value="admin">Admin</option>
-                <option value="doctor">Bác sĩ</option>
-                <option value="laboratory staff">Nhân viên xét nghiệm</option>
-                <option value="imaging staff">Nhân viên chụp chẩn đoán hình ảnh</option>
-                <option value="staff">Nhân viên</option>
-              </select>
+            <div className="form-row justify-content-center">
+              <div className="form-group col-md-5">
+                <label htmlFor="role">Giới tính:</label>
+                <select
+                  name="role"
+                  className="form-control"
+                  value={role}
+                  onChange={onChangeRole}
+                >
+                  <option value="">Chọn vai trò người dùng</option>
+                  <option value="admin">Admin</option>
+                  <option value="doctor">Bác sĩ</option>
+                  <option value="laboratory staff">Nhân viên xét nghiệm</option>
+                  <option value="imaging staff">Nhân viên chụp chẩn đoán hình ảnh</option>
+                  <option value="staff">Nhân viên</option>
+                </select>
+              </div>
             </div>
-          </div>
 
-          {role === 'doctor' && (
-          <div className="form-row justify-content-center">
-            <div className="form-group col-md-5">
-              <h6 className="mb-3">Phòng khám:</h6>
-              <select
-                name="department"
-                className="form-control"
-                value={department}
-                onChange={onChangeDepartment}
-                required
-              >
-                <option value="">Chọn phòng khám</option>
-                {
+            {role === 'doctor' && (
+            <div className="form-row justify-content-center">
+              <div className="form-group col-md-5">
+                <h6 className="mb-3">Phòng khám:</h6>
+                <select
+                  name="department"
+                  className="form-control"
+                  value={department}
+                  onChange={onChangeDepartment}
+                  required
+                >
+                  <option value="">Chọn phòng khám</option>
+                  {
                   SCHEDULE.map((item) => (
                     <option key={item.PK} value={item.PK}>
                       PK
@@ -195,19 +198,24 @@ function UserEdit(props) {
                     </option>
                   ))
                 }
-              </select>
+                </select>
+              </div>
+            </div>
+            )}
+            <br />
+
+            <div className="form-row justify-content-center">
+              <button className="btn btn-primary btn-block form-group col-md-2">
+                Cập nhật thông tin người dùng
+              </button>
             </div>
           </div>
-          )}
-          <br />
-
-          <div className="form-row justify-content-center">
-            <button className="btn btn-primary btn-block form-group col-md-2">
-              Cập nhật thông tin người dùng
-            </button>
-          </div>
+        </form>
+      ) : (
+        <div className="p-5 text-center">
+          <h6 className="mb-3">Đang tải thông tin người dùng...</h6>
         </div>
-      </form>
+      )}
     </div>
   );
 }

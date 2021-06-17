@@ -26,6 +26,7 @@ import PatientProfile from './views/PatientProfile/PatientProfile';
 import UserInput from './views/Admin/UserInput';
 import UserList from './views/Admin/UserList';
 import UserEdit from './views/Admin/UserEdit';
+import PatientsUpdate from './views/Staff/PatientsUpdate';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
             <Route exact path="/register" component={Auth(RegisterPage, false)} />
             <Route exact path="/imagingStaffBoard/:id" component={Auth(ImagingStaffBoard, true)} />
             <Route exact path="/patientsInfoInput" component={Auth(PatientsInfoInput, true)} />
+            <Route exact path="/patientsInfoUpdate/:id" component={Auth(PatientsUpdate, true)} />
             <Route exact path="/doctorDiagnosis/:id" component={Auth(DoctorDiagnosis, true)} />
             <Route exact path="/laboratoryStaffBoard/biochemical/:patientId" component={Auth(Biochemical, true)} />
             <Route exact path="/laboratoryStaffBoard/fungusAndParasite/:patientId" component={Auth(FungusAndParasite, true)} />

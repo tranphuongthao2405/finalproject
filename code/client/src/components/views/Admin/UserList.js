@@ -136,7 +136,7 @@ function UserList() {
                          <td>{role}</td>
                          <td>{user.token ? 'Đang hoạt động' : 'Đang không hoạt động'}</td>
                          <td>
-                           <a href={`/useredit/${user._id}`} className="edit" title="Edit" data-toggle="tooltip">
+                           <a href={`/useredit/${user._id}`} className="edit" title="Sửa" data-toggle="tooltip">
                              <i
                                className="material-icons"
                              >
@@ -145,7 +145,7 @@ function UserList() {
                            </a>
                            <a
                              className="delete"
-                             title="Delete"
+                             title="Xóa"
                              data-toggle="tooltip"
                              onClick={onDeleteClick}
                            >
