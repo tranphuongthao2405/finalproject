@@ -124,7 +124,7 @@ function PatientProfile() {
   return (
     <div>
       <div
-        className="search-box"
+        className="searchBox"
         style={{
           backgroundColor: '#eeeeee', padding: 30, borderRadius: '10px', width: '100%',
         }}

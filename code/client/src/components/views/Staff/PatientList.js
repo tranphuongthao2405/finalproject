@@ -26,7 +26,7 @@ function PatientList() {
     let td; let i; let txtValue;
     const input = document.getElementById('searchInput');
     const filter = input.value.toUpperCase();
-    const table = document.getElementById('myTable');
+    const table = document.getElementById('staffTable');
     const tr = table.getElementsByTagName('tr');
 
     // Loop through all table rows, and hide those who don't match the search query
@@ -74,7 +74,7 @@ function PatientList() {
                 tabIndex={-1}
                 data-search-on-enter-key="true"
                 className="table table-striped table-hover table-bordered"
-                id="myTable"
+                id="staffTable"
               >
                 <thead>
                   <tr>

@@ -60,11 +60,6 @@ table.table td:last-child {
 table.table td {
     text-align: center;
 }
-table.table td a {
-    color: #a0a5b1;
-    display: inline-block;
-    margin: 0 5px;
-}
 table.table td a.view {
     color: #03A9F4;
 }

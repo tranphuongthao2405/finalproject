@@ -6,6 +6,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import FormFooter from './FormFooter';
 import Logo from './images/logo.jpg';
 
 function Result(props) {
@@ -446,34 +447,7 @@ function Result(props) {
             <br />
             <br />
 
-            {/* TODO: update time realtime */}
-            <div className="form-row">
-              <div className="col">
-                <p style={{ fontStyle: 'italic', fontWeight: 'bold', textAlign: 'center' }}>
-                  Chỉ định ngày
-                  {' '}
-                  {date}
-                </p>
-              </div>
-              <div className="col">
-                <p style={{ fontStyle: 'italic', textAlign: 'center' }}>
-                  In phiếu ngày
-                  {' '}
-                  {date}
-                </p>
-                <p style={{ fontWeight: 'bold', textAlign: 'center' }}>
-                  BÁC SĨ ĐIỀU TRỊ
-                </p>
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-              </div>
-            </div>
-
+            <FormFooter />
           </div>
         )}
         <div className="form-row justify-content-center">

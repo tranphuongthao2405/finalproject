@@ -5,12 +5,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import FormFooter from './FormFooter';
 import Logo from './images/logo.jpg';
 
 function FungusForm(props) {
 // eslint-disable-next-line react/destructuring-assignment
   const patientId = props.match.params.id;
-  const date = new Date().toLocaleString('en-GB');
 
   const [name, setName] = useState();
   const [birthDate, setBirthDate] = useState();
@@ -426,33 +426,7 @@ function FungusForm(props) {
               </tfoot>
             </table>
 
-            {/* TODO: update time realtime */}
-            <div className="form-row">
-              <div className="col">
-                <p style={{ fontStyle: 'italic', fontWeight: 'bold', textAlign: 'center' }}>
-                  Chỉ định ngày
-                  {' '}
-                  {date}
-                </p>
-              </div>
-              <div className="col">
-                <p style={{ fontStyle: 'italic', textAlign: 'center' }}>
-                  In phiếu ngày
-                  {' '}
-                  {date}
-                </p>
-                <p style={{ fontWeight: 'bold', textAlign: 'center' }}>
-                  BÁC SĨ ĐIỀU TRỊ
-                </p>
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-              </div>
-            </div>
+            <FormFooter />
           </div>
         </div>
       ) : ((
