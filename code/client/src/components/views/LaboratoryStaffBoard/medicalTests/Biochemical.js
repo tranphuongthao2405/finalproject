@@ -565,4 +565,4 @@ function Biochemical(props) {
   );
 }
 
-export default Biochemical;
+export default React.memo(Biochemical);

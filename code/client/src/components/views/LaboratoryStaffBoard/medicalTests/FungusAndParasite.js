@@ -546,4 +546,4 @@ function FungusAndParasite(props) {
   );
 }
 
-export default FungusAndParasite;
+export default React.memo(FungusAndParasite);

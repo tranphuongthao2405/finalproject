@@ -565,4 +565,4 @@ function HematologyAndImmunology(props) {
   );
 }
 
-export default HematologyAndImmunology;
+export default React.memo(HematologyAndImmunology);

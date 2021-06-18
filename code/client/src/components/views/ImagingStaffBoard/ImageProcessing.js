@@ -307,4 +307,4 @@ function ImageProcessing(props) {
   );
 }
 
-export default ImageProcessing;
+export default React.memo(ImageProcessing);
