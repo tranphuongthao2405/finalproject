@@ -170,19 +170,6 @@ function PatientList() {
 
   return (
     <div>
-      {/* <div>
-        <h3 className="mb-3">HƯỚNG DẪN:</h3>
-        <p>
-          1. Chọn bệnh nhân cần chẩn đoán (Tên bệnh nhân được in xanh)
-          <br />
-          2. Thực hiện khám và đưa ra chẩn đoán sơ bộ ban đầu
-          <br />
-          3. Sau khi chẩn đoán, theo dõi trạng thái xét nghiệm và các chẩn đoán hình ảnh của bệnh nhân
-          <br />
-          4. Có thể ấn vào xem chi tiết thông tin về các xét nghiệm và các ảnh chụp chẩn đoán của bệnh nhân nếu có trạng thái 'Đã xong'
-        </p>
-      </div> */}
-
       <div className="p-5 text-center">
         <h3 className="mb-3">DANH SÁCH BỆNH NHÂN TIẾP NHẬN</h3>
       </div>

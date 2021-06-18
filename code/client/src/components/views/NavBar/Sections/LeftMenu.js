@@ -1,5 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Menu } from 'antd';
 import { useSelector } from 'react-redux';
 
