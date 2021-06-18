@@ -15,7 +15,7 @@ function PatientProfile(props) {
         if (response.data.success) {
           setPatient(response.data.patient[0]);
         } else {
-          // alert(response.data.err);
+          alert('Không thể tải thông tin bệnh nhân');
         }
       });
 
@@ -23,7 +23,7 @@ function PatientProfile(props) {
       if (response.data.success) {
         setDiagnosis(response.data.doc[0]);
       } else {
-        // console.log(response.data.err);
+        alert('Không thể tải thông tin chẩn đoán của bệnh nhân');
       }
     });
   }, []);

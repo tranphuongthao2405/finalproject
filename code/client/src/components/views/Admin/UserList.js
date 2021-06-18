@@ -17,6 +17,7 @@ function UserList() {
         setUsers(response.data.users);
       } else {
         setShowTable(false);
+        alert('Không thể tải danh sách người dùng');
       }
     });
   }, []);
@@ -51,7 +52,7 @@ function UserList() {
       if (response.data.success) {
         // console.log(response.data.result);
       } else {
-        // alert(response.data.err);
+        alert('Xóa người dùng lỗi, vui lòng thử lại sau');
       }
     });
 

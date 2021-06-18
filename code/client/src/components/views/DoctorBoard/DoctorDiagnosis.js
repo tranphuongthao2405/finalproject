@@ -73,7 +73,7 @@ function DoctorDiagnosis(props) {
         } else {
           setShowInfo(false);
           setNotFound(true);
-          // alert(response.data.err);
+          alert('Không thể tải thông tin bệnh nhân');
         }
       });
   }, []);
@@ -114,10 +114,9 @@ function DoctorDiagnosis(props) {
       };
       axios.post('/api/diagnosis/updateDiagnosis', dataToUpdate2).then((response) => {
         if (response.data.success) {
-          // do something
           history.push('/doctorPatientList');
         } else {
-          // do something
+          alert('Không thể lưu thông tin chẩn đoán');
         }
       });
     }

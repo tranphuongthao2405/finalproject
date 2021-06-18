@@ -32,7 +32,7 @@ function PatientList() {
         if (response.data.success) {
           setPatients(response.data.patients);
         } else {
-          console.log(response.data.err);
+          alert('Không thể tải danh sách bệnh nhân tiếp nhân');
         }
       });
     }
@@ -102,8 +102,8 @@ function PatientList() {
               setShowTable(true);
             }
           } else {
-            // do something
             setShowTable(false);
+            alert('Không thể tải danh sách bệnh nhân tiếp nhân');
           }
         });
       }

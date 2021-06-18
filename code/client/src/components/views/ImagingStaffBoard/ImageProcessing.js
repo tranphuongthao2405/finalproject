@@ -43,7 +43,7 @@ function ImageProcessing(props) {
           setDepartment(response.data.patient[0].department);
           setPatientType(response.data.patient[0].patientType);
         } else {
-          alert(response.data.err);
+          alert('Không thể tải thông tin bệnh nhân');
         }
       });
   }, []);
@@ -99,7 +99,7 @@ function ImageProcessing(props) {
                 // alert('Update information successfully');
                 setDone(true);
               } else {
-                alert('Failed to update information');
+                // alert('Failed to update information');
               }
             });
           }

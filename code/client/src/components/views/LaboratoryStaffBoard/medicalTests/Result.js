@@ -55,7 +55,7 @@ function Result(props) {
           setPatientType(response.data.patient[0].patientType);
           setDoctor(response.data.patient[0].doctor);
         } else {
-          alert(response.data.err);
+          alert('Không thể tải thông tin bệnh nhân');
         }
       });
   }, []);
@@ -187,11 +187,11 @@ function Result(props) {
                   // alert('Update information successfully');
                   history.push(`/resultForm/${patientId}`);
                 } else {
-                  alert('Failed to update information');
+                  // alert('Failed to update information');
                 }
               });
             } else {
-              console.log(response.data.err);
+              alert('Không thể lưu thông tin phiếu xét nghiệm');
             }
           });
       }

@@ -89,11 +89,11 @@ function PatientsInfoInput(props) {
             if (res.data.success) {
               history.push('/patientsList');
             } else {
-              alert('Failed to put primary information');
+              // alert('Failed to put primary information');
             }
           });
         } else {
-          alert('Failed to upload information');
+          alert('Thêm mới thông tin bệnh nhân lỗi');
         }
       });
     }

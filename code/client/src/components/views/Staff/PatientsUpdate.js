@@ -78,7 +78,7 @@ function PatientsUpdate(props) {
             setDepartment(response.data.patient[0].department);
             setDone(true);
           } else {
-            // alert(response.data.err);
+            alert('Không thể tải thông tin bệnh nhân');
           }
         });
     }
@@ -104,7 +104,7 @@ function PatientsUpdate(props) {
         if (response.data.success) {
           history.push('/patientsList');
         } else {
-          // alert(response.data.err);
+          alert('Không thể cập nhật thông tin bệnh nhân');
         }
       });
   };

@@ -119,7 +119,7 @@ function FungusForm(props) {
           setDepartment(response.data.patient[0].department);
           setPatientType(response.data.patient[0].patientType);
         } else {
-          alert(response.data.err);
+          alert('Không thể tải thông tin bệnh nhân');
         }
       });
 
@@ -144,7 +144,7 @@ function FungusForm(props) {
             setDone(true);
           }
         } else {
-          console.log(response.data.err);
+          alert('Không thể lấy thông tin phiếu xét nghiệm nấm - kí sinh trùng của bệnh nhân');
         }
       });
   }, []);

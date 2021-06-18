@@ -25,6 +25,7 @@ function PatientList() {
         setPatients(response.data.patients);
       } else {
         setShowTable(false);
+        alert('Không thể tải danh sách bệnh nhân');
       }
     });
   }, []);
@@ -86,8 +87,8 @@ function PatientList() {
               setShowTable(true);
             }
           } else {
-            // do something
             setShowTable(false);
+            alert('Không thể tải thông tin chẩn đoán của bệnh nhân');
           }
         });
       }

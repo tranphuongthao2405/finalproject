@@ -30,7 +30,7 @@ function PatientSearch() {
           if (response.data.success) {
             setPatients(response.data.patient);
           } else {
-            alert(response.data.err);
+            alert('Không thể tải thông tin bệnh nhân');
           }
         });
 
@@ -40,7 +40,7 @@ function PatientSearch() {
           setShowInfo(true);
         } else {
           setShowInfo(false);
-          // do something
+          alert('Không thể tải thông tin chẩn đoán của bệnh nhân');
         }
       });
     } else if (variables.searchTerm !== undefined && variables.searchTerm.patientId === '' && variables.searchTerm.diagnosis !== '') {
@@ -60,13 +60,13 @@ function PatientSearch() {
                     }
                   } else {
                     setShowInfo(false);
-                    // alert(res.data.err);
+                    alert('Không thể tải thông tin bệnh nhân');
                   }
                 });
             }
           }
         } else {
-          // do something
+          alert('Không thể tải thông tin chẩn đoán bệnh nhân');
         }
       });
     }

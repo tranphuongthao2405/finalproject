@@ -18,7 +18,7 @@ function FileUpload(props) {
           setImages([...images, response.data.image]);
           props.refreshFunction([...images, response.data.image]);
         } else {
-          alert('Failed to save images');
+          alert('Không thể tải ảnh lên');
         }
       },
     );

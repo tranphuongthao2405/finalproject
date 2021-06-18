@@ -81,7 +81,7 @@ function ResultForm(props) {
           setPatientType(response.data.patient[0].patientType);
           setDoctor(response.data.patient[0].doctor);
         } else {
-          alert(response.data.err);
+          alert('Không thể tải thông tin bệnh nhân');
         }
       });
 
@@ -103,7 +103,7 @@ function ResultForm(props) {
             setDone(true);
           }
         } else {
-          console.log(response.data.err);
+          alert('Không thể tải thông tin chẩn đoán của bệnh nhân');
         }
       });
   }, []);

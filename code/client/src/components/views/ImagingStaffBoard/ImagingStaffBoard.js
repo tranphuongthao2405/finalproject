@@ -59,11 +59,11 @@ function ImagingStaffBoard(props) {
               // alert('Update images successfully');
               history.push(`/imageProcessing/${pId}`);
             } else {
-              // do something
+              alert('Không thể tải kết quả chẩn đoán hình ảnh');
             }
           });
         } else {
-          alert('Failed to update information');
+          alert('Lỗi lưu hình ảnh vào hệ thống');
         }
       });
     }

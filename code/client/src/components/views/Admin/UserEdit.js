@@ -57,7 +57,7 @@ function UserEdit(props) {
             setRole(response.data.user[0].role);
             setDone(true);
           } else {
-            // alert(response.data.err);
+            alert('Không thể tải thông tin của tài khoản');
           }
         });
     }
@@ -92,7 +92,7 @@ function UserEdit(props) {
       if (response.data.success) {
         history.push('/userlist');
       } else {
-        // alert('Failed to update information');
+        alert('Cập nhật thông tin tài khoản lỗi');
       }
     });
   };

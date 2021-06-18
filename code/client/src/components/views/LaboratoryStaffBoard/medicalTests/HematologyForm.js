@@ -121,7 +121,7 @@ function BiochemicalForm(props) {
           setDepartment(response.data.patient[0].department);
           setPatientType(response.data.patient[0].patientType);
         } else {
-          alert(response.data.err);
+          alert('Không thể tải thông tin bệnh nhân');
         }
       });
 
@@ -147,7 +147,7 @@ function BiochemicalForm(props) {
             setDone(true);
           }
         } else {
-          console.log(response.data.err);
+          alert('Không thể tải thông tin phiếu xét nghiệm huyết học - miễn dịch của bệnh nhân');
         }
       });
   }, []);
