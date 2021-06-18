@@ -1,0 +1,7 @@
+Version hướng dẫn tiếng anh được viết trong file README.md
+1. Nếu máy tính chưa có node, cần tiến hành download và cài đặt phiên bản node phù hợp với hệ điều hành máy: https://nodejs.org/en/
+2. Sau khi đã cài đặt node, kiểm tra node đã được cài đặt chưa bằng cách gõ 2 lệnh kiểm tra version vào terminal: node -v và npm -version
+3. cd vào thư mục code, sau đó gõ npm install hoặc npm i để cài đặt thư viện
+4. cd vào thư mục client và gõ npm install hoặc npm i để cài đặt thư viện
+5. Tương tự, cd vào thư mục server và gõ npm install hoặc npm i để cài đặt thư viện
+6. Sau khi cài đặt thư viện xong, cd về thư mục gốc là thư mục code, gõ npm run dev để kiểm tra phần mềm chạy trên http://localhost:3000/
