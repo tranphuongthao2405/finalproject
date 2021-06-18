@@ -36,8 +36,8 @@ function LeftMenu(props) {
           <Menu.Item key="patientsReceived">
             <a href="/doctorPatientList" style={{ textDecoration: 'none' }}>Danh sách bệnh nhân tiếp nhận</a>
           </Menu.Item>
-          <Menu.Item key="patientProfile">
-            <a href="/patientProfile" style={{ textDecoration: 'none' }}>Hồ sơ bệnh nhân</a>
+          <Menu.Item key="patientSearch">
+            <a href="/patientSearch" style={{ textDecoration: 'none' }}>Hồ sơ bệnh nhân</a>
           </Menu.Item>
         </Menu>
       )}

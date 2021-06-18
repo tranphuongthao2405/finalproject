@@ -1,239 +1,234 @@
-/* eslint-disable prefer-destructuring */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable react/button-has-type */
+/* eslint-disable react/destructuring-assignment */
 import React, { useState, useEffect } from 'react';
-import { Typography } from 'antd';
 import axios from 'axios';
+import PatientAvatar from './images/patient_avatar.png';
+import './PatientProfile.css';
 
-const { Title } = Typography;
-
-function PatientProfile() {
-  const [patientId, setPatientId] = useState();
+function PatientProfile(props) {
+  const patientId = props.match.params.id;
+  const [patient, setPatient] = useState();
   const [diagnosis, setDiagnosis] = useState();
-  const [patients, setPatients] = useState([]);
-  const [showInfo, setShowInfo] = useState(false);
-
-  const [skip, setSkip] = useState(0);
-  const [limit, setLimit] = useState(8);
-  const [postSize, setPostSize] = useState(0);
-  const [searchTerms, setSearchTerms] = useState({
-    diagnosis: '',
-    patientId: '',
-  });
-
-  const [noInfo, setNoInfo] = useState(false);
-
-  const getPatients = (variables) => {
-    if (variables.searchTerm !== undefined && variables.searchTerm.patientId !== '') {
-      axios.get(`/api/patients/getPatientById?id=${variables.searchTerm.patientId}`)
-        .then((response) => {
-          if (response.data.success) {
-            setPatients(response.data.patient);
-          } else {
-            alert(response.data.err);
-          }
-        });
-
-      axios.get(`/api/diagnosis/getDiagnosisById?patientId=${variables.searchTerm.patientId}`).then((response) => {
-        if (response.data.success) {
-          setDiagnosis(response.data.doc[0].doctorDiagnosis);
-          setShowInfo(true);
-        } else {
-          setShowInfo(false);
-          // do something
-        }
-      });
-    } else if (variables.searchTerm !== undefined && variables.searchTerm.patientId === '' && variables.searchTerm.diagnosis !== '') {
-      const dataToSubmit = {
-        diagnosis: variables.searchTerm.diagnosis,
-      };
-      axios.post('/api/diagnosis/getDiagnosis', dataToSubmit).then((response) => {
-        if (response.data.success) {
-          for (let i = 0; i < response.data.doc.length; i += 1) {
-            if (response.data.doc[i] !== undefined) {
-              axios.get(`/api/patients/getPatientById?id=${response.data.doc[i].patientId}`)
-                .then((res) => {
-                  if (res.data.success) {
-                    patients[i] = res.data.patient[0];
-                    if (i === response.data.doc.length - 1) {
-                      setShowInfo(true);
-                    }
-                  } else {
-                    setShowInfo(false);
-                    // alert(res.data.err);
-                  }
-                });
-            }
-          }
-        } else {
-          // do something
-        }
-      });
-    }
-  };
 
   useEffect(() => {
-    const variables = {
-      skip,
-      limit,
-    };
+    axios.get(`/api/patients/getPatientById?id=${patientId}`)
+      .then((response) => {
+        if (response.data.success) {
+          setPatient(response.data.patient[0]);
+        } else {
+          // alert(response.data.err);
+        }
+      });
 
-    if (variables.searchTerm === undefined) {
-      setNoInfo(true);
-    }
-    getPatients(variables);
+    axios.get(`/api/diagnosis/getDiagnosisById?patientId=${patientId}`).then((response) => {
+      if (response.data.success) {
+        setDiagnosis(response.data.doc[0]);
+      } else {
+        // console.log(response.data.err);
+      }
+    });
   }, []);
 
-  const onChangePatientId = (e) => {
-    setPatientId(e.target.value);
-    searchTerms.patientId = e.target.value;
-    setShowInfo(false);
-  };
-
-  const onChangeDiagnosis = (e) => {
-    setDiagnosis(e.target.value);
-    searchTerms.diagnosis = e.target.value;
-    setShowInfo(false);
-  };
-
-  const search = () => {
-    const variables = {
-      skip: 0,
-      limit,
-      searchTerm: searchTerms,
-    };
-    if (searchTerms.patientId === '' && searchTerms.diagnosis === '') {
-      setNoInfo(true);
-    }
-    setSkip(0);
-    getPatients(variables);
-  };
-
-  const onLoadMore = () => {
-    const skipTemp = skip + limit;
-    const variables = {
-      skip: skipTemp,
-      limit,
-      loadMore: true,
-      searchTerm: searchTerms,
-    };
-    getPatients(variables);
-    setSkip(skipTemp);
+  const processBirthDate = (value) => {
+    const fulltime = value;
+    const day = fulltime.substring(8, 10);
+    const month = fulltime.substring(5, 7);
+    const year = fulltime.substring(0, 4);
+    const time = `${day}/${month}/${year}`;
+    return time;
   };
 
   return (
-    <div>
-      <div
-        className="searchBox"
-        style={{
-          backgroundColor: '#eeeeee', padding: 30, borderRadius: '10px', width: '100%',
-        }}
-      >
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <Title level={2}>Tìm kiếm thông tin bệnh nhân</Title>
-        </div>
-
-        <div className="row">
-          <div className="col-md-12">
-            <div className="row">
-              <label className="col-md-4" htmlFor="patientId" style={{ marginTop: 5, marginLeft: 10 }}>
-                Mã bệnh nhân:
-              </label>
-              <input
-                type="text"
-                className="form-control col-md-7"
-                patientId="patientId"
-                value={searchTerms.patientId}
-                onChange={onChangePatientId}
-              />
+    <div className="container">
+      <div className="profile-body">
+        {patient && diagnosis && (
+        <div className="row gutters-sm">
+          <div className="col-md-4 mb-3">
+            <div className="card">
+              <div className="card-body">
+                <div className="d-flex flex-column align-items-center text-center">
+                  <img
+                    src={PatientAvatar}
+                    alt="Patient"
+                    className="rounded-circle"
+                    width="150"
+                  />
+                  <div className="mt-3">
+                    <h4>{patient.name}</h4>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <br />
-          <br />
+          <div className="col-md-8">
+            <div className="card mb-3">
+              <div className="card-body">
+                <div className="row">
+                  <div className="col-sm-6">
+                    <h6 className="mb-0">Họ tên đầy đủ</h6>
+                  </div>
+                  <div className="col-sm-6 text-secondary">
+                    {patient.name}
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col-sm-6">
+                    <h6 className="mb-0">Mã bệnh nhân</h6>
+                  </div>
+                  <div className="col-sm-6 text-secondary">
+                    {patient.patientId}
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col-sm-6">
+                    <h6 className="mb-0">Ngày sinh</h6>
+                  </div>
+                  <div className="col-sm-6 text-secondary">
+                    {processBirthDate(patient.birthDate)}
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col-sm-6">
+                    <h6 className="mb-0">Giới tính</h6>
+                  </div>
+                  <div className="col-sm-6 text-secondary">
+                    {patient.gender}
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col-sm-6">
+                    <h6 className="mb-0">Địa chỉ</h6>
+                  </div>
+                  <div className="col-sm-6 text-secondary">
+                    {patient.address}
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col-sm-6">
+                    <h6 className="mb-0">Đối tượng</h6>
+                  </div>
+                  <div className="col-sm-6 text-secondary">
+                    {patient.patientType}
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col-sm-6">
+                    <h6 className="mb-0">Bác sĩ điều trị</h6>
+                  </div>
+                  <div className="col-sm-6 text-secondary">
+                    {patient.doctor}
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col-sm-6">
+                    <h6 className="mb-0">Phòng khám</h6>
+                  </div>
+                  <div className="col-sm-6 text-secondary">
+                    {patient.department}
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col-sm-6">
+                    <h6 className="mb-0">Chẩn đoán của bác sĩ</h6>
+                  </div>
+                  <div className="col-sm-6 text-secondary">
+                    {diagnosis.doctorDiagnosis}
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col-sm-6">
+                    <h6 className="mb-0">Kết quả xét nghiệm sinh hóa máu</h6>
+                  </div>
+                  <div className="col-sm-6 text-secondary">
+                    {diagnosis.biochemical === 'done' ? (
+                      <a
+                        style={{ textDecoration: 'none' }}
+                        href={`/biochemicalForm/${patientId}`}
+                      >
+                        Xem chi tiết
+                      </a>
+                    ) : (<p>Chưa có thông tin</p>)}
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col-sm-6">
+                    <h6 className="mb-0">Kết quả xét nghiệm nấm - kí sinh trùng</h6>
+                  </div>
+                  <div className="col-sm-6 text-secondary">
+                    {diagnosis.fungusAndParasite === 'done' ? (
+                      <a
+                        style={{ textDecoration: 'none' }}
+                        href={`/fungusForm/${patientId}`}
+                      >
+                        Xem chi tiết
+                      </a>
+                    ) : (<p>Chưa có thông tin</p>)}
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col-sm-6">
+                    <h6 className="mb-0">Kết quả xét nghiệm huyết học - miễn dịch</h6>
+                  </div>
+                  <div className="col-sm-6 text-secondary">
+                    {diagnosis.hematologyAndImmunology === 'done' ? (
+                      <a
+                        style={{ textDecoration: 'none' }}
+                        href={`/hematologyForm/${patientId}`}
+                      >
+                        Xem chi tiết
+                      </a>
+                    ) : (<p>Chưa có thông tin</p>)}
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col-sm-6">
+                    <h6 className="mb-0">Kết quả xét nghiệm tổng quan</h6>
+                  </div>
+                  <div className="col-sm-6 text-secondary">
+                    {diagnosis.result === 'done' ? (
+                      <a
+                        style={{ textDecoration: 'none' }}
+                        href={`/resultForm/${patientId}`}
+                      >
+                        Xem chi tiết
+                      </a>
+                    ) : (<p>Chưa có thông tin</p>)}
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col-sm-6">
+                    <h6 className="mb-0">Kết quả chẩn đoán hình ảnh</h6>
+                  </div>
+                  <div className="col-sm-6 text-secondary">
+                    {diagnosis.imaging === 'done' ? (
+                      <a
+                        style={{ textDecoration: 'none' }}
+                        href={`/imageProcessing/${patientId}`}
+                      >
+                        Xem chi tiết
+                      </a>
+                    ) : (<p>Chưa có thông tin</p>)}
+                  </div>
+                </div>
 
-          <div className="col-md-12">
-            <div className="row">
-              <label className="col-md-4" htmlFor="diagnosis" style={{ marginTop: 5, marginLeft: 10 }}>
-                Chẩn đoán bệnh:
-              </label>
-              <input
-                type="text"
-                className="form-control col-md-7"
-                patientId="diagnosis"
-                value={searchTerms.diagnosis}
-                onChange={onChangeDiagnosis}
-              />
+              </div>
             </div>
           </div>
-        </div>
-
-        <br />
-
-        <div className="form-row justify-content-center">
-          <button className="btn btn-primary" onClick={search}>
-            Tìm kiếm
-          </button>
-        </div>
-
-        {postSize >= limit && (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <button className="btn btn-primary" onClick={onLoadMore}>Tải thêm</button>
         </div>
         )}
       </div>
-      <br />
-      <br />
-
-      {patients && patients.length > 0 && showInfo ? patients.map((patient) => (
-        <div>
-          <div
-            className="row"
-            style={{
-              backgroundColor: '#eeeeee',
-              borderRadius: '10px',
-              width: '100%',
-              marginLeft: 2,
-              paddingLeft: 10,
-            }}
-          >
-
-            <div className="col-md-9">
-              <p style={{ paddingTop: 10 }}>
-                Họ tên bệnh nhân:
-                {' '}
-                {patient.name}
-              </p>
-              <p>
-                Chẩn đoán:
-                {' '}
-                {diagnosis}
-              </p>
-            </div>
-            <div className="col-md-2" style={{ marginTop: '4%' }}>
-              <a href={`/imageProcessing/${patient.patientId}`} style={{ textDecoration: 'none' }}>Xem chi tiết</a>
-            </div>
-          </div>
-          <br />
-        </div>
-      )) : (
-        <div>
-          {noInfo ? (
-            <div className="p-5 text-center">
-              <h6 className="mb-3" style={{ fontStyle: 'italic' }}>
-                Vui lòng nhập ít nhất một trong hai trường thông tin để tìm kiếm
-                <br />
-                {' '}
-                thông tin bệnh nhân...
-              </h6>
-              {' '}
-            </div>
-          ) : (
-            <div className="p-5 text-center">
-              <h6 className="mb-3">Đang tải thông tin bệnh nhân...</h6>
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 }

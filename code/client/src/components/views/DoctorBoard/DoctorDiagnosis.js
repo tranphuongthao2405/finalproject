@@ -5,7 +5,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import SCHEDULE from '../../../constant/Constant';
 
 function DoctorDiagnosis(props) {
   const history = useHistory();

@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react/destructuring-assignment */
+import React from 'react';
 
-function LandingPage() {
+function LandingPage(props) {
+  const { role } = props.match.params;
+  console.log(role);
   return <></>;
 }
 
