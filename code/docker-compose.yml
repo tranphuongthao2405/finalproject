@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+    backend:
+        restart: always
+        build:
+            context: ./server
+            dockerfile: Dockerfile
+        image: neogruh/ehospital-server
+        ports:
+            - "5000:5000"
+        volumes:
+            - ./server:/usr/src/app
+            - /usr/src/app/node_modules 
+        networks:
+            - app-test
+    frontend:
+        stdin_open: true
+        restart: always
+        build:
+            context: ./client
+            dockerfile: Dockerfile
+        image: neogruh/ehospital-client
+        ports:
+            - "3000:3000"
+        volumes:
+            - ./client:/usr/src/app
+            - /usr/src/app/node_modules
+        links:
+            - backend
+        networks:
+            - app-test
+
+networks:
+    app-test:
+        driver: bridge
+        
+
