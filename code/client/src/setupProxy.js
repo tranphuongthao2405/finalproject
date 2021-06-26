@@ -4,7 +4,7 @@ module.exports = function (app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'http://backend:5000',
+      target: 'http://bvdl.nguyenhongquang.edu.vn:5000',
       changeOrigin: true,
     }),
   );

@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-    backend:
+    bvdl.nguyenhongquang.edu.vn:
         restart: always
         build:
             context: ./server
