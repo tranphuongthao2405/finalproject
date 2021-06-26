@@ -157,7 +157,7 @@ function UserInput() {
 
           <div className="form-row justify-content-center">
             <div className="form-group col-md-5">
-              <label htmlFor="role">Giới tính:</label>
+              <label htmlFor="role">Vai trò:</label>
               <select
                 name="role"
                 className="form-control"
