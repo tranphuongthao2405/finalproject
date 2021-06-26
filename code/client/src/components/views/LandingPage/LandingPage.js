@@ -1,6 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { useSelector } from 'react-redux';
+import Footer from '../Footer/Footer';
 
 function LandingPage() {
   const user = useSelector((state) => state.user);

@@ -49,7 +49,7 @@ function PatientList() {
       <div className="p-5 text-center">
         <h3 className="mb-3">DANH SÁCH BỆNH NHÂN</h3>
       </div>
-      {patients && patients.length > 0 && showTable && (
+      {patients && patients.length > 0 && showTable ? (
         <div className="container-fluid">
           <div className="table-responsive">
             <div className="table-wrapper">
@@ -151,7 +151,11 @@ function PatientList() {
             </div>
           </div>
         </div>
-      ) }
+      ) : (
+        <div className="p-5 text-center">
+          <h6 className="mb-3">Đang tải danh sách bệnh nhân...</h6>
+        </div>
+      )}
     </div>
   );
 }

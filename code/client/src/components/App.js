@@ -34,7 +34,7 @@ function App() {
     <Suspense fallback={<div>Loading...</div>}>
       <div className="main">
         <NavBar />
-        <div className="middle" style={{ paddingTop: '69px' }}>
+        <div className="middle" style={{ paddingTop: '68px' }}>
           <Switch>
             <Route exact path="/" component={Auth(LandingPage, true)} />
             <Route exact path="/login" component={Auth(LoginPage, false)} />
@@ -63,8 +63,9 @@ function App() {
             <Route exact path="/userlist" component={Auth(UserList, true)} />
           </Switch>
         </div>
-        <Footer />
       </div>
+      <hr />
+      <Footer />
     </Suspense>
   );
 }
