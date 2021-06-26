@@ -22,7 +22,7 @@ services:
             dockerfile: Dockerfile
         image: neogruh/ehospital-client
         ports:
-            - "3000:3000"
+            - "80:3000"
         volumes:
             - ./client:/usr/src/app
             - /usr/src/app/node_modules
