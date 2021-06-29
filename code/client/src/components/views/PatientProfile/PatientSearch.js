@@ -126,7 +126,7 @@ function PatientSearch() {
       <div
         className="searchBox"
         style={{
-          backgroundColor: '#eeeeee', padding: 30, borderRadius: '10px', width: '100%',
+          backgroundColor: '#eeeeee', padding: 30, borderRadius: '10px', width: '100%', marginTop: 30,
         }}
       >
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>

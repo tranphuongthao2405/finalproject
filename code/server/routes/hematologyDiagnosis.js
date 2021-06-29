@@ -1,84 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const { HematologyDiagnosis } = require("../models/HematologyDiagnosis");
+const HematologyController = require("../controllers/hematologyDiagnosis");
 const { auth } = require("../middleware/auth");
 
-router.post("/saveHematologyForm", auth, (req, res) => {
-  let patientId = req.body.patientId;
-  let initialSample = req.body.initialSample;
-  let caseType = req.body.caseType;
-  let diagnosis = req.body.diagnosis;
-  let testname = req.body.testName;
-  let quantity = req.body.quantity;
-  let price = req.body.price;
-  let amount = req.body.amount;
-  let insurance = req.body.insurance;
-  let payment = req.body.payment;
-  let diff = req.body.diff;
-  let total = req.body.total;
+router.post(
+  "/saveHematologyForm",
+  auth,
+  HematologyController.saveHematologyForm
+);
 
-  HematologyDiagnosis.findOneAndUpdate(
-    {
-      patientId: req.body.patientId,
-    },
-    {
-      $set: {
-        initialSample: initialSample,
-        caseType: caseType,
-        hematologyDiagnosis: diagnosis,
-        testname: testname,
-        quantity: quantity,
-        price: price,
-        amount: amount,
-        insurance: insurance,
-        payment: payment,
-        diff: diff,
-        total: total,
-      },
-    },
-    { new: true },
-    (err, doc) => {
-      if (err) {
-        return res.status(400).json({ success: false, err });
-      }
-
-      const hematologyDiagnosis = new HematologyDiagnosis({
-        patientId: patientId,
-        initialSample: initialSample,
-        caseType: caseType,
-        hematologyDiagnosis: diagnosis,
-        testname: testname,
-        quantity: quantity,
-        price: price,
-        amount: amount,
-        insurance: insurance,
-        payment: payment,
-        diff: diff,
-        total: total,
-      });
-
-      if (!doc) {
-        hematologyDiagnosis.save((err, document) => {
-          if (err) return res.json({ success: false, err });
-        });
-      }
-
-      return res.status(200).json({ success: true, doc });
-    }
-  );
-});
-
-router.post("/getHematologyDiagnosisById", auth, (req, res) => {
-  let patientId = req.body.patientId;
-  HematologyDiagnosis.find({
-    patientId: patientId,
-  }).exec((err, doc) => {
-    if (err) {
-      return res.status(400).json({ success: false, err });
-    }
-
-    return res.status(200).json({ success: true, doc });
-  });
-});
+router.post(
+  "/getHematologyDiagnosisById",
+  auth,
+  HematologyController.getHematologyDiagnosisById
+);
 
 module.exports = router;

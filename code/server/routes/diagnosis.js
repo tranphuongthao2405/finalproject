@@ -1,215 +1,26 @@
 const express = require("express");
 const router = express.Router();
-const { Diagnosis } = require("../models/Diagnosis");
+const diagnosisController = require('../controllers/diagnosis')
 const { auth } = require("../middleware/auth");
 
-router.post("/updateImagingDiagnosis", auth, (req, res) => {
-  let patientId = req.body.patientId;
+router.post("/updateImagingDiagnosis", auth, diagnosisController.updateImagingDiagnosis)
 
-  Diagnosis.findOneAndUpdate(
-    {
-      patientId: patientId,
-    },
-    { $set: { imaging: req.body.imaging } },
-    { new: true },
-    (err, doc) => {
-      if (err) {
-        return res.status(400).json({ success: false, err });
-      }
+router.post("/updateDiagnosis", auth, diagnosisController.updateDiagnosis)
 
-      return res.status(200).json({ success: true, doc });
-    }
-  );
-});
+router.post("/getDiagnosisById", auth, diagnosisController.getDiagnosisByIdp)
 
-router.post("/updateDiagnosis", auth, (req, res) => {
-  let patientId = req.body.patientId;
-  let result;
-  if (
-    req.body.value2 !== "" ||
-    req.body.value3 !== "" ||
-    req.body.value4 !== ""
-  ) {
-    result = "pending";
-  } else if (
-    req.body.value2 !== "" &&
-    req.body.value3 !== "" &&
-    req.body.value4 !== ""
-  ) {
-    result = "";
-  }
+router.get("/getDiagnosisById", auth, diagnosisController.getDiagnosisById)
 
-  Diagnosis.findOneAndUpdate(
-    {
-      patientId: patientId,
-    },
-    {
-      $set: {
-        doctorDiagnosis: req.body.primaryDiagnosis,
-        biochemical: req.body.value2,
-        fungusAndParasite: req.body.value3,
-        hematologyAndImmunology: req.body.value4,
-        imaging: req.body.value1,
-      },
-    },
-    { new: true },
-    (err, doc) => {
-      if (err) {
-        return res.status(400).json({ success: false, err });
-      }
+router.post("/putDiagnosis", auth, diagnosisController.putDiagnosis)
 
-      const diagnosis = new Diagnosis({
-        patientId: req.body.patientId,
-        biochemical: req.body.value2,
-        fungusAndParasite: req.body.value3,
-        hematologyAndImmunology: req.body.value4,
-        result: result,
-        imaging: req.body.value1,
-        doctorDiagnosis: req.body.primaryDiagnosis,
-      });
+router.post("/updateBiochemicalDiagnosis", auth, diagnosisController.updateBiochemicalDiagnosis)
 
-      if (!doc) {
-        diagnosis.save((err, doc) => {
-          if (err) return res.json({ success: false, err });
-        });
-      }
+router.post("/updateFungusDiagnosis", auth, diagnosisController.updateFungusDiagnosis)
 
-      return res.status(200).json({ success: true, doc });
-    }
-  );
-});
+router.post("/updateHematologyDiagnosis", auth, diagnosisController.updateHematologyDiagnosis)
 
-router.post("/getDiagnosisById", auth, (req, res) => {
-  let patientId = req.body.patientId;
-  Diagnosis.find({
-    patientId: patientId,
-  }).exec((err, doc) => {
-    if (err) {
-      return res.status(400).json({ success: false, err });
-    }
+router.post("/updateResultDiagnosis", auth, diagnosisController.updateResultDiagnosis)
 
-    return res.status(200).json({ success: true, doc });
-  });
-});
-
-router.get("/getDiagnosisById", auth, (req, res) => {
-  let patientId = req.query.patientId;
-  Diagnosis.find({
-    patientId: patientId,
-  }).exec((err, doc) => {
-    if (err) {
-      return res.status(400).json({ success: false, err });
-    }
-
-    return res.status(200).json({ success: true, doc });
-  });
-});
-
-router.post("/putDiagnosis", auth, (req, res) => {
-  const diagnosis = new Diagnosis({
-    patientId: req.body.patientId,
-    biochemical: "",
-    fungusAndParasite: "",
-    hematologyAndImmunology: "",
-    result: "",
-    imaging: "",
-    doctorDiagnosis: "",
-  });
-
-  diagnosis.save((err, doc) => {
-    if (err) return res.json({ success: false, err });
-    return res.status(200).json({ success: true, doc });
-  });
-});
-
-router.post("/updateBiochemicalDiagnosis", auth, (req, res) => {
-  let patientId = req.body.patientId;
-
-  Diagnosis.findOneAndUpdate(
-    {
-      patientId: patientId,
-    },
-    { $set: { biochemical: req.body.biochemical } },
-    { new: true },
-    (err, doc) => {
-      if (err) {
-        return res.status(400).json({ success: false, err });
-      }
-
-      return res.status(200).json({ success: true, doc });
-    }
-  );
-});
-
-router.post("/updateFungusDiagnosis", auth, (req, res) => {
-  let patientId = req.body.patientId;
-
-  Diagnosis.findOneAndUpdate(
-    {
-      patientId: patientId,
-    },
-    { $set: { fungusAndParasite: req.body.fungusAndParasite } },
-    { new: true },
-    (err, doc) => {
-      if (err) {
-        return res.status(400).json({ success: false, err });
-      }
-
-      return res.status(200).json({ success: true, doc });
-    }
-  );
-});
-
-router.post("/updateHematologyDiagnosis", auth, (req, res) => {
-  let patientId = req.body.patientId;
-
-  Diagnosis.findOneAndUpdate(
-    {
-      patientId: patientId,
-    },
-    { $set: { hematologyAndImmunology: req.body.hematologyAndImmunology } },
-    { new: true },
-    (err, doc) => {
-      if (err) {
-        return res.status(400).json({ success: false, err });
-      }
-
-      return res.status(200).json({ success: true, doc });
-    }
-  );
-});
-
-router.post("/updateResultDiagnosis", auth, (req, res) => {
-  let patientId = req.body.patientId;
-
-  Diagnosis.findOneAndUpdate(
-    {
-      patientId: patientId,
-    },
-    { $set: { result: req.body.result } },
-    { new: true },
-    (err, doc) => {
-      if (err) {
-        return res.status(400).json({ success: false, err });
-      }
-
-      return res.status(200).json({ success: true, doc });
-    }
-  );
-});
-
-router.post("/getDiagnosis", auth, (req, res) => {
-  let diagnosis = req.body.diagnosis;
-
-  Diagnosis.find({
-    doctorDiagnosis: diagnosis,
-  }).exec((err, doc) => {
-    if (err) {
-      return res.status(400).json({ success: false, err });
-    }
-
-    return res.status(200).json({ success: true, doc });
-  });
-});
+router.post("/getDiagnosis", auth, diagnosisController.getDiagnosis)
 
 module.exports = router;
