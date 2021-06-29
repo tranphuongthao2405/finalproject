@@ -1,14 +1,13 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { Menu, Icon } from 'antd';
+import { Menu } from 'antd';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { USER_SERVER } from '../../../Config';
 
 const { SubMenu } = Menu;
-const MenuItemGroup = Menu.ItemGroup;
 
 function RightMenu(props) {
   const user = useSelector((state) => state.user);

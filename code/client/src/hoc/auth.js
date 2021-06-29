@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { auth } from '../_actions/user_actions';

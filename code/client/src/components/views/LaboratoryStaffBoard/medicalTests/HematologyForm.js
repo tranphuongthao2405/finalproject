@@ -11,7 +11,6 @@ import Logo from './images/logo.jpg';
 function BiochemicalForm(props) {
 // eslint-disable-next-line react/destructuring-assignment
   const patientId = props.match.params.id;
-  const date = new Date().toLocaleString('en-GB');
 
   const [name, setName] = useState();
   const [birthDate, setBirthDate] = useState();

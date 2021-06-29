@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { Drawer, Button, Icon } from 'antd';
-import { useSelector } from 'react-redux';
 import LeftMenu from './Sections/LeftMenu';
 import RightMenu from './Sections/RightMenu';
 import './Navbar.css';
 
 function NavBar() {
   const [visible, setVisible] = useState(false);
-  const user = useSelector((state) => state.user);
-  // TODO: only show right nav bar
 
   const showDrawer = () => {
     setVisible(true);
