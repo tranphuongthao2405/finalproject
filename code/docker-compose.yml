@@ -7,8 +7,8 @@ services:
             context: ./server
             dockerfile: Dockerfile
         image: neogruh/ehospital-server
-        ports:
-            - "5000:5000"
+        # ports:
+        #     - "5000:5000"
         volumes:
             - ./server:/usr/src/app
             - /usr/src/app/node_modules 
@@ -22,7 +22,7 @@ services:
             dockerfile: Dockerfile
         image: neogruh/ehospital-client
         ports:
-            - "80:3000"
+            - "3000:3000"
         volumes:
             - ./client:/usr/src/app
             - /usr/src/app/node_modules
@@ -30,6 +30,14 @@ services:
             - bvdl.nguyenhongquang.edu.vn
         networks:
             - app-test
+
+    proxy:
+        image: nginx:1.17
+        restart: unless-stopped
+        ports:
+            - "8000:80"
+        volumes:
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
 
 networks:
     app-test:

@@ -30,8 +30,8 @@ function ImagingStaffBoard(props) {
         // eslint-disable-next-line array-callback-return
         && images.map((item) => {
           imagesArr.push({
-            original: `http://bvdl.nguyenhongquang.edu.vn:5000/${item}`,
-            thumbnail: `http://bvdl.nguyenhongquang.edu.vn:5000/${item}`,
+            original: `http://localhost:8000/${item}`,
+            thumbnail: `http://localhost:8000/${item}`,
           });
         });
       setImagesArray(imagesArr);

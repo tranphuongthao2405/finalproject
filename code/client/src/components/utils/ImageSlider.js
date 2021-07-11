@@ -16,7 +16,7 @@ function ImageSlider(props) {
                 height: '100%',
                 maxHeight: '160px',
               }}
-              src={`http://bvdl.nguyenhongquang.edu.vn:5000/${image}`}
+              src={`http://localhost:8000/${image}`}
               alt="tourImage"
             />
           </div>

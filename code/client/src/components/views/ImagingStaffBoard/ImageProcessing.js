@@ -62,16 +62,16 @@ function ImageProcessing(props) {
           const dimage = `d${item.substring(8)}`;
           const ditem = folder + dimage;
           imagesArr.push({
-            original: `http://bvdl.nguyenhongquang.edu.vn:5000/${item}`,
-            thumbnail: `http://bvdl.nguyenhongquang.edu.vn:5000/${item}`,
+            original: `http://localhost:8000/${item}`,
+            thumbnail: `http://localhost:8000/${item}`,
           });
           imagesArr.push({
-            original: `http://bvdl.nguyenhongquang.edu.vn:5000/${mitem}`,
-            thumbnail: `http://bvdl.nguyenhongquang.edu.vn:5000/${mitem}`,
+            original: `http://localhost:8000/${mitem}`,
+            thumbnail: `http://localhost:8000/${mitem}`,
           });
           imagesArr.push({
-            original: `http://bvdl.nguyenhongquang.edu.vn:5000/${ditem}`,
-            thumbnail: `http://bvdl.nguyenhongquang.edu.vn:5000/${ditem}`,
+            original: `http://localhost:8000/${ditem}`,
+            thumbnail: `http://localhost:8000/${ditem}`,
           });
         });
       setImagesArray(imagesArr);
