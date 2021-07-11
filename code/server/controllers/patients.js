@@ -3,7 +3,7 @@ const { Patient } = require("../models/Patient");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, process.cwd() + "\\uploads\\");
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}_${file.originalname}`);
