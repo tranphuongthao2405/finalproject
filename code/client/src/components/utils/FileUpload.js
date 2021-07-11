@@ -69,7 +69,7 @@ function FileUpload(props) {
           <div key={`diagnosis-${image}}`} onClick={() => onDelete(image)}>
             <img
               style={{ minWidth: '512px', width: '285px', height: '400px' }}
-              src={`http://localhost:8000/${image}`}
+              src={`http://localhost:5000/${image}`}
               alt={`patientImage-${index}`}
             />
           </div>
