@@ -97,6 +97,7 @@ exports.uploadImage = (req, res) => {
   fs.createReadStream(finalPathFile).pipe(parser);
 };
 
+
 exports.getImagingDiagnosisById = (req, res) => {
   let patientId = req.body.patientId;
   ImagingDiagnosis.find({
