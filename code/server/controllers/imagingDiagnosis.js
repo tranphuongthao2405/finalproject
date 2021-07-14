@@ -50,61 +50,53 @@ exports.uploadImage = (req, res) => {
   let finalPathFile = process.cwd() + "/imageProcessing/testdata.csv";
   let pythonFilePath = process.cwd() + "\\uploads\\maskgen.py";
 
-  // const parser = parse({ columns: true }, function (err, records) {
-  // records.forEach((record) => {
-  //   images.forEach((image) => {
-  //     let imageNamewExt = image.substring(8);
-  //     let imageName = image.substring(8);
-  //     imageName = imageName.substring(0, imageName.length - 4);
-
-  //     const ls = spawn("python", [pythonFilePath, imageNamewExt], {
-  //       cwd: process.cwd() + "\\uploads\\",
-  //     });
-
-  //     if (imageName === record.image_name) {
-  //       imagingProcessing.push(record.target);
-  //     }
-  //   });
-  // });
-
-  //   ImagingDiagnosis.findOneAndUpdate(
-  //     {
-  //       patientId: patientId,
-  //     },
-  //     { $set: { images: images, imagingDiagnosis: imagingProcessing } },
-  //     { new: true },
-  //     (err, doc) => {
-  //       if (err) {
-  //         return res.status(400).json({ success: false, err });
-  //       }
-
-  //       const imagingDiagnosis = new ImagingDiagnosis({
-  //         patientId: patientId,
-  //         images: images,
-  //         imagingDiagnosis: imagingProcessing,
-  //       });
-
-  //       if (!doc) {
-  //         imagingDiagnosis.save((err, doc) => {
-  //           if (err) return res.json({ success: false, err });
-  //         });
-  //       }
-
-  //       return res.status(200).json({ success: true, doc });
-  //     }
-  //   );
-  // });
-
-  // fs.createReadStream(finalPathFile).pipe(parser);
-
   fs.createReadStream(finalPathFile)
     .pipe(csv())
     .on("data", (row) => {
-      console.log(row);
+      images.forEach((image) => {
+        let imageNamewExt = image.substring(8);
+        let imageName = image.substring(8);
+        imageName = imageName.substring(0, imageName.length - 4);
+
+        const ls = spawn("python", [pythonFilePath, imageNamewExt], {
+          cwd: process.cwd() + "\\uploads\\",
+        });
+
+        if (imageName === row.image_name) {
+          imagingProcessing.push(row.target);
+        }
+      });
     })
     .on("end", () => {
       console.log("CSV file successfully processed");
     });
+
+  ImagingDiagnosis.findOneAndUpdate(
+    {
+      patientId: patientId,
+    },
+    { $set: { images: images, imagingDiagnosis: imagingProcessing } },
+    { new: true },
+    (err, doc) => {
+      if (err) {
+        return res.status(400).json({ success: false, err });
+      }
+
+      const imagingDiagnosis = new ImagingDiagnosis({
+        patientId: patientId,
+        images: images,
+        imagingDiagnosis: imagingProcessing,
+      });
+
+      if (!doc) {
+        imagingDiagnosis.save((err, doc) => {
+          if (err) return res.json({ success: false, err });
+        });
+      }
+
+      return res.status(200).json({ success: true, doc });
+    }
+  );
 };
 
 exports.getImagingDiagnosisById = (req, res) => {
